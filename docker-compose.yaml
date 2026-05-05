@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: shopco_app
+    restart: always
+    ports:
+      - "8000:80"   
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - shopco_db
+    networks:
+      - shopco-network
+
+  shopco_db:
+    image: mysql:8.0.45-debian
+    container_name: shopco_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+    ports:
+      - "3307:3306" 
+    volumes:
+      - shopco-db-data:/var/lib/mysql
+    networks:
+      - shopco-network
+
+
+  shopco-phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: shopco-phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: '${DB_HOST}'
+      PMA_PORT: '${DB_PORT}'
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+    depends_on:
+      - shopco_db
+    networks:
+      - shopco-network
+
+volumes:
+  shopco-db-data:
+
+networks:
+  shopco-network:
