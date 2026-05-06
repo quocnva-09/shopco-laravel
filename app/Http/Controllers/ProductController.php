@@ -13,9 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
 {
-    public function __construct(
-        private readonly ProductServiceInterface $productService
-    ) {
+    private ProductServiceInterface $productService;
+
+    public function __construct(ProductServiceInterface $productService)
+    {
+        $this->productService = $productService;
     }
 
     public function index()

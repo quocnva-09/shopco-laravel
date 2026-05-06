@@ -3,6 +3,7 @@
 namespace App\Contracts;
 
 use App\Models\Category;
+use App\DTOs\CategoryDTO;
 
 interface CategoryServiceInterface
 {
@@ -20,13 +21,13 @@ interface CategoryServiceInterface
      * Tạo mới dữ liệu từ DTO
      * TODO: Gắn type-hint DTO cụ thể (VD: CreateCategoryServiceInterfaceDTO $dto)
      */
-    public function create(object $dto);
+    public function create(CategoryDTO $dto);
 
     /**
      * Cập nhật dữ liệu từ DTO
      * TODO: Gắn type-hint DTO cụ thể (VD: UpdateCategoryServiceInterfaceDTO $dto)
      */
-    public function update(object $dto, Category $category);
+    public function update(CategoryDTO $dto, Category $category);
 
     /**
      * Xóa bản ghi

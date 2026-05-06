@@ -38,7 +38,6 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    // TO FIX: FORM REQUEST THROW EXCEPTION WHEN CONTROLLER CALL THIS METHOD
     public function store(CategoryRequest $request)
     {
         $data = CategoryDTO::fromRequest($request);
