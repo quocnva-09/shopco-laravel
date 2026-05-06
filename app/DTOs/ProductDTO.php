@@ -1,26 +1,50 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTOs;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\ProductRequest;
 
 readonly class ProductDTO
 {
     public function __construct(
-        // TODO: Khai báo các thuộc tính (properties) tại đây. Ví dụ:
-        // public int $id,
-        // public string $name,
-    ) {}
+        public ?string $name,
+        public ?string $slug,
+        public ?float $price,
+        public ?float $price_discount,
+        public ?string $description,
+        public ?int $category_id,
+        public ?array $images,
+    ) {
+    }
 
-    /**
-     * Khởi tạo DTO từ Form Request
-     */
-    public static function fromRequest(FormRequest $request): self
+    public static function fromRequest(ProductRequest $request): self
     {
+        $validated = $request->validated();
+
         return new self(
-            // TODO: Map dữ liệu từ request. Ví dụ:
-            // id: $request->validated('id'),
-            // name: $request->validated('name'),
+            name: $validated['name'] ?? null,
+            slug: $validated['slug'] ?? null,
+            price: isset($validated['price']) ? (float) $validated['price'] : null,
+            price_discount: isset($validated['price_discount']) ? (float) $validated['price_discount'] : null,
+            description: $validated['description'] ?? null,
+            category_id: isset($validated['category_id']) ? (int) $validated['category_id'] : null,
+            images: $request->file('images'),
         );
+    }
+
+    public function toArray(): array
+    {
+        $data = [
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'price' => $this->price,
+            'price_discount' => $this->price_discount,
+            'description' => $this->description,
+            'category_id' => $this->category_id,
+        ];
+
+        return array_filter($data, fn($value) => $value !== null);
     }
 }

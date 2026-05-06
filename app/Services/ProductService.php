@@ -1,56 +1,79 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Contracts\ProductServiceInterface;
+use App\DTOs\ProductDTO;
+use App\Models\Product;
+use Illuminate\Support\Str;
 
 class ProductService implements ProductServiceInterface
 {
-    /**
-     * Khởi tạo class
-     */
-    public function __construct()
+    public function getAll(int $perPage = 15)
     {
-        // Inject repository hoặc các dependency khác vào đây
+        return Product::with(['category', 'images'])->simplePaginate($perPage);
     }
 
-    /**
-     * Lấy danh sách dữ liệu (hỗ trợ phân trang & lọc)
-     */
-    public function getAll(array $filters = [], int $perPage = 15)
+    public function findById(Product $product): Product
     {
-        // TODO: Implement getAll() method.
+        return $product->loadMissing(['category', 'images']);
     }
 
-    /**
-     * Lấy chi tiết một bản ghi theo ID
-     */
-    public function findById(int $id)
+    public function create(ProductDTO $dto): Product
     {
-        // TODO: Implement findById() method.
+        $data = $dto->toArray();
+        
+        if (empty($data['slug']) && !empty($data['name'])) {
+            $data['slug'] = Str::slug($data['name']);
+        }
+
+        $product = Product::create($data);
+
+        if (!empty($dto->images)) {
+            $this->uploadImages($product, $dto->images);
+        }
+
+        return $product->loadMissing(['category', 'images']);
     }
 
-    /**
-     * Tạo mới dữ liệu từ DTO
-     */
-    public function create(object $dto)
+    public function update(ProductDTO $dto, Product $product): Product
     {
-        // TODO: Implement create() method.
+        $data = $dto->toArray();
+
+        if (isset($data['name']) && empty($data['slug']) && empty($product->slug)) {
+            $data['slug'] = Str::slug($data['name']);
+        } elseif (isset($data['name']) && empty($data['slug'])) {
+            $data['slug'] = Str::slug($data['name']);
+        }
+
+        $product->update($data);
+
+        if (!empty($dto->images)) {
+            $this->uploadImages($product, $dto->images);
+        }
+
+        return $product->loadMissing(['category', 'images']);
     }
 
-    /**
-     * Cập nhật dữ liệu từ DTO
-     */
-    public function update($model, object $dto)
+    public function delete(Product $product): bool
     {
-        // TODO: Implement update() method.
+        return $product->delete() ?? false;
     }
 
-    /**
-     * Xóa bản ghi
-     */
-    public function delete(int $id)
+    private function uploadImages(Product $product, array $images): void
     {
-        // TODO: Implement delete() method.
+        $currentImageCount = $product->images()->count();
+
+        foreach ($images as $index => $image) {
+            $path = $image->store('products', 'public');
+            
+            $product->images()->create([
+                'img_path' => $path,
+                'alt' => $product->name,
+                'is_primary' => $index === 0 && $currentImageCount === 0,
+            ]);
+        }
     }
 }

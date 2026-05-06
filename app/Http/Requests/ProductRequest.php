@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductRequest extends FormRequest
@@ -12,18 +13,33 @@ class ProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
-        return [
-            //
+        $productId = $this->route('product') ? $this->route('product')->id : null;
+
+        $rules = [
+            'name' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:products,slug,' . $productId,
+            'price' => 'required|numeric|min:0',
+            'price_discount' => 'nullable|numeric|min:0',
+            'description' => 'nullable|string',
+            'category_id' => 'required|integer|exists:categories,id',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
+
+        if ($this->isMethod('put') || $this->isMethod('patch')) {
+            $rules['name'] = 'sometimes|required|string|max:255';
+            $rules['price'] = 'sometimes|required|numeric|min:0';
+            $rules['category_id'] = 'sometimes|required|integer|exists:categories,id';
+        }
+
+        return $rules;
     }
 }

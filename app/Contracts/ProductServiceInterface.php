@@ -1,33 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Contracts;
+
+use App\DTOs\ProductDTO;
+use App\Models\Product;
 
 interface ProductServiceInterface
 {
     /**
-     * Lấy danh sách dữ liệu (hỗ trợ phân trang & lọc)
+     * Lấy danh sách Product
      */
-    public function getAll(array $filters = [], int $perPage = 15);
+    public function getAll(int $perPage = 15);
 
     /**
-     * Lấy chi tiết một bản ghi theo ID
+     * Lấy chi tiết Product
      */
-    public function findById(int $id);
+    public function findById(Product $product);
 
     /**
-     * Tạo mới dữ liệu từ DTO
-     * TODO: Gắn type-hint DTO cụ thể (VD: CreateProductServiceInterfaceDTO $dto)
+     * Tạo mới Product
      */
-    public function create(object $dto);
+    public function create(ProductDTO $dto);
 
     /**
-     * Cập nhật dữ liệu từ DTO
-     * TODO: Gắn type-hint DTO cụ thể (VD: UpdateProductServiceInterfaceDTO $dto)
+     * Cập nhật Product
      */
-    public function update($model, object $dto);
+    public function update(ProductDTO $dto, Product $product);
 
     /**
-     * Xóa bản ghi
+     * Xóa Product
      */
-    public function delete(int $id);
+    public function delete(Product $product);
 }

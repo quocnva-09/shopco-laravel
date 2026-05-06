@@ -2,6 +2,8 @@
 
 namespace App\Contracts;
 
+use App\Models\Category;
+
 interface CategoryServiceInterface
 {
     /**
@@ -12,7 +14,7 @@ interface CategoryServiceInterface
     /**
      * Lấy chi tiết một bản ghi theo ID
      */
-    public function findById(int $id);
+    public function findById(Category $category);
 
     /**
      * Tạo mới dữ liệu từ DTO
@@ -24,10 +26,10 @@ interface CategoryServiceInterface
      * Cập nhật dữ liệu từ DTO
      * TODO: Gắn type-hint DTO cụ thể (VD: UpdateCategoryServiceInterfaceDTO $dto)
      */
-    public function update(object $dto, int $id);
+    public function update(object $dto, Category $category);
 
     /**
      * Xóa bản ghi
      */
-    public function delete(int $id);
+    public function delete(Category $category);
 }

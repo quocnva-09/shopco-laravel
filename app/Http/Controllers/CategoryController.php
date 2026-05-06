@@ -56,7 +56,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $category = $this->categoryService->findById($category->id);
+        $category = $this->categoryService->findById($category);
 
         return response()->json([
             'data' => new CategoryResource($category),
@@ -71,7 +71,7 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, Category $category)
     {
         $data = CategoryDTO::fromRequest($request);
-        $category = $this->categoryService->update($data, $category->id);
+        $category = $this->categoryService->update($data, $category);
 
         return response()->json([
             'data' => new CategoryResource($category),
