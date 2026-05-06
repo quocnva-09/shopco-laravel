@@ -46,9 +46,9 @@ class CategoryService implements CategoryServiceInterface
     /**
      * Cập nhật dữ liệu từ DTO
      */
-    public function update(object $dto)
+    public function update(object $dto, int $id)
     {
-        $category = Category::findOrFail($dto->id);
+        $category = Category::findOrFail($id);
         $category->update([
             'name' => $dto->name,
             'slug' => $dto->slug,

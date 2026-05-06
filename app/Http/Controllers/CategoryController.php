@@ -41,8 +41,7 @@ class CategoryController extends Controller
     // TO FIX: FORM REQUEST THROW EXCEPTION WHEN CONTROLLER CALL THIS METHOD
     public function store(CategoryRequest $request)
     {
-        $validated = $request->validated();
-        $data = CategoryDTO::fromRequest($validated);
+        $data = CategoryDTO::fromRequest($request);
         $category = $this->categoryService->create($data);
 
         return response()->json([
@@ -69,11 +68,10 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CategoryRequest $request)
+    public function update(CategoryRequest $request, Category $category)
     {
-        $validated = $request->validated();
-        $data = CategoryDTO::fromRequest($validated);
-        $category = $this->categoryService->update($data);
+        $data = CategoryDTO::fromRequest($request);
+        $category = $this->categoryService->update($data, $category->id);
 
         return response()->json([
             'data' => new CategoryResource($category),

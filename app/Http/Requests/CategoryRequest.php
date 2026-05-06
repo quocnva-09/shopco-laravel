@@ -22,7 +22,8 @@ class CategoryRequest extends FormRequest
      */
     public function rules()
     {
-        $categoryId = $this->route('category');
+        $category = $this->route('category');
+        $categoryId = $category instanceof \App\Models\Category ? $category->id : ($category ?? 'NULL');
 
         // POST
         if ($this->isMethod('post')) {
@@ -35,8 +36,8 @@ class CategoryRequest extends FormRequest
 
         // PUT/PATCH (update)
         return [
-            'name' => 'required|string|min:3|max:100|unique:categories,name,' . ($categoryId ?? 'NULL'),
-            'slug' => 'required|string|max:100|alpha_dash|unique:categories,slug,' . ($categoryId ?? 'NULL'),
+            'name' => 'required|string|min:3|max:100|unique:categories,name,' . $categoryId,
+            'slug' => 'required|string|max:100|alpha_dash|unique:categories,slug,' . $categoryId,
             'description' => 'nullable|string',
         ];
     }

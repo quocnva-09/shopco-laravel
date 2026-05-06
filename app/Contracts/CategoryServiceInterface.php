@@ -24,7 +24,7 @@ interface CategoryServiceInterface
      * Cập nhật dữ liệu từ DTO
      * TODO: Gắn type-hint DTO cụ thể (VD: UpdateCategoryServiceInterfaceDTO $dto)
      */
-    public function update(object $dto);
+    public function update(object $dto, int $id);
 
     /**
      * Xóa bản ghi
