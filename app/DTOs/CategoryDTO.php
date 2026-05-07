@@ -17,7 +17,6 @@ readonly class CategoryDTO
      * Khởi tạo DTO từ Form Request
      */
 
-    // TO FIX: FORM REQUEST THROW EXCEPTION WHEN CONTROLLER CALL THIS METHOD
     public static function fromRequest(FormRequest $request): self
     {
         $validated = $request->validated();
@@ -27,5 +26,14 @@ readonly class CategoryDTO
             slug: $validated['slug'],
             description: $validated['description'] ?? null,
         );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'description' => $this->description,
+        ];
     }
 }

@@ -23,4 +23,17 @@ readonly class {{ class }}
             // name: $request->validated('name'),
         );
     }
+
+    /**
+     * Convert to array
+     */
+    public function toArray(): array
+    {
+        return [
+            // TODO: Map dữ liệu thành mảng. Ví dụ:
+            // 'name' => $this->name,
+            // 'slug' => $this->slug,
+            // 'description' => $this->description,
+        ];
+    }
 }

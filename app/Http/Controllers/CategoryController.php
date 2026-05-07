@@ -7,7 +7,8 @@ use App\Http\Requests\CategoryRequest;
 use App\DTOs\CategoryDTO;
 use App\Http\Resources\CategoryResource;
 use App\Contracts\CategoryServiceInterface;
-
+use App\Http\Requests\CategoryFilterRequest;
+use App\DTOs\CategoryFilterDTO;
 use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
@@ -22,13 +23,17 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(CategoryFilterRequest $request)
     {
+        $filter = CategoryFilterDTO::fromRequest($request);
+        $categories = $this->categoryService->getAll($filter);
 
-        $categories = $this->categoryService->getAll($perPage = 15);
+        $resource = CategoryResource::collection($categories)->response()->getData(true);
 
         return response()->json([
-            'data' => CategoryResource::collection($categories),
+            'data' => $resource['data'],
+            'meta' => $resource['meta'] ?? null,
+            'links' => $resource['links'] ?? null,
             'message' => 'Categories retrieved successfully',
             'status' => Response::HTTP_OK,
         ]);

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\CategoryServiceInterface;
 use App\Models\Category;
+use App\DTOs\CategoryFilterDTO;
 
 class CategoryService implements CategoryServiceInterface
 {
@@ -18,9 +19,23 @@ class CategoryService implements CategoryServiceInterface
     /**
      * Lấy danh sách dữ liệu (hỗ trợ phân trang & lọc)
      */
-    public function getAll(int $perPage = 15)
+    public function getAll(CategoryFilterDTO $filter)
     {
-        return Category::simplePaginate($perPage);
+        $query = Category::query();
+
+        if ($filter->search) {
+            $query->where('name', 'like', '%' . $filter->search . '%')
+                ->orWhere('description', 'like', '%' . $filter->search . '%');
+        }
+
+        if (in_array($filter->sort, ['name', 'created_at'])) {
+            $direction = strtolower($filter->direction) === 'asc' ? 'asc' : 'desc';
+            $query->orderBy($filter->sort, $direction);
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        return $query->paginate($filter->perPage, ['*'], 'page', $filter->page);
     }
 
     /**
@@ -36,11 +51,7 @@ class CategoryService implements CategoryServiceInterface
      */
     public function create(object $dto)
     {
-        return Category::create([
-            'name' => $dto->name,
-            'slug' => $dto->slug,
-            'description' => $dto->description,
-        ]);
+        return Category::create($dto->toArray());
     }
 
     /**
@@ -49,11 +60,7 @@ class CategoryService implements CategoryServiceInterface
     public function update(int $id, object $dto)
     {
         $category = $this->findById($id);
-        $category->update([
-            'name' => $dto->name,
-            'slug' => $dto->slug,
-            'description' => $dto->description,
-        ]);
+        $category->update($dto->toArray());
 
         return $category;
     }

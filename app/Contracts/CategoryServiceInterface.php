@@ -2,15 +2,17 @@
 
 namespace App\Contracts;
 
+use App\DTOs\CategoryFilterDTO;
 use App\Models\Category;
 use App\DTOs\CategoryDTO;
+
 
 interface CategoryServiceInterface
 {
     /**
      * Lấy danh sách dữ liệu (hỗ trợ phân trang & lọc)
      */
-    public function getAll(int $perPage = 15);
+    public function getAll(CategoryFilterDTO $filter);
 
     /**
      * Lấy chi tiết một bản ghi theo ID
