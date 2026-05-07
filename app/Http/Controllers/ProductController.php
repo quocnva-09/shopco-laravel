@@ -7,6 +7,8 @@ namespace App\Http\Controllers;
 use App\Contracts\ProductServiceInterface;
 use App\DTOs\ProductDTO;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ProductFilterRequest;
+use App\DTOs\ProductFilterDTO;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,12 +22,16 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
-    public function index()
+    public function index(ProductFilterRequest $request)
     {
-        $products = $this->productService->getAll();
+        $dto = ProductFilterDTO::fromRequest($request);
+        $products = $this->productService->getAll($dto);
+        $resource = ProductResource::collection($products)->response()->getData(true);
 
         return response()->json([
-            'data' => ProductResource::collection($products),
+            'data' => $resource['data'],
+            'meta' => $resource['meta'] ?? null,
+            'links' => $resource['links'] ?? null,
             'message' => 'Products retrieved successfully',
             'status' => Response::HTTP_OK,
         ]);

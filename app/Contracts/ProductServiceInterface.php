@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Contracts;
 
 use App\DTOs\ProductDTO;
+use App\DTOs\ProductFilterDTO;
 
 interface ProductServiceInterface
 {
     /**
      * Lấy danh sách Product
      */
-    public function getAll(int $perPage = 15);
+    public function getAll(ProductFilterDTO $filter);
 
     /**
      * Lấy chi tiết Product

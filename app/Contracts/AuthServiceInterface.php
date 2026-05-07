@@ -13,4 +13,6 @@ interface AuthServiceInterface
     public function login(LoginDTO $dto);
 
     public function logout(User $user): bool;
+
+    public function getMyInfo();
 }

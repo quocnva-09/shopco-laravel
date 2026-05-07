@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Contracts;
 
 use App\DTOs\UserDTO;
+use App\DTOs\UserFilterDTO;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
 
 interface UserServiceInterface
 {
-    public function getAllUsers(): Collection;
+    public function getAllUsers(UserFilterDTO $filter);
 
     public function getUserById(int $id): User;
 

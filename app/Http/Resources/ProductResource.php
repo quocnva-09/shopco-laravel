@@ -26,7 +26,6 @@ class ProductResource extends JsonResource
             'price_discount' => $this->price_discount,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
-            'deleted_at' => $this->deleted_at->format('Y-m-d H:i:s'),
             'category' => new CategoryResource($this->whenLoaded('category')),
             'images' => ProductImageResource::collection($this->whenLoaded('images')),
         ];

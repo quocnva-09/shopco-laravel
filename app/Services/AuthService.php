@@ -6,6 +6,7 @@ use App\Contracts\AuthServiceInterface;
 use App\Models\User;
 use App\DTOs\LoginDTO;
 use App\DTOs\RegisterDTO;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService implements AuthServiceInterface
@@ -50,5 +51,11 @@ class AuthService implements AuthServiceInterface
         } catch (\Exception $e) {
             return false;
         }
+    }
+
+    public function getMyInfo()
+    {
+        $user = Auth::user();
+        return $user;
     }
 }

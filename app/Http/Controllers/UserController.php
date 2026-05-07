@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Contracts\UserServiceInterface;
 use App\DTOs\UserDTO;
+use App\DTOs\UserFilterDTO;
+use App\Http\Requests\UserFilterRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\JsonResponse;
@@ -16,12 +18,17 @@ class UserController extends Controller
     ) {
     }
 
-    public function index()
+    public function index(UserFilterRequest $request)
     {
-        $users = $this->userService->getAllUsers();
+        $filterDTO = UserFilterDTO::fromRequest($request);
+        $users = $this->userService->getAllUsers($filterDTO);
+
+        $resource = UserResource::collection($users)->response()->getData(true);
 
         return response()->json([
-            'data' => UserResource::collection($users),
+            'data' => $resource['data'],
+            'meta' => $resource['meta'],
+            'links' => $resource['links'],
             'message' => 'Users retrieved successfully',
             'status' => Response::HTTP_OK
         ]);

@@ -6,14 +6,36 @@ namespace App\Services;
 
 use App\Contracts\ProductServiceInterface;
 use App\DTOs\ProductDTO;
+use App\DTOs\ProductFilterDTO;
 use App\Models\Product;
 use Illuminate\Support\Str;
 
 class ProductService implements ProductServiceInterface
 {
-    public function getAll(int $perPage = 15)
+    public function getAll(ProductFilterDTO $filter)
     {
-        return Product::with(['category', 'images'])->simplePaginate($perPage);
+        $query = Product::with(['category', 'images']);
+
+        if (!empty($filter->search)) {
+            $query->where(function ($q) use ($filter) {
+                $q->where('name', 'like', '%' . $filter->search . '%')
+                    ->orWhere('slug', 'like', '%' . $filter->search . '%')
+                    ->orWhere('description', 'like', '%' . $filter->search . '%');
+            });
+        }
+
+        if (!empty($filter->categoryId)) {
+            $query->where('category_id', $filter->categoryId);
+        }
+
+        if (in_array($filter->sort, ['price', 'created_at', 'name'])) {
+            $direction = in_array(strtolower($filter->direction), ['asc', 'desc']) ? $filter->direction : 'desc';
+            $query->orderBy($filter->sort, $direction);
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        return $query->paginate($filter->perPage, ['*'], 'page', $filter->page);
     }
 
     public function findById(int $id)

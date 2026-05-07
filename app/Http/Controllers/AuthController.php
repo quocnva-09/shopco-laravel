@@ -80,10 +80,11 @@ class AuthController extends Controller
         ]);
     }
 
-    public function getMyInfo(Request $request)
+    public function getMyInfo()
     {
+        $user = $this->authService->getMyInfo();
         return response()->json([
-            'data' => new UserResource($request->user()),
+            'data' => new UserResource($user),
             'message' => 'My info fetched successfully',
             'status' => Response::HTTP_OK,
         ]);
