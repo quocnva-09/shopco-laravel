@@ -9,7 +9,6 @@ use App\Http\Resources\CategoryResource;
 use App\Contracts\CategoryServiceInterface;
 
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {

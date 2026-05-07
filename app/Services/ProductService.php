@@ -24,7 +24,7 @@ class ProductService implements ProductServiceInterface
     public function create(ProductDTO $dto): Product
     {
         $data = $dto->toArray();
-        
+
         if (empty($data['slug']) && !empty($data['name'])) {
             $data['slug'] = Str::slug($data['name']);
         }
@@ -67,11 +67,15 @@ class ProductService implements ProductServiceInterface
         $currentImageCount = $product->images()->count();
 
         foreach ($images as $index => $image) {
-            $path = $image->store('products', 'public');
-            
+            $extension = $image->getClientOriginalExtension();
+
+            $fileName = $product->id . '_' . time() . '_' . $index . '.' . $extension;
+
+            $path = $image->storeAs('products', $fileName, 'public');
+
             $product->images()->create([
                 'img_path' => $path,
-                'alt' => $product->name,
+                'alt' => $product->name . " - " . $index,
                 'is_primary' => $index === 0 && $currentImageCount === 0,
             ]);
         }

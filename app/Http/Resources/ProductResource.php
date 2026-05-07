@@ -28,8 +28,7 @@ class ProductResource extends JsonResource
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,
             'category' => new CategoryResource($this->whenLoaded('category')),
-            // Nếu có ProductImageResource thì thêm vào, tạm thời trả về images mặc định
-            'images' => $this->whenLoaded('images'),
+            'images' => ProductImageResource::collection($this->whenLoaded('images')),
         ];
     }
 }

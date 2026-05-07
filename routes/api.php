@@ -16,6 +16,7 @@ use App\Http\Controllers\UserController;
 // Auth routes
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('me', [AuthController::class, 'getMyInfo']);
 });
 
 // Public routes

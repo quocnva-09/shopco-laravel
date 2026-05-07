@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\GlobalExceptionHandler;
 use App\Http\Middleware\CheckAdminMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -15,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
         then: function () {
             Route::middleware('api')
                 ->prefix('api/admin')
+                ->name('admin.')
                 ->group(base_path('routes/admin.php'));
         }
     )
@@ -24,5 +26,5 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        GlobalExceptionHandler::register($exceptions);
     })->create();

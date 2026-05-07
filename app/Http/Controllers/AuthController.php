@@ -79,4 +79,13 @@ class AuthController extends Controller
             'status' => $isLogout ? Response::HTTP_OK : Response::HTTP_INTERNAL_SERVER_ERROR,
         ]);
     }
+
+    public function getMyInfo(Request $request)
+    {
+        return response()->json([
+            'data' => new UserResource($request->user()),
+            'message' => 'My info fetched successfully',
+            'status' => Response::HTTP_OK,
+        ]);
+    }
 }

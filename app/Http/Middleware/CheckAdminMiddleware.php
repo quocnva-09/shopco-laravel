@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class CheckAdminMiddleware
 {
@@ -17,12 +18,9 @@ class CheckAdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check() || !Auth::user()->isAdmin()) {
-            return response()->json([
-                'data' => null,
-                'message' => 'You are not authorized to access this resource',
-                'status' => Response::HTTP_UNAUTHORIZED,
-            ], Response::HTTP_UNAUTHORIZED);
+            throw new AccessDeniedHttpException();
         }
+
         return $next($request);
     }
 }
