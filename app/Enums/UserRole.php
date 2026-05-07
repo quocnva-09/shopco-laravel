@@ -16,4 +16,9 @@ enum UserRole: string
     {
         return $this === self::ROLE_USER;
     }
+
+    public static function getValues(): array
+    {
+        return [self::ROLE_ADMIN->value, self::ROLE_USER->value];
+    }
 }

@@ -52,9 +52,9 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show(Category $category)
     {
-        $category = $this->categoryService->findById($id);
+        $category = $this->categoryService->findById($category);
 
         return response()->json([
             'data' => new CategoryResource($category),
@@ -66,10 +66,10 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CategoryRequest $request, int $id)
+    public function update(CategoryRequest $request, Category $category)
     {
         $data = CategoryDTO::fromRequest($request);
-        $category = $this->categoryService->update($id, $data);
+        $category = $this->categoryService->update($data, $category);
 
         return response()->json([
             'data' => new CategoryResource($category),
@@ -81,9 +81,9 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id)
+    public function destroy(Category $category)
     {
-        $category = $this->categoryService->delete($id);
+        $category = $this->categoryService->delete($category->id);
 
         return response()->json([
             'data' => new CategoryResource($category),

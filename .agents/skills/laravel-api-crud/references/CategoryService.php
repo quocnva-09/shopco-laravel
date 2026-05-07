@@ -26,9 +26,9 @@ class CategoryService implements CategoryServiceInterface
     /**
      * Lấy chi tiết một bản ghi theo ID
      */
-    public function findById(int $id)
+    public function findById(Category $category)
     {
-        return Category::findOrFail($id);
+        return $category;
     }
 
     /**
@@ -46,9 +46,8 @@ class CategoryService implements CategoryServiceInterface
     /**
      * Cập nhật dữ liệu từ DTO
      */
-    public function update(int $id, object $dto)
+    public function update(object $dto, Category $category)
     {
-        $category = $this->findById($id);
         $category->update([
             'name' => $dto->name,
             'slug' => $dto->slug,
@@ -61,9 +60,8 @@ class CategoryService implements CategoryServiceInterface
     /**
      * Xóa bản ghi
      */
-    public function delete(int $id)
+    public function delete(Category $category)
     {
-        $category = $this->findById($id);
         $category->delete();
 
         return $category;

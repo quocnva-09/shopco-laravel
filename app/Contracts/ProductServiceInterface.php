@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Contracts;
 
 use App\DTOs\ProductDTO;
-use App\Models\Product;
 
 interface ProductServiceInterface
 {
@@ -17,7 +16,7 @@ interface ProductServiceInterface
     /**
      * Lấy chi tiết Product
      */
-    public function findById(Product $product);
+    public function findById(int $id);
 
     /**
      * Tạo mới Product
@@ -27,10 +26,10 @@ interface ProductServiceInterface
     /**
      * Cập nhật Product
      */
-    public function update(ProductDTO $dto, Product $product);
+    public function update(ProductDTO $dto, int $id);
 
     /**
      * Xóa Product
      */
-    public function delete(Product $product);
+    public function delete(int $id);
 }

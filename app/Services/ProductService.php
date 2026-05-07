@@ -16,12 +16,12 @@ class ProductService implements ProductServiceInterface
         return Product::with(['category', 'images'])->simplePaginate($perPage);
     }
 
-    public function findById(Product $product): Product
+    public function findById(int $id)
     {
-        return $product->loadMissing(['category', 'images']);
+        return Product::findOrFail($id)->loadMissing(['category', 'images']);
     }
 
-    public function create(ProductDTO $dto): Product
+    public function create(ProductDTO $dto)
     {
         $data = $dto->toArray();
 
@@ -38,8 +38,9 @@ class ProductService implements ProductServiceInterface
         return $product->loadMissing(['category', 'images']);
     }
 
-    public function update(ProductDTO $dto, Product $product): Product
+    public function update(ProductDTO $dto, int $id)
     {
+        $product = $this->findById($id);
         $data = $dto->toArray();
 
         if (isset($data['name']) && empty($data['slug']) && empty($product->slug)) {
@@ -57,9 +58,10 @@ class ProductService implements ProductServiceInterface
         return $product->loadMissing(['category', 'images']);
     }
 
-    public function delete(Product $product): bool
+    public function delete(int $id)
     {
-        return $product->delete() ?? false;
+        $product = $this->findById($id);
+        $product->delete();
     }
 
     private function uploadImages(Product $product, array $images): void

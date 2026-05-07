@@ -22,7 +22,8 @@ class CategoryRequest extends FormRequest
      */
     public function rules()
     {
-        $categoryId = $this->route('category') ?? null;
+        $category = $this->route('category');
+        $categoryId = $category instanceof \App\Models\Category ? $category->id : ($category ?? 'NULL');
 
         // POST
         if ($this->isMethod('post')) {

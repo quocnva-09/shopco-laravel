@@ -44,9 +44,9 @@ class ProductController extends Controller
         ]);
     }
 
-    public function show(Product $product)
+    public function show(int $id)
     {
-        $product = $this->productService->findById($product);
+        $product = $this->productService->findById($id);
 
         return response()->json([
             'data' => new ProductResource($product),
@@ -55,11 +55,11 @@ class ProductController extends Controller
         ]);
     }
 
-    public function update(ProductRequest $request, Product $product)
+    public function update(ProductRequest $request, int $id)
     {
         $dto = ProductDTO::fromRequest($request);
 
-        $updatedProduct = $this->productService->update($dto, $product);
+        $updatedProduct = $this->productService->update($dto, $id);
 
         return response()->json([
             'data' => new ProductResource($updatedProduct),
@@ -68,9 +68,9 @@ class ProductController extends Controller
         ]);
     }
 
-    public function destroy(Product $product)
+    public function destroy(int $id)
     {
-        $this->productService->delete($product);
+        $this->productService->delete($id);
 
         return response()->json([
             'message' => 'Product deleted successfully',
