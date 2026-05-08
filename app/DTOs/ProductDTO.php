@@ -16,8 +16,7 @@ readonly class ProductDTO
         public ?string $description,
         public ?int $category_id,
         public ?array $images,
-    ) {
-    }
+    ) {}
 
     public static function fromRequest(ProductRequest $request): self
     {
@@ -45,6 +44,6 @@ readonly class ProductDTO
             'category_id' => $this->category_id,
         ];
 
-        return array_filter($data, fn($value) => $value !== null);
+        return array_filter($data, fn ($value) => $value !== null);
     }
 }

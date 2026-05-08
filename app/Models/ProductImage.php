@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Storage;
 class ProductImage extends Model
 {
     protected $fillable = [
-        "product_id",
-        "img_path",
-        "alt",
-        "is_primary",
+        'product_id',
+        'img_path',
+        'alt',
+        'is_primary',
     ];
 
     public function product()

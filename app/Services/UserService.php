@@ -8,7 +8,6 @@ use App\Contracts\UserServiceInterface;
 use App\DTOs\UserDTO;
 use App\DTOs\UserFilterDTO;
 use App\Models\User;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class UserService implements UserServiceInterface
 {
@@ -17,10 +16,8 @@ class UserService implements UserServiceInterface
         $query = User::query();
 
         if ($filter->search) {
-            $query->where(function ($q) use ($filter) {
-                $q->where('name', 'like', '%' . $filter->search . '%')
-                    ->orWhere('email', 'like', '%' . $filter->search . '%');
-            });
+            $query->where('name', 'like', '%'.$filter->search.'%')
+                ->orWhere('email', 'like', '%'.$filter->search.'%');
         }
 
         if (in_array($filter->sort, ['created_at', 'name', 'email'])) {
@@ -42,6 +39,7 @@ class UserService implements UserServiceInterface
     {
         $userData = $dto->toArray();
         $userData['password'] = bcrypt($dto->password);
+
         return User::create($userData);
     }
 

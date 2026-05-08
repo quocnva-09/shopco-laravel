@@ -25,9 +25,9 @@ class ProductRequest extends FormRequest
 
         $rules = [
             'name' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:products,slug,' . $productId,
+            'slug' => 'nullable|string|max:255|unique:products,slug,'.$productId,
             'price' => 'required|numeric|min:0',
-            'price_discount' => 'nullable|numeric|min:0',
+            'price_discount' => 'nullable|numeric|min:0|lte:price',
             'description' => 'nullable|string',
             'category_id' => 'required|integer|exists:categories,id',
             'images' => 'nullable|array',

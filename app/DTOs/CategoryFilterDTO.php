@@ -2,6 +2,7 @@
 
 namespace App\DTOs;
 
+use App\Enums\FilterEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
 readonly class CategoryFilterDTO
@@ -12,8 +13,7 @@ readonly class CategoryFilterDTO
         public int $perPage = 15,
         public string $sort = 'created_at',
         public string $direction = 'desc',
-    ) {
-    }
+    ) {}
 
     /**
      * Khởi tạo DTO từ Form Request
@@ -26,8 +26,8 @@ readonly class CategoryFilterDTO
             search: $validated['search'] ?? null,
             page: $validated['page'] ?? 1,
             perPage: $validated['perPage'] ?? 15,
-            sort: $validated['sort'] ?? 'created_at',
-            direction: $validated['direction'] ?? 'desc',
+            sort: $validated['sort'] ?? FilterEnum::CATEGORY_SORT[0],
+            direction: $validated['direction'] ?? FilterEnum::DIRECTION[0],
         );
     }
 

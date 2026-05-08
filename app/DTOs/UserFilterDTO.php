@@ -12,8 +12,7 @@ readonly class UserFilterDTO
         public int $perPage = 15,
         public string $sort = 'created_at',
         public string $direction = 'desc',
-    ) {
-    }
+    ) {}
 
     /**
      * Khởi tạo DTO từ Form Request

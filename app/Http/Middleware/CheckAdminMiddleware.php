@@ -17,8 +17,8 @@ class CheckAdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check() || !Auth::user()->isAdmin()) {
-            throw new AccessDeniedHttpException();
+        if (! Auth::check() || ! Auth::user()->isAdmin()) {
+            throw new AccessDeniedHttpException;
         }
 
         return $next($request);

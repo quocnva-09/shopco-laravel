@@ -3,9 +3,9 @@
 namespace App\Services;
 
 use App\Contracts\AuthServiceInterface;
-use App\Models\User;
 use App\DTOs\LoginDTO;
 use App\DTOs\RegisterDTO;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -23,7 +23,7 @@ class AuthService implements AuthServiceInterface
 
         return [
             'user' => $user,
-            'token' => $token
+            'token' => $token,
         ];
     }
 
@@ -39,23 +39,20 @@ class AuthService implements AuthServiceInterface
 
         return [
             'user' => $user,
-            'token' => $token
+            'token' => $token,
         ];
     }
 
-    public function logout(User $user): bool
+    public function logout(): bool
     {
-        try {
-            $user->currentAccessToken()->delete();
-            return true;
-        } catch (\Exception $e) {
-            return false;
-        }
+        $user = Auth::user();
+        return $user->currentAccessToken()->delete();
     }
 
     public function getMyInfo()
     {
         $user = Auth::user();
+
         return $user;
     }
 }

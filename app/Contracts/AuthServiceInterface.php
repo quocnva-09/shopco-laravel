@@ -2,9 +2,9 @@
 
 namespace App\Contracts;
 
-use App\Models\User;
 use App\DTOs\LoginDTO;
 use App\DTOs\RegisterDTO;
+use App\Models\User;
 
 interface AuthServiceInterface
 {
@@ -12,7 +12,7 @@ interface AuthServiceInterface
 
     public function login(LoginDTO $dto);
 
-    public function logout(User $user): bool;
+    public function logout(): bool;
 
     public function getMyInfo();
 }

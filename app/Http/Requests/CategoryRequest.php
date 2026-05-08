@@ -35,8 +35,8 @@ class CategoryRequest extends FormRequest
 
         // PUT/PATCH (update)
         return [
-            'name' => 'required|string|min:3|max:100|unique:categories,name,' . $categoryId,
-            'slug' => 'required|string|max:100|alpha_dash|unique:categories,slug,' . $categoryId,
+            'name' => 'required|string|min:3|max:100|unique:categories,name,'.$categoryId,
+            'slug' => 'required|string|max:100|alpha_dash|unique:categories,slug,'.$categoryId,
             'description' => 'nullable|string',
         ];
     }

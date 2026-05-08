@@ -27,8 +27,9 @@ class MakeContractCommand extends Command
 
         // 1. Đọc nội dung từ file khuôn mẫu
         $stubPath = base_path('stubs/contract.stub');
-        if (!File::exists($stubPath)) {
-            $this->error("Không tìm thấy file stubs/contract.stub");
+        if (! File::exists($stubPath)) {
+            $this->error('Không tìm thấy file stubs/contract.stub');
+
             return Command::FAILURE;
         }
 
@@ -42,6 +43,7 @@ class MakeContractCommand extends Command
         File::put($path, $content);
 
         $this->info("Tạo thành công: app/Contracts/{$name}.php với các hàm CRUD mặc định!");
+
         return Command::SUCCESS;
     }
 }

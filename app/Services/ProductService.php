@@ -16,15 +16,12 @@ class ProductService implements ProductServiceInterface
     {
         $query = Product::with(['category', 'images']);
 
-        if (!empty($filter->search)) {
-            $query->where(function ($q) use ($filter) {
-                $q->where('name', 'like', '%' . $filter->search . '%')
-                    ->orWhere('slug', 'like', '%' . $filter->search . '%')
-                    ->orWhere('description', 'like', '%' . $filter->search . '%');
-            });
+        if ($filter->search) {
+            $query->where('name', 'like', '%'.$filter->search.'%')
+                ->orWhere('description', 'like', '%'.$filter->search.'%');
         }
 
-        if (!empty($filter->categoryId)) {
+        if (! empty($filter->categoryId)) {
             $query->where('category_id', $filter->categoryId);
         }
 
@@ -47,13 +44,13 @@ class ProductService implements ProductServiceInterface
     {
         $data = $dto->toArray();
 
-        if (empty($data['slug']) && !empty($data['name'])) {
+        if (empty($data['slug']) && ! empty($data['name'])) {
             $data['slug'] = Str::slug($data['name']);
         }
 
         $product = Product::create($data);
 
-        if (!empty($dto->images)) {
+        if (! empty($dto->images)) {
             $this->uploadImages($product, $dto->images);
         }
 
@@ -73,7 +70,7 @@ class ProductService implements ProductServiceInterface
 
         $product->update($data);
 
-        if (!empty($dto->images)) {
+        if (! empty($dto->images)) {
             $this->uploadImages($product, $dto->images);
         }
 
@@ -93,13 +90,13 @@ class ProductService implements ProductServiceInterface
         foreach ($images as $index => $image) {
             $extension = $image->getClientOriginalExtension();
 
-            $fileName = $product->id . '_' . time() . '_' . $index . '.' . $extension;
+            $fileName = $product->id.'_'.time().'_'.$index.'.'.$extension;
 
             $path = $image->storeAs('products', $fileName, 'public');
 
             $product->images()->create([
                 'img_path' => $path,
-                'alt' => $product->name . " - " . $index,
+                'alt' => $product->name.' - '.$index,
                 'is_primary' => $index === 0 && $currentImageCount === 0,
             ]);
         }

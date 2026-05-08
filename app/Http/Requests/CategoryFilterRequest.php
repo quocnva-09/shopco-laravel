@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\FilterEnum;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,8 +27,8 @@ class CategoryFilterRequest extends FormRequest
             'search' => 'nullable|string|max:255',
             'page' => 'nullable|integer|min:1',
             'perPage' => 'nullable|integer|min:1|max:100',
-            'sort' => 'nullable|string|in:name,created_at',
-            'direction' => 'nullable|string|in:asc,desc',
+            'sort' => 'nullable|string|in:'.FilterEnum::getString(FilterEnum::CATEGORY_SORT),
+            'direction' => 'nullable|string|in:'.FilterEnum::getString(FilterEnum::DIRECTION),
         ];
     }
 }

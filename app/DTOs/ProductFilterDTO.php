@@ -13,8 +13,7 @@ readonly class ProductFilterDTO
         public int $perPage = 15,
         public string $sort = 'created_at',
         public string $direction = 'desc',
-    ) {
-    }
+    ) {}
 
     /**
      * Khởi tạo DTO từ Form Request
@@ -22,6 +21,7 @@ readonly class ProductFilterDTO
     public static function fromRequest(FormRequest $request): self
     {
         $validated = $request->validated();
+
         return new self(
             search: $validated['search'] ?? null,
             categoryId: $validated['category_id'] ?? null,

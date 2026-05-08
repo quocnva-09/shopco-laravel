@@ -10,8 +10,7 @@ readonly class RegisterDTO
         public string $name,
         public string $email,
         public string $password,
-    ) {
-    }
+    ) {}
 
     /**
      * Khởi tạo DTO từ Form Request

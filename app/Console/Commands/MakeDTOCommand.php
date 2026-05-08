@@ -30,13 +30,15 @@ class MakeDTOCommand extends Command
         // 1. Kiểm tra file đã tồn tại chưa
         if (File::exists($path)) {
             $this->error("DTO {$name} đã tồn tại!");
+
             return Command::FAILURE;
         }
 
         // 2. Đọc file stub mẫu
         $stubPath = base_path('stubs/dto.stub');
-        if (!File::exists($stubPath)) {
-            $this->error("Không tìm thấy khuôn đúc tại stubs/dto.stub!");
+        if (! File::exists($stubPath)) {
+            $this->error('Không tìm thấy khuôn đúc tại stubs/dto.stub!');
+
             return Command::FAILURE;
         }
 

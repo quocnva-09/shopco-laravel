@@ -2,10 +2,8 @@
 
 namespace App\Contracts;
 
-use App\DTOs\CategoryFilterDTO;
-use App\Models\Category;
 use App\DTOs\CategoryDTO;
-
+use App\DTOs\CategoryFilterDTO;
 
 interface CategoryServiceInterface
 {
@@ -35,4 +33,19 @@ interface CategoryServiceInterface
      * Xóa bản ghi
      */
     public function delete(int $id);
+
+    /**
+     * Lấy danh sách bản ghi đã xóa
+     */
+    public function getTrashed(CategoryFilterDTO $filter);
+
+    /**
+     * Khôi phục bản ghi đã xóa
+     */
+    public function restore(int $id);
+
+    /**
+     * Xóa vĩnh viễn bản ghi
+     */
+    public function forceDelete(int $id);
 }

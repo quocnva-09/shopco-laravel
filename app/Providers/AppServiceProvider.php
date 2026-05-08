@@ -2,6 +2,14 @@
 
 namespace App\Providers;
 
+use App\Contracts\AuthServiceInterface;
+use App\Contracts\CategoryServiceInterface;
+use App\Contracts\ProductServiceInterface;
+use App\Contracts\UserServiceInterface;
+use App\Services\AuthService;
+use App\Services\CategoryService;
+use App\Services\ProductService;
+use App\Services\UserService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,10 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(\App\Contracts\CategoryServiceInterface::class, \App\Services\CategoryService::class);
-        $this->app->bind(\App\Contracts\ProductServiceInterface::class, \App\Services\ProductService::class);
-        $this->app->bind(\App\Contracts\AuthServiceInterface::class, \App\Services\AuthService::class);
-        $this->app->bind(\App\Contracts\UserServiceInterface::class, \App\Services\UserService::class);
+        $this->app->bind(CategoryServiceInterface::class, CategoryService::class);
+        $this->app->bind(ProductServiceInterface::class, ProductService::class);
+        $this->app->bind(AuthServiceInterface::class, AuthService::class);
+        $this->app->bind(UserServiceInterface::class, UserService::class);
     }
 
     /**

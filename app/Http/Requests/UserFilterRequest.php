@@ -26,7 +26,7 @@ class UserFilterRequest extends FormRequest
             'search' => 'nullable|string|max:255',
             'page' => 'nullable|integer|min:1',
             'perPage' => 'nullable|integer|min:1|max:100',
-            'sort' => 'nullable|string|in:created_at,name',
+            'sort' => 'nullable|string|in:created_at,name,email',
             'direction' => 'nullable|string|in:asc,desc',
         ];
     }

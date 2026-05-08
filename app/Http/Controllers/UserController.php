@@ -15,67 +15,43 @@ class UserController extends Controller
 {
     public function __construct(
         private readonly UserServiceInterface $userService
-    ) {
-    }
+    ) {}
 
-    public function index(UserFilterRequest $request)
+    public function index(UserFilterRequest $request): JsonResponse
     {
         $filterDTO = UserFilterDTO::fromRequest($request);
         $users = $this->userService->getAllUsers($filterDTO);
 
-        $resource = UserResource::collection($users)->response()->getData(true);
-
-        return response()->json([
-            'data' => $resource['data'],
-            'meta' => $resource['meta'],
-            'links' => $resource['links'],
-            'message' => 'Users retrieved successfully',
-            'status' => Response::HTTP_OK
-        ]);
+        return $this->paginatedResponse(UserResource::collection($users), 'Users retrieved successfully');
     }
 
-    public function store(UserRequest $request)
+    public function store(UserRequest $request): JsonResponse
     {
         $dto = UserDTO::fromRequest($request);
         $user = $this->userService->createUser($dto);
 
-        return response()->json([
-            'data' => new UserResource($user),
-            'message' => 'User created successfully',
-            'status' => Response::HTTP_CREATED,
-        ]);
+        return $this->successResponse(new UserResource($user), 'User created successfully', Response::HTTP_CREATED);
     }
 
-    public function show(int $id)
+    public function show(int $id): JsonResponse
     {
         $user = $this->userService->getUserById($id);
 
-        return response()->json([
-            'data' => new UserResource($user),
-            'message' => 'User retrieved successfully',
-            'status' => Response::HTTP_OK,
-        ]);
+        return $this->successResponse(new UserResource($user), 'User retrieved successfully');
     }
 
-    public function update(UserRequest $request, int $id)
+    public function update(UserRequest $request, int $id): JsonResponse
     {
         $dto = UserDTO::fromRequest($request);
         $user = $this->userService->updateUser($id, $dto);
 
-        return response()->json([
-            'data' => new UserResource($user),
-            'message' => 'User updated successfully',
-            'status' => Response::HTTP_OK,
-        ]);
+        return $this->successResponse(new UserResource($user), 'User updated successfully');
     }
 
-    public function destroy(int $id)
+    public function destroy(int $id): JsonResponse
     {
         $this->userService->deleteUser($id);
 
-        return response()->json([
-            'message' => 'User deleted successfully',
-            'status' => Response::HTTP_OK,
-        ]);
+        return $this->successResponse(null, 'User deleted successfully');
     }
 }

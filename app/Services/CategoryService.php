@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Contracts\CategoryServiceInterface;
-use App\Models\Category;
 use App\DTOs\CategoryFilterDTO;
+use App\Models\Category;
 
 class CategoryService implements CategoryServiceInterface
 {
@@ -24,8 +24,8 @@ class CategoryService implements CategoryServiceInterface
         $query = Category::query();
 
         if ($filter->search) {
-            $query->where('name', 'like', '%' . $filter->search . '%')
-                ->orWhere('description', 'like', '%' . $filter->search . '%');
+            $query->where('name', 'like', '%'.$filter->search.'%')
+                ->orWhere('description', 'like', '%'.$filter->search.'%');
         }
 
         if (in_array($filter->sort, ['name', 'created_at'])) {
@@ -72,6 +72,50 @@ class CategoryService implements CategoryServiceInterface
     {
         $category = $this->findById($id);
         $category->delete();
+
+        return $category;
+    }
+
+    /**
+     * Lấy danh sách bản ghi đã xóa
+     */
+    public function getTrashed(CategoryFilterDTO $filter)
+    {
+        $query = Category::onlyTrashed();
+
+        if ($filter->search) {
+            $query->where('name', 'like', '%'.$filter->search.'%')
+                ->orWhere('description', 'like', '%'.$filter->search.'%');
+        }
+
+        if (in_array($filter->sort, ['name', 'created_at'])) {
+            $direction = strtolower($filter->direction) === 'asc' ? 'asc' : 'desc';
+            $query->orderBy($filter->sort, $direction);
+        } else {
+            $query->orderBy('deleted_at', 'desc');
+        }
+
+        return $query->paginate($filter->perPage, ['*'], 'page', $filter->page);
+    }
+
+    /**
+     * Khôi phục bản ghi đã xóa
+     */
+    public function restore(int $id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->restore();
+
+        return $category;
+    }
+
+    /**
+     * Xóa vĩnh viễn bản ghi
+     */
+    public function forceDelete(int $id)
+    {
+        $category = Category::withTrashed()->findOrFail($id);
+        $category->forceDelete();
 
         return $category;
     }

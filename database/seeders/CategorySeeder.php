@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Category;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
@@ -34,7 +33,7 @@ class CategorySeeder extends Seeder
             'Áo Polo',
             'Set Bộ',
             'Đồ Công Sở',
-            'Phụ Kiện Thời Trang'
+            'Phụ Kiện Thời Trang',
         ];
 
         foreach ($categories as $categoryName) {
@@ -42,7 +41,7 @@ class CategorySeeder extends Seeder
                 ['slug' => Str::slug($categoryName)],
                 [
                     'name' => $categoryName,
-                    'description' => "Danh mục {$categoryName}"
+                    'description' => "Danh mục {$categoryName}",
                 ]
             );
         }

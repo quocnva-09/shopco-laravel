@@ -6,11 +6,11 @@ namespace App\Http\Controllers;
 
 use App\Contracts\ProductServiceInterface;
 use App\DTOs\ProductDTO;
-use App\Http\Requests\ProductRequest;
-use App\Http\Requests\ProductFilterRequest;
 use App\DTOs\ProductFilterDTO;
+use App\Http\Requests\ProductFilterRequest;
+use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
-use App\Models\Product;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
@@ -22,65 +22,43 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
-    public function index(ProductFilterRequest $request)
+    public function index(ProductFilterRequest $request): JsonResponse
     {
         $dto = ProductFilterDTO::fromRequest($request);
         $products = $this->productService->getAll($dto);
-        $resource = ProductResource::collection($products)->response()->getData(true);
 
-        return response()->json([
-            'data' => $resource['data'],
-            'meta' => $resource['meta'] ?? null,
-            'links' => $resource['links'] ?? null,
-            'message' => 'Products retrieved successfully',
-            'status' => Response::HTTP_OK,
-        ]);
+        return $this->paginatedResponse(ProductResource::collection($products), 'Products retrieved successfully');
     }
 
-    public function store(ProductRequest $request)
+    public function store(ProductRequest $request): JsonResponse
     {
         $dto = ProductDTO::fromRequest($request);
 
         $product = $this->productService->create($dto);
 
-        return response()->json([
-            'data' => new ProductResource($product),
-            'message' => 'Product created successfully',
-            'status' => Response::HTTP_CREATED,
-        ]);
+        return $this->successResponse(new ProductResource($product), 'Product created successfully', Response::HTTP_CREATED);
     }
 
-    public function show(int $id)
+    public function show(int $id): JsonResponse
     {
         $product = $this->productService->findById($id);
 
-        return response()->json([
-            'data' => new ProductResource($product),
-            'message' => 'Product retrieved successfully',
-            'status' => Response::HTTP_OK,
-        ]);
+        return $this->successResponse(new ProductResource($product), 'Product retrieved successfully');
     }
 
-    public function update(ProductRequest $request, int $id)
+    public function update(ProductRequest $request, int $id): JsonResponse
     {
         $dto = ProductDTO::fromRequest($request);
 
         $updatedProduct = $this->productService->update($dto, $id);
 
-        return response()->json([
-            'data' => new ProductResource($updatedProduct),
-            'message' => 'Product updated successfully',
-            'status' => Response::HTTP_OK,
-        ]);
+        return $this->successResponse(new ProductResource($updatedProduct), 'Product updated successfully');
     }
 
-    public function destroy(int $id)
+    public function destroy(int $id): JsonResponse
     {
         $this->productService->delete($id);
 
-        return response()->json([
-            'message' => 'Product deleted successfully',
-            'status' => Response::HTTP_OK,
-        ]);
+        return $this->successResponse(null, 'Product deleted successfully');
     }
 }

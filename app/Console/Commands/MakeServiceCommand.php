@@ -32,6 +32,7 @@ class MakeServiceCommand extends Command
         // 3. Kiểm tra xem file đã tồn tại chưa để tránh ghi đè mất code cũ
         if (File::exists($path)) {
             $this->error("Service {$name} đã tồn tại!");
+
             return Command::FAILURE;
         }
 

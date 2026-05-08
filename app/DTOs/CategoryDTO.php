@@ -10,13 +10,11 @@ readonly class CategoryDTO
         public string $name,
         public string $slug,
         public ?string $description = null,
-    ) {
-    }
+    ) {}
 
     /**
      * Khởi tạo DTO từ Form Request
      */
-
     public static function fromRequest(FormRequest $request): self
     {
         $validated = $request->validated();

@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use App\Models\Product;
 use App\Models\Category;
+use App\Models\Product;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class ProductSeeder extends Seeder
@@ -42,7 +41,7 @@ class ProductSeeder extends Seeder
             'Áo Cardigan',
             'Quần Jogger',
             'Chân Váy',
-            'Áo Croptop'
+            'Áo Croptop',
         ];
 
         $adjectives = [
@@ -61,7 +60,7 @@ class ProductSeeder extends Seeder
             'Năng Động',
             'Thời Trang',
             'Mùa Hè',
-            'Mùa Đông'
+            'Mùa Đông',
         ];
 
         $materials = [
@@ -72,7 +71,7 @@ class ProductSeeder extends Seeder
             'Len',
             'Thun Lạnh',
             'Kaki',
-            'Voan'
+            'Voan',
         ];
 
         for ($i = 1; $i <= 100; $i++) {
@@ -98,6 +97,7 @@ class ProductSeeder extends Seeder
         $base = collect($baseProducts)->random();
         $adj = collect($adjectives)->random();
         $material = collect($materials)->random();
+
         return "{$base} {$adj} {$material} {$index}";
     }
 }

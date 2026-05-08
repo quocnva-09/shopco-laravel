@@ -2,22 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\AuthServiceInterface;
 use App\DTOs\LoginDTO;
 use App\DTOs\RegisterDTO;
-
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
-
-use App\Contracts\AuthServiceInterface;
-
 use App\Http\Resources\UserResource;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
-use Symfony\Component\HttpFoundation\Response;
 use Exception;
-
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
@@ -35,21 +28,13 @@ class AuthController extends Controller
         try {
             $authData = $this->authService->login($dto);
 
-            return response()->json([
-                'data' => [
-                    'user' => new UserResource($authData['user']),
-                    'access_token' => $authData['token'],
-                    'token_type' => 'Bearer',
-                ],
-                'message' => 'Login successfully',
-                'status' => Response::HTTP_OK,
-            ]);
+            return $this->successResponse([
+                'user' => new UserResource($authData['user']),
+                'access_token' => $authData['token'],
+                'token_type' => 'Bearer',
+            ], 'Login successfully', Response::HTTP_OK);
         } catch (Exception $exception) {
-            return response()->json([
-                'data' => null,
-                'message' => $exception->getMessage(),
-                'status' => Response::HTTP_UNAUTHORIZED,
-            ]);
+            return $this->errorResponse($exception->getMessage(), Response::HTTP_UNAUTHORIZED);
         }
     }
 
@@ -58,35 +43,26 @@ class AuthController extends Controller
         $dto = RegisterDTO::fromRequest($request);
         $authData = $this->authService->register($dto);
 
-        return response()->json([
-            'data' => [
-                'user' => new UserResource($authData['user']),
-                'access_token' => $authData['token'],
-                'token_type' => 'Bearer',
-            ],
-            'message' => 'Register successfully',
-            'status' => Response::HTTP_CREATED,
-        ]);
+        return $this->successResponse([
+            'user' => new UserResource($authData['user']),
+            'access_token' => $authData['token'],
+            'token_type' => 'Bearer',
+        ], 'Register successfully', Response::HTTP_CREATED);
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
-        $isLogout = $this->authService->logout($request->user());
+        $isLogout = $this->authService->logout();
+        if ($isLogout) {
+            return $this->successResponse($isLogout, 'Logout successfully', Response::HTTP_OK);
+        }
 
-        return response()->json([
-            'data' => $isLogout,
-            'message' => $isLogout ? 'Logout successfully' : 'Logout failed',
-            'status' => $isLogout ? Response::HTTP_OK : Response::HTTP_INTERNAL_SERVER_ERROR,
-        ]);
+        return $this->errorResponse('Logout failed', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     public function getMyInfo()
     {
         $user = $this->authService->getMyInfo();
-        return response()->json([
-            'data' => new UserResource($user),
-            'message' => 'My info fetched successfully',
-            'status' => Response::HTTP_OK,
-        ]);
+        return $this->successResponse(new UserResource($user), 'My info fetched successfully', Response::HTTP_OK);
     }
 }
