@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Contracts\UserServiceInterface;
+use App\Contracts\Services\UserServiceInterface;
 use App\DTOs\UserDTO;
 use App\DTOs\UserFilterDTO;
 use App\Models\User;

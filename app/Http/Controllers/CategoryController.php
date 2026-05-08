@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\CategoryServiceInterface;
+use App\Contracts\Services\CategoryServiceInterface;
 use App\DTOs\CategoryDTO;
 use App\DTOs\CategoryFilterDTO;
 use App\Http\Requests\CategoryFilterRequest;

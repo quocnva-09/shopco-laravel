@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Contracts;
+namespace App\Contracts\Services;
 
-use App\Models\Category;
 use App\DTOs\CategoryDTO;
+use App\DTOs\CategoryFilterDTO;
 
 interface CategoryServiceInterface
 {
     /**
      * Lấy danh sách dữ liệu (hỗ trợ phân trang & lọc)
      */
-    public function getAll(int $perPage = 15);
+    public function getAll(CategoryFilterDTO $filter);
 
     /**
      * Lấy chi tiết một bản ghi theo ID
      */
-    public function findById(Category $category);
+    public function findById(int $id);
 
     /**
      * Tạo mới dữ liệu từ DTO
@@ -27,10 +27,25 @@ interface CategoryServiceInterface
      * Cập nhật dữ liệu từ DTO
      * TODO: Gắn type-hint DTO cụ thể (VD: UpdateCategoryServiceInterfaceDTO $dto)
      */
-    public function update(CategoryDTO $dto, Category $category);
+    public function update(int $id, CategoryDTO $dto);
 
     /**
      * Xóa bản ghi
      */
-    public function delete(Category $category);
+    public function delete(int $id);
+
+    /**
+     * Lấy danh sách bản ghi đã xóa
+     */
+    public function getTrashed(CategoryFilterDTO $filter);
+
+    /**
+     * Khôi phục bản ghi đã xóa
+     */
+    public function restore(int $id);
+
+    /**
+     * Xóa vĩnh viễn bản ghi
+     */
+    public function forceDelete(int $id);
 }

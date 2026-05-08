@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\AuthServiceInterface;
+use App\Contracts\Services\AuthServiceInterface;
 use App\DTOs\LoginDTO;
 use App\DTOs\RegisterDTO;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
 use Exception;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
@@ -63,6 +62,7 @@ class AuthController extends Controller
     public function getMyInfo()
     {
         $user = $this->authService->getMyInfo();
+
         return $this->successResponse(new UserResource($user), 'My info fetched successfully', Response::HTTP_OK);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\UserServiceInterface;
+use App\Contracts\Services\UserServiceInterface;
 use App\DTOs\UserDTO;
 use App\DTOs\UserFilterDTO;
 use App\Http\Requests\UserFilterRequest;

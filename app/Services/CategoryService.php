@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Contracts\CategoryServiceInterface;
+use App\Contracts\Services\CategoryServiceInterface;
 use App\DTOs\CategoryFilterDTO;
 use App\Models\Category;
 
@@ -17,7 +17,7 @@ class CategoryService implements CategoryServiceInterface
     }
 
     /**
-     * Lấy danh sách dữ liệu (hỗ trợ phân trang & lọc)
+     * Lấy danh sách dữ liệu (hềEtrợ phân trang & lọc)
      */
     public function getAll(CategoryFilterDTO $filter)
     {
@@ -110,7 +110,7 @@ class CategoryService implements CategoryServiceInterface
     }
 
     /**
-     * Xóa vĩnh viễn bản ghi
+     * Xóa vĩnh viềE bản ghi
      */
     public function forceDelete(int $id)
     {

@@ -14,7 +14,7 @@
 
 - **Ưu điểm**: Đã dùng `CategoryResource` để format data trả về. Xử lý phân trang có bọc thêm meta, links.
 - **Thiếu sót/Lỗi**:
-    - Code format response bị lặp lại ở mọi controller (VD: `return response()->json(['data' => ..., 'message' => ..., 'status' => ...]);`). Nên đưa vào 1 Trait (ví dụ `ApiResponseTrait`) hoặc BaseController để tái sử dụng.
+    - [FIX WITH ApiResponseTrait.php] Code format response bị lặp lại ở mọi controller (VD: `return response()->json(['data' => ..., 'message' => ..., 'status' => ...]);`). Nên đưa vào 1 Trait (ví dụ `ApiResponseTrait`) hoặc BaseController để tái sử dụng.
     - Phân trang ở `index` phải bóc tách thủ công từ `$resource['data']`, `$resource['meta']`, `$resource['links']`.
 
 ## 3. Trách nhiệm của Service/Controller

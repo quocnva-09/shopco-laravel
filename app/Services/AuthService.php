@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Contracts\AuthServiceInterface;
+use App\Contracts\Services\AuthServiceInterface;
 use App\DTOs\LoginDTO;
 use App\DTOs\RegisterDTO;
 use App\Models\User;
@@ -33,7 +33,7 @@ class AuthService implements AuthServiceInterface
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        if (!$user || !Hash::check($dto->password, $user->password)) {
+        if (! $user || ! Hash::check($dto->password, $user->password)) {
             throw new \Exception('Invalid credentials');
         }
 
@@ -46,6 +46,7 @@ class AuthService implements AuthServiceInterface
     public function logout(): bool
     {
         $user = Auth::user();
+
         return $user->currentAccessToken()->delete();
     }
 

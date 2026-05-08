@@ -40,8 +40,19 @@ class User extends Authenticatable
         ];
     }
 
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
+    }
+
+    public function cartItems()
+    {
+        return $this->hasManyThrough(CartItem::class, Cart::class);
+    }
+
     public function isAdmin(): bool
     {
         return $this->role === UserRole::ROLE_ADMIN;
     }
+
 }

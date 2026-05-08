@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Contracts;
+namespace App\Contracts\Services;
 
 use App\DTOs\LoginDTO;
 use App\DTOs\RegisterDTO;
-use App\Models\User;
 
 interface AuthServiceInterface
 {

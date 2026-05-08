@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Exceptions;
 
+use App\Traits\ApiResponseTrait;
 use BadMethodCallException;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
@@ -15,63 +18,47 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GlobalExceptionHandler
 {
-    public static function register(Exceptions $exceptions)
+    use ApiResponseTrait;
+
+    public static function register(Exceptions $exceptions): void
     {
-        $exceptions->render(function (AuthenticationException $exception) {
-            return response()->json([
-                'message' => 'Unauthenticated',
-                'status' => Response::HTTP_UNAUTHORIZED,
-            ], Response::HTTP_UNAUTHORIZED);
+        $handler = new self;
+
+        $exceptions->render(function (AuthenticationException $exception) use ($handler) {
+            return $handler->errorResponse('Unauthenticated', Response::HTTP_UNAUTHORIZED);
         });
 
-        $exceptions->render(function (AccessDeniedHttpException $exception) {
-            return response()->json([
-                'message' => 'Forbidden',
-                'status' => Response::HTTP_FORBIDDEN,
-            ], Response::HTTP_FORBIDDEN);
+        $exceptions->render(function (AccessDeniedHttpException $exception) use ($handler) {
+            return $handler->errorResponse('Forbidden', Response::HTTP_FORBIDDEN);
         });
 
-        $exceptions->render(function (NotFoundHttpException $exception) {
-            return response()->json([
-                'message' => $exception->getMessage() ?? 'Not Found',
-                'status' => Response::HTTP_NOT_FOUND,
-            ], Response::HTTP_NOT_FOUND);
+        $exceptions->render(function (NotFoundHttpException $exception) use ($handler) {
+            return $handler->errorResponse($exception->getMessage() ?: 'Not Found', Response::HTTP_NOT_FOUND);
         });
 
-        $exceptions->render(function (ValidationException $exception) {
-            return response()->json([
-                'message' => $exception->validator->getMessageBag() ?? 'Validation Error',
-                'status' => Response::HTTP_UNPROCESSABLE_ENTITY,
-            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        $exceptions->render(function (ValidationException $exception) use ($handler) {
+            return $handler->errorResponse(
+                'Validation Error',
+                Response::HTTP_UNPROCESSABLE_ENTITY,
+                $exception->validator->getMessageBag()
+            );
         });
 
-        $exceptions->render(function (MethodNotAllowedHttpException $exception) {
-            return response()->json([
-                'message' => $exception->getMessage() ?? 'Method Not Allowed',
-                'status' => Response::HTTP_METHOD_NOT_ALLOWED,
-            ], Response::HTTP_METHOD_NOT_ALLOWED);
+        $exceptions->render(function (MethodNotAllowedHttpException $exception) use ($handler) {
+            return $handler->errorResponse($exception->getMessage() ?: 'Method Not Allowed', Response::HTTP_METHOD_NOT_ALLOWED);
         });
 
-        $exceptions->render(function (BadMethodCallException $exception) {
-            return response()->json([
-                'message' => $exception->getMessage() ?? 'Bad Method Call',
-                'status' => Response::HTTP_METHOD_NOT_ALLOWED,
-            ], Response::HTTP_METHOD_NOT_ALLOWED);
+        $exceptions->render(function (BadMethodCallException $exception) use ($handler) {
+            return $handler->errorResponse($exception->getMessage() ?: 'Bad Method Call', Response::HTTP_METHOD_NOT_ALLOWED);
         });
 
-        $exceptions->render(function (ModelNotFoundException $exception) {
-            return response()->json([
-                'message' => $exception->getMessage() ?? 'Resource Not Found',
-                'status' => Response::HTTP_NOT_FOUND,
-            ], Response::HTTP_NOT_FOUND);
+        $exceptions->render(function (ModelNotFoundException $exception) use ($handler) {
+            return $handler->errorResponse($exception->getMessage() ?: 'Resource Not Found', Response::HTTP_NOT_FOUND);
         });
 
         // bắt exception tổng
-        $exceptions->render(function (Exception $exception) {
-            return response()->json([
-                'message' => $exception->getMessage() ?? 'Internal Server Error',
-                'status' => Response::HTTP_INTERNAL_SERVER_ERROR,
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        $exceptions->render(function (Exception $exception) use ($handler) {
+            return $handler->errorResponse($exception->getMessage() ?: 'Internal Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
         });
     }
 }
