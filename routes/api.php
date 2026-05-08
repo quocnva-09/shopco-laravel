@@ -26,6 +26,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('items/count', [CartController::class, 'countCartItems']);
         Route::delete('/', [CartController::class, 'clear']);
     });
+
+    // Order routes
+    Route::prefix('orders')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Api\OrderController::class, 'index']);
+        Route::post('/', [\App\Http\Controllers\Api\OrderController::class, 'store']);
+        Route::get('/{order}', [\App\Http\Controllers\Api\OrderController::class, 'show']);
+        Route::patch('/{order}/status', [\App\Http\Controllers\Api\OrderController::class, 'updateStatus']);
+    });
 });
 
 // Public routes
