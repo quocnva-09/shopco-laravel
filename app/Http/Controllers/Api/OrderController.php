@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\Services\OrderServiceInterface;
+use App\DTOs\Order\OrderFilterDTO;
 use App\DTOs\Order\UpdateOrderStatusDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Order\OrderFilterRequest;
 use App\Http\Requests\Order\CreateOrderRequest;
 use App\Http\Requests\Order\UpdateOrderStatusRequest;
 use App\Http\Resources\OrderResource;
 use App\Traits\ApiResponseTrait;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Exception;
 
 class OrderController extends Controller
 {
@@ -21,10 +23,9 @@ class OrderController extends Controller
 
     public function __construct(
         protected readonly OrderServiceInterface $orderService
-    ) {
-    }
+    ) {}
 
-    public function store(CreateOrderRequest $request): JsonResponse
+    public function store(): JsonResponse
     {
         try {
             $userId = Auth::id();
@@ -40,20 +41,41 @@ class OrderController extends Controller
         }
     }
 
-    public function index(): JsonResponse
+    public function index(OrderFilterRequest $request): JsonResponse
     {
         $userId = Auth::id();
-        $orders = $this->orderService->getUserOrders($userId);
+        $dto = OrderFilterDTO::fromRequest($request->validated(), $userId);
+        
+        $orders = $this->orderService->getPaginatedOrders($dto);
 
-        return $this->successResponse(OrderResource::collection($orders));
+        return $this->paginatedResponse(
+            OrderResource::collection($orders)
+            , 'Order list retrieved successfully'
+        );
+    }
+
+    public function adminIndex(OrderFilterRequest $request): JsonResponse
+    {
+        $dto = OrderFilterDTO::fromRequest($request->validated());
+        
+        $orders = $this->orderService->getPaginatedOrders($dto);
+
+        return $this->paginatedResponse(
+            OrderResource::collection($orders)
+            , 'Order list retrieved successfully'
+        );
     }
 
     public function show(int $id): JsonResponse
     {
-        $userId = Auth::id();
-        $order = $this->orderService->getOrderDetails($userId, $id);
+        $userId = null;
+        if (! Auth::user()->isAdmin()) {
+            $userId = Auth::id();
+        }
 
-        if (!$order) {
+        $order = $this->orderService->getOrderDetails($id, $userId);
+
+        if (! $order) {
             return $this->errorResponse('Order not found', 404);
         }
 

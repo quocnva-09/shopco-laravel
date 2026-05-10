@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Symfony\Component\HttpFoundation\Response;
 
 trait ApiResponseTrait
@@ -33,14 +34,29 @@ trait ApiResponseTrait
 
     protected function paginatedResponse(ResourceCollection $resourceCollection, string $message = 'Success', int $statusCode = Response::HTTP_OK): JsonResponse
     {
-        $response = $resourceCollection->response()->getData(true);
+
+        $paginator = $resourceCollection->resource;
+
+        if (! $paginator instanceof LengthAwarePaginator) {
+            return $this->successResponse($resourceCollection, $message, $statusCode);
+        }
 
         return response()->json([
             'status' => $statusCode,
             'message' => $message,
-            'data' => $response['data'] ?? [],
-            'meta' => $response['meta'] ?? null,
-            'links' => $response['links'] ?? null,
+            'data' => $resourceCollection,
+            'meta' => [
+                'current_page' => $paginator->currentPage(),
+                'last_page'    => $paginator->lastPage(),
+                'per_page'     => $paginator->perPage(),
+                'total'        => $paginator->total(),
+            ],
+            'links' => [
+                'first' => $paginator->url(1),
+                'last'  => $paginator->url($paginator->lastPage()),
+                'prev'  => $paginator->previousPageUrl(),
+                'next'  => $paginator->nextPageUrl(),
+            ],
         ], $statusCode);
     }
 }

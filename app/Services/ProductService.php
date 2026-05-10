@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Contracts\Services\ProductServiceInterface;
-use App\DTOs\ProductDTO;
-use App\DTOs\ProductFilterDTO;
+use App\DTOs\Product\ProductDTO;
+use App\DTOs\Product\ProductFilterDTO;
+use App\Enums\FilterEnum;
 use App\Models\Product;
 use Illuminate\Support\Str;
 
@@ -25,9 +26,9 @@ class ProductService implements ProductServiceInterface
             $query->where('category_id', $filter->categoryId);
         }
 
-        if (in_array($filter->sort, ['price', 'created_at', 'name'])) {
-            $direction = in_array(strtolower($filter->direction), ['asc', 'desc']) ? $filter->direction : 'desc';
-            $query->orderBy($filter->sort, $direction);
+        if (in_array($filter->sortBy, FilterEnum::PRODUCT_SORT)) {
+            $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION) ? $filter->sortDir : 'desc';
+            $query->orderBy($filter->sortBy, $direction);
         } else {
             $query->orderBy('created_at', 'desc');
         }

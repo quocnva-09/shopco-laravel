@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Contracts\Services\UserServiceInterface;
-use App\DTOs\UserDTO;
-use App\DTOs\UserFilterDTO;
+use App\DTOs\User\UserDTO;
+use App\DTOs\User\UserFilterDTO;
+use App\Enums\FilterEnum;
 use App\Models\User;
 
 class UserService implements UserServiceInterface
@@ -20,9 +21,9 @@ class UserService implements UserServiceInterface
                 ->orWhere('email', 'like', '%'.$filter->search.'%');
         }
 
-        if (in_array($filter->sort, ['created_at', 'name', 'email'])) {
-            $direction = in_array(strtolower($filter->direction), ['asc', 'desc']) ? $filter->direction : 'desc';
-            $query->orderBy($filter->sort, $direction);
+        if (in_array($filter->sortBy, FilterEnum::USER_SORT)) {
+            $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION) ? $filter->sortDir : 'desc';
+            $query->orderBy($filter->sortBy, $direction);
         } else {
             $query->orderBy('created_at', 'desc');
         }

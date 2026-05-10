@@ -11,8 +11,7 @@ readonly class UpdateOrderStatusDTO
 {
     public function __construct(
         public OrderStatus $status
-    ) {
-    }
+    ) {}
 
     public static function fromRequest(Request $request): self
     {

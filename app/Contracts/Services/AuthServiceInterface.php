@@ -2,8 +2,8 @@
 
 namespace App\Contracts\Services;
 
-use App\DTOs\LoginDTO;
-use App\DTOs\RegisterDTO;
+use App\DTOs\Auth\LoginDTO;
+use App\DTOs\Auth\RegisterDTO;
 
 interface AuthServiceInterface
 {

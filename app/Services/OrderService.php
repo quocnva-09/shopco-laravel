@@ -7,10 +7,10 @@ namespace App\Services;
 use App\Contracts\Repositories\OrderRepositoryInterface;
 use App\Contracts\Services\CartServiceInterface;
 use App\Contracts\Services\OrderServiceInterface;
+use App\DTOs\Order\OrderFilterDTO;
 use App\DTOs\Order\UpdateOrderStatusDTO;
 use App\Models\Order;
 use Exception;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
@@ -19,14 +19,13 @@ class OrderService implements OrderServiceInterface
     public function __construct(
         protected readonly OrderRepositoryInterface $orderRepository,
         protected readonly CartServiceInterface $cartService
-    ) {
-    }
+    ) {}
 
     public function createOrderFromCart(int $userId): Order
     {
         $cart = $this->cartService->getCart($userId);
 
-        if (!$cart || $cart->cartItems->isEmpty()) {
+        if (! $cart || $cart->cartItems->isEmpty()) {
             throw new Exception('Cart is empty. Cannot create order.');
         }
 
@@ -61,24 +60,24 @@ class OrderService implements OrderServiceInterface
         });
     }
 
-    public function getUserOrders(int $userId): LengthAwarePaginator|Collection
+    public function getPaginatedOrders(OrderFilterDTO $dto): LengthAwarePaginator
     {
-        return $this->orderRepository->getOrdersByUserId($userId);
+        return $this->orderRepository->getPaginatedOrders($dto);
     }
 
-    public function getOrderDetails(int $userId, int $orderId): ?Order
+    public function getOrderDetails(int $orderId, ?int $userId = null): ?Order
     {
-        return $this->orderRepository->findByIdAndUser($orderId, $userId);
+        if ($userId) {
+            return $this->orderRepository->findByIdAndUser($orderId, $userId);
+        }
+
+        return $this->orderRepository->findById($orderId);
     }
 
     public function updateOrderStatus(int $orderId, UpdateOrderStatusDTO $dto): bool
     {
-        // Assuming we update any order regardless of user here, or we need to fetch it first.
-        // For simplicity, we fetch it without user_id limit if this is an admin action,
-        // but if it's user action, we should check user_id. The requirement says:
-        // "Updates the status of an order" -> we will assume we find it first.
         $order = Order::findOrFail($orderId);
-        
+
         return $this->orderRepository->updateStatus($order, $dto->status);
     }
 }

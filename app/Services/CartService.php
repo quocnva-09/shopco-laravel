@@ -6,19 +6,17 @@ namespace App\Services;
 
 use App\Contracts\Repositories\CartRepositoryInterface;
 use App\Contracts\Services\CartServiceInterface;
-use App\DTOs\AddToCartDTO;
-use App\DTOs\UpdateCartItemDTO;
+use App\DTOs\Cart\AddToCartDTO;
+use App\DTOs\Cart\UpdateCartItemDTO;
 use App\Models\Cart;
 use App\Models\CartItem;
-use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CartService implements CartServiceInterface
 {
     public function __construct(
         protected CartRepositoryInterface $cartRepository
-    ) {
-    }
+    ) {}
 
     public function getCart(int $userId): ?Cart
     {
@@ -29,7 +27,7 @@ class CartService implements CartServiceInterface
     {
         // Lazy initialization
         $cart = $this->cartRepository->getCartByUserId($userId);
-        if (!$cart) {
+        if (! $cart) {
             $cart = $this->cartRepository->createCart($userId);
         }
 
@@ -51,9 +49,10 @@ class CartService implements CartServiceInterface
 
         $belongsToUser = $this->cartRepository->verifyItemBelongsToUser($itemId, $userId);
 
-        if (!$belongsToUser) {
-            throw new NotFoundHttpException("Cart item not found or access denied.");
+        if (! $belongsToUser) {
+            throw new NotFoundHttpException('Cart item not found or access denied.');
         }
+
         return $this->cartRepository->updateCartItem($itemId, $dto->quantity);
     }
 
@@ -61,8 +60,8 @@ class CartService implements CartServiceInterface
     {
         $belongsToUser = $this->cartRepository->verifyItemBelongsToUser($itemId, $userId);
 
-        if (!$belongsToUser) {
-            throw new NotFoundHttpException("Cart item not found or access denied.");
+        if (! $belongsToUser) {
+            throw new NotFoundHttpException('Cart item not found or access denied.');
         }
 
         $isDeleted = $this->cartRepository->deleteCartItem($itemId);

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Contracts\Services\UserServiceInterface;
-use App\DTOs\UserDTO;
-use App\DTOs\UserFilterDTO;
-use App\Http\Requests\UserFilterRequest;
-use App\Http\Requests\UserRequest;
+use App\DTOs\User\UserDTO;
+use App\DTOs\User\UserFilterDTO;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UserFilterRequest;
+use App\Http\Requests\User\UserRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

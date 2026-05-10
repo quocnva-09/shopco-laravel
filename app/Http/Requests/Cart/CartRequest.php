@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Cart;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserFilterRequest extends FormRequest
+class CartRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -23,11 +23,7 @@ class UserFilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'search' => 'nullable|string|max:255',
-            'page' => 'nullable|integer|min:1',
-            'perPage' => 'nullable|integer|min:1|max:100',
-            'sort' => 'nullable|string|in:created_at,name,email',
-            'direction' => 'nullable|string|in:asc,desc',
+            //
         ];
     }
 }

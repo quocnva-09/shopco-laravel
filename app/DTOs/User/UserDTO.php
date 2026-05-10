@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\DTOs;
+namespace App\DTOs\User;
 
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\User\UserRequest;
 
 readonly class UserDTO
 {

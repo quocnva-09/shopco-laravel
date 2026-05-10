@@ -2,8 +2,8 @@
 
 namespace App\Contracts\Services;
 
-use App\DTOs\CategoryDTO;
-use App\DTOs\CategoryFilterDTO;
+use App\DTOs\Category\CategoryDTO;
+use App\DTOs\Category\CategoryFilterDTO;
 
 interface CategoryServiceInterface
 {

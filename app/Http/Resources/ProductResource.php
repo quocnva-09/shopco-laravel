@@ -18,7 +18,6 @@ class ProductResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'category_id' => $this->category_id,
             'name' => $this->name,
             'slug' => $this->slug,
             'description' => $this->description,
@@ -26,7 +25,13 @@ class ProductResource extends JsonResource
             'price_discount' => $this->price_discount,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
-            'category' => new CategoryResource($this->whenLoaded('category')),
+            'category' => $this->whenLoaded('category', function () {
+                return [
+                    'id' => $this->category->id,
+                    'name' => $this->category->name,
+                    'slug' => $this->category->slug,
+                ];
+            }),
             'images' => ProductImageResource::collection($this->whenLoaded('images')),
         ];
     }

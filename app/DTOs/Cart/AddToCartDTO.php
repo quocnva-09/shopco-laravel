@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTOs;
+namespace App\DTOs\Cart;
 
 use Illuminate\Foundation\Http\FormRequest;
 

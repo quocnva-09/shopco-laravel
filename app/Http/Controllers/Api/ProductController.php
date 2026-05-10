@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Contracts\Services\ProductServiceInterface;
-use App\DTOs\ProductDTO;
-use App\DTOs\ProductFilterDTO;
-use App\Http\Requests\ProductFilterRequest;
-use App\Http\Requests\ProductRequest;
+use App\DTOs\Product\ProductDTO;
+use App\DTOs\Product\ProductFilterDTO;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\ProductFilterRequest;
+use App\Http\Requests\Product\ProductRequest;
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

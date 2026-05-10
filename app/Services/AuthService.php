@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Contracts\Services\AuthServiceInterface;
-use App\DTOs\LoginDTO;
-use App\DTOs\RegisterDTO;
+use App\DTOs\Auth\LoginDTO;
+use App\DTOs\Auth\RegisterDTO;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;

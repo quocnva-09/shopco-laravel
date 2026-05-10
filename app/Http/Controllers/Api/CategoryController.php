@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Contracts\Services\CategoryServiceInterface;
-use App\DTOs\CategoryDTO;
-use App\DTOs\CategoryFilterDTO;
-use App\Http\Requests\CategoryFilterRequest;
-use App\Http\Requests\CategoryRequest;
+use App\DTOs\Category\CategoryDTO;
+use App\DTOs\Category\CategoryFilterDTO;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Category\CategoryFilterRequest;
+use App\Http\Requests\Category\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

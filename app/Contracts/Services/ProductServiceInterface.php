@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Contracts\Services;
 
-use App\DTOs\ProductDTO;
-use App\DTOs\ProductFilterDTO;
+use App\DTOs\Product\ProductDTO;
+use App\DTOs\Product\ProductFilterDTO;
 
 interface ProductServiceInterface
 {

@@ -2,8 +2,8 @@
 
 namespace App\Contracts\Services;
 
-use App\DTOs\AddToCartDTO;
-use App\DTOs\UpdateCartItemDTO;
+use App\DTOs\Cart\AddToCartDTO;
+use App\DTOs\Cart\UpdateCartItemDTO;
 use App\Models\Cart;
 use App\Models\CartItem;
 

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\DTOs;
+namespace App\DTOs\Product;
 
+use App\Enums\FilterEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
 readonly class ProductFilterDTO
@@ -11,8 +12,8 @@ readonly class ProductFilterDTO
         public ?int $categoryId = null,
         public int $page = 1,
         public int $perPage = 15,
-        public string $sort = 'created_at',
-        public string $direction = 'desc',
+        public string $sortBy = 'created_at',
+        public string $sortDir = 'desc',
     ) {}
 
     /**
@@ -27,8 +28,8 @@ readonly class ProductFilterDTO
             categoryId: $validated['category_id'] ?? null,
             page: $validated['page'] ?? 1,
             perPage: $validated['perPage'] ?? 15,
-            sort: $validated['sort'] ?? 'created_at',
-            direction: $validated['direction'] ?? 'desc',
+            sortBy: $validated['sort_by'] ?? FilterEnum::PRODUCT_SORT[0],
+            sortDir: $validated['sort_dir'] ?? FilterEnum::DIRECTION[0],
         );
     }
 
@@ -42,8 +43,8 @@ readonly class ProductFilterDTO
             'category_id' => $this->categoryId,
             'page' => $this->page,
             'perPage' => $this->perPage,
-            'sort' => $this->sort,
-            'direction' => $this->direction,
+            'sort_by' => $this->sortBy,
+            'sort_dir' => $this->sortDir,
         ];
     }
 }

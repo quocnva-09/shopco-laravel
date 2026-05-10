@@ -1,18 +1,18 @@
 <?php
 
-namespace App\DTOs;
+namespace App\DTOs\User;
 
 use App\Enums\FilterEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
-readonly class CategoryFilterDTO
+readonly class UserFilterDTO
 {
     public function __construct(
         public ?string $search = null,
         public int $page = 1,
         public int $perPage = 15,
-        public string $sort = 'created_at',
-        public string $direction = 'desc',
+        public string $sortBy = 'created_at',
+        public string $sortDir = 'desc',
     ) {}
 
     /**
@@ -24,10 +24,10 @@ readonly class CategoryFilterDTO
 
         return new self(
             search: $validated['search'] ?? null,
-            page: $validated['page'] ?? 1,
-            perPage: $validated['perPage'] ?? 15,
-            sort: $validated['sort'] ?? FilterEnum::CATEGORY_SORT[0],
-            direction: $validated['direction'] ?? FilterEnum::DIRECTION[0],
+            page: (int) ($validated['page'] ?? 1),
+            perPage: (int) ($validated['perPage'] ?? 15),
+            sortBy: $validated['sort_by'] ?? FilterEnum::USER_SORT[0],
+            sortDir: $validated['sort_dir'] ?? FilterEnum::DIRECTION[0],
         );
     }
 
@@ -37,8 +37,8 @@ readonly class CategoryFilterDTO
             'search' => $this->search,
             'page' => $this->page,
             'perPage' => $this->perPage,
-            'sort' => $this->sort,
-            'direction' => $this->direction,
+            'sort_by' => $this->sortBy,
+            'sort_dir' => $this->sortDir,
         ];
     }
 }

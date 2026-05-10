@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Product;
 
+use App\Enums\FilterEnum;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProductFilterRequest extends FormRequest
 {
@@ -23,12 +25,12 @@ class ProductFilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'search' => 'nullable|string|max:255',
-            'category_id' => 'nullable|integer|exists:categories,id',
-            'page' => 'nullable|integer|min:1',
-            'perPage' => 'nullable|integer|min:1|max:100',
-            'sort' => 'nullable|string|in:price,created_at,name',
-            'direction' => 'nullable|string|in:asc,desc',
+            'search' => ['nullable', 'string', 'max:255'],
+            'category_id' => ['nullable', 'integer', 'exists:categories,id'],
+            'page' => ['nullable', 'integer', 'min:1'],
+            'perPage' => ['nullable', 'integer', 'min:1', 'max:100'],
+            'sort_by' => ['nullable', 'string', Rule::in(FilterEnum::PRODUCT_SORT)],
+            'sort_dir' => ['nullable', 'string', Rule::in(FilterEnum::DIRECTION)],
         ];
     }
 }

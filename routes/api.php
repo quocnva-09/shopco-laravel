@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,10 +30,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Order routes
     Route::prefix('orders')->group(function () {
-        Route::get('/', [\App\Http\Controllers\Api\OrderController::class, 'index']);
-        Route::post('/', [\App\Http\Controllers\Api\OrderController::class, 'store']);
-        Route::get('/{order}', [\App\Http\Controllers\Api\OrderController::class, 'show']);
-        Route::patch('/{order}/status', [\App\Http\Controllers\Api\OrderController::class, 'updateStatus']);
+        Route::get('/', [OrderController::class, 'index']);
+        Route::post('/', [OrderController::class, 'store']);
+        Route::get('/{order}', [OrderController::class, 'show']);
+        Route::patch('/{order}/status', [OrderController::class, 'updateStatus']);
     });
 });
 

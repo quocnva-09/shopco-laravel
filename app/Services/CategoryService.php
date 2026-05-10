@@ -3,7 +3,8 @@
 namespace App\Services;
 
 use App\Contracts\Services\CategoryServiceInterface;
-use App\DTOs\CategoryFilterDTO;
+use App\DTOs\Category\CategoryFilterDTO;
+use App\Enums\FilterEnum;
 use App\Models\Category;
 
 class CategoryService implements CategoryServiceInterface
@@ -28,9 +29,9 @@ class CategoryService implements CategoryServiceInterface
                 ->orWhere('description', 'like', '%'.$filter->search.'%');
         }
 
-        if (in_array($filter->sort, ['name', 'created_at'])) {
-            $direction = strtolower($filter->direction) === 'asc' ? 'asc' : 'desc';
-            $query->orderBy($filter->sort, $direction);
+        if (in_array($filter->sortBy, FilterEnum::CATEGORY_SORT)) {
+            $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION) ? strtolower($filter->sortDir) : 'desc';
+            $query->orderBy($filter->sortBy, $direction);
         } else {
             $query->orderBy('created_at', 'desc');
         }
@@ -88,9 +89,9 @@ class CategoryService implements CategoryServiceInterface
                 ->orWhere('description', 'like', '%'.$filter->search.'%');
         }
 
-        if (in_array($filter->sort, ['name', 'created_at'])) {
-            $direction = strtolower($filter->direction) === 'asc' ? 'asc' : 'desc';
-            $query->orderBy($filter->sort, $direction);
+        if (in_array($filter->sortBy, FilterEnum::CATEGORY_SORT)) {
+            $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION) ? strtolower($filter->sortDir) : 'desc';
+            $query->orderBy($filter->sortBy, $direction);
         } else {
             $query->orderBy('deleted_at', 'desc');
         }

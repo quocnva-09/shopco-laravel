@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\DTOs;
+namespace App\DTOs\Product;
 
-use App\Http\Requests\ProductRequest;
+use App\Http\Requests\Product\ProductRequest;
 
 readonly class ProductDTO
 {

@@ -22,5 +22,6 @@ interface CartRepositoryInterface
     public function updateCartItem(int $itemId, int $quantity): bool;
 
     public function deleteCartItem(int $itemId): bool;
+
     public function verifyItemBelongsToUser(int $itemId, int $userId): bool;
 }

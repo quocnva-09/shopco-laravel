@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Contracts\Services\CartServiceInterface;
-use App\DTOs\AddToCartDTO;
-use App\DTOs\UpdateCartItemDTO;
-use App\Http\Requests\AddToCartRequest;
-use App\Http\Requests\UpdateCartItemRequest;
+use App\DTOs\Cart\AddToCartDTO;
+use App\DTOs\Cart\UpdateCartItemDTO;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Cart\AddToCartRequest;
+use App\Http\Requests\Cart\UpdateCartItemRequest;
 use App\Http\Resources\CartItemResource;
 use App\Http\Resources\CartResource;
 use App\Traits\ApiResponseTrait;
@@ -21,14 +22,13 @@ class CartController extends Controller
 
     public function __construct(
         protected CartServiceInterface $cartService
-    ) {
-    }
+    ) {}
 
     public function index(): JsonResponse
     {
         $cart = $this->cartService->getCart(Auth::id());
 
-        if (!$cart) {
+        if (! $cart) {
             return $this->successResponse(null, 'Cart is empty');
         }
 
