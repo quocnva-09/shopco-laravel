@@ -55,8 +55,8 @@ jobs:
           script: |
             cd /home/ubuntu/shopco-laravel
             # Pull new image from Docker Hub
-            docker-compose -f docker-compose.prod.yaml pull
+            docker compose -f docker-compose.prod.yaml pull
             # Restart container with new image
-            docker-compose -f docker-compose.prod.yaml up -d
+            docker compose -f docker-compose.prod.yaml up -d
             # Run migration if there are changes in DB
-            docker-compose -f docker-compose.prod.yaml exec -T app php artisan migrate --force
+            docker compose -f docker-compose.prod.yaml exec -T app php artisan migrate --force
