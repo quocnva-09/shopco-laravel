@@ -42,6 +42,9 @@ jobs:
           source: "docker-compose.prod.ymal"
           target: "/home/ubuntu/shopco-laravel" # Project folder on EC2
 
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       # Action 2: SSH into EC2, pull new Image, and run
       - name: Execute deployment on EC2
         uses: appleboy/ssh-action@master
