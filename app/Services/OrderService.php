@@ -7,29 +7,34 @@ namespace App\Services;
 use App\Contracts\Repositories\OrderRepositoryInterface;
 use App\Contracts\Services\CartServiceInterface;
 use App\Contracts\Services\OrderServiceInterface;
+use App\Contracts\Services\UserServiceInterface;
 use App\DTOs\Order\OrderFilterDTO;
 use App\DTOs\Order\UpdateOrderStatusDTO;
+use App\Mail\OrderCreated;
 use App\Models\Order;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class OrderService implements OrderServiceInterface
 {
     public function __construct(
         protected readonly OrderRepositoryInterface $orderRepository,
-        protected readonly CartServiceInterface $cartService
-    ) {}
+        protected readonly CartServiceInterface $cartService,
+        protected readonly UserServiceInterface $userService,
+    ) {
+    }
 
     public function createOrderFromCart(int $userId): Order
     {
         $cart = $this->cartService->getCart($userId);
 
-        if (! $cart || $cart->cartItems->isEmpty()) {
+        if (!$cart || $cart->cartItems->isEmpty()) {
             throw new Exception('Cart is empty. Cannot create order.');
         }
 
-        return DB::transaction(function () use ($userId, $cart) {
+        $order = DB::transaction(function () use ($userId, $cart) {
             $orderItemsData = [];
             $totalAmount = 0.0;
 
@@ -58,6 +63,10 @@ class OrderService implements OrderServiceInterface
 
             return $order;
         });
+
+        Mail::to($order->user->email)->later(now()->addSeconds(30), new OrderCreated($order));
+
+        return $order;
     }
 
     public function getPaginatedOrders(OrderFilterDTO $dto): LengthAwarePaginator
