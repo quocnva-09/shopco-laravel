@@ -3,8 +3,10 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ExportController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Middleware\CheckAdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +36,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [OrderController::class, 'store']);
         Route::get('/{order}', [OrderController::class, 'show']);
         Route::patch('/{order}/status', [OrderController::class, 'updateStatus']);
+    });
+
+    // Export routes (admin only)
+    Route::middleware(CheckAdminMiddleware::class)->prefix('exports')->group(function () {
+        Route::post('/', [ExportController::class, 'store']);
+        Route::get('/', [ExportController::class, 'index']);
+        Route::get('/{id}', [ExportController::class, 'show']);
+        Route::get('/{id}/download', [ExportController::class, 'download']);
     });
 });
 

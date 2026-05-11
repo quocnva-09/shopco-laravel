@@ -7,6 +7,7 @@ use App\Contracts\Repositories\OrderRepositoryInterface;
 use App\Contracts\Services\AuthServiceInterface;
 use App\Contracts\Services\CartServiceInterface;
 use App\Contracts\Services\CategoryServiceInterface;
+use App\Contracts\Services\ExportServiceInterface;
 use App\Contracts\Services\OrderServiceInterface;
 use App\Contracts\Services\ProductServiceInterface;
 use App\Contracts\Services\UserServiceInterface;
@@ -15,6 +16,7 @@ use App\Repositories\OrderRepository;
 use App\Services\AuthService;
 use App\Services\CartService;
 use App\Services\CategoryService;
+use App\Services\ExportService;
 use App\Services\OrderService;
 use App\Services\ProductService;
 use App\Services\UserService;
@@ -35,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CartServiceInterface::class, CartService::class);
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
         $this->app->bind(OrderServiceInterface::class, OrderService::class);
+        $this->app->bind(ExportServiceInterface::class, ExportService::class);
     }
 
     /**
