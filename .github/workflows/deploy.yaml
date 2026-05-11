@@ -39,7 +39,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "docker-compose.prod.ymal"
+          source: "docker-compose.prod.yaml"
           target: "/home/ubuntu/shopco-laravel" # Project folder on EC2
 
       - name: Checkout code
@@ -55,8 +55,8 @@ jobs:
           script: |
             cd /home/ubuntu/shopco-laravel
             # Pull new image from Docker Hub
-            docker-compose -f docker-compose.prod.ymal pull
+            docker-compose -f docker-compose.prod.yaml pull
             # Restart container with new image
-            docker-compose -f docker-compose.prod.ymal up -d
+            docker-compose -f docker-compose.prod.yaml up -d
             # Run migration if there are changes in DB
-            docker-compose -f docker-compose.prod.ymal exec -T app php artisan migrate --force
+            docker-compose -f docker-compose.prod.yaml exec -T app php artisan migrate --force
