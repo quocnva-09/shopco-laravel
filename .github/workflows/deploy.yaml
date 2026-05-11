@@ -32,14 +32,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Action 1: Transfer docker-compose.prod.yml from GitHub to EC2
+      # Action 1: Transfer docker-compose.prod.ymal from GitHub to EC2
       - name: Copy compose file to EC2
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "docker-compose.prod.yml"
+          source: "docker-compose.prod.ymal"
           target: "/home/ubuntu/shopco-laravel" # Project folder on EC2
 
       # Action 2: SSH into EC2, pull new Image, and run
@@ -52,8 +52,8 @@ jobs:
           script: |
             cd /home/ubuntu/shopco-laravel
             # Pull new image from Docker Hub
-            docker-compose -f docker-compose.prod.yml pull
+            docker-compose -f docker-compose.prod.ymal pull
             # Restart container with new image
-            docker-compose -f docker-compose.prod.yml up -d
+            docker-compose -f docker-compose.prod.ymal up -d
             # Run migration if there are changes in DB
-            docker-compose -f docker-compose.prod.yml exec -T app php artisan migrate --force
+            docker-compose -f docker-compose.prod.ymal exec -T app php artisan migrate --force
