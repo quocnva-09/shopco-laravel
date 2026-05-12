@@ -20,6 +20,7 @@ use App\Services\ExportService;
 use App\Services\OrderService;
 use App\Services\ProductService;
 use App\Services\UserService;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -45,8 +46,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (config('app.env') === 'production') {
-            \URL::forceScheme('https');
+        if (env('APP_ENV') === 'production') {
+            URL::forceScheme('https');
         }
     }
 }
