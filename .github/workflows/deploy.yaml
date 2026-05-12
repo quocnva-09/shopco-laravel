@@ -67,6 +67,8 @@ jobs:
             # Run migrations
             docker compose -f docker-compose.prod.yaml exec -T app php artisan migrate --force
 
-            # Cache config/routes so Swagger and all routes are registered correctly
+            # Cache config so APP_URL=https:// is applied before generating swagger
             docker compose -f docker-compose.prod.yaml exec -T app php artisan config:cache
-            docker compose -f docker-compose.prod.yaml exec -T app php artisan route:cache
+
+            # Regenerate swagger JSON with correct HTTPS host from production .env
+            docker compose -f docker-compose.prod.yaml exec -T app php artisan l5-swagger:generate

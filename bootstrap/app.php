@@ -21,6 +21,8 @@ return Application::configure(basePath: dirname(__DIR__))
         }
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Trust all proxies (Cloudflare) so Laravel generates HTTPS URLs correctly
+        $middleware->trustProxies(at: '*');
         $middleware->alias([
             'admin' => CheckAdminMiddleware::class,
         ]);
