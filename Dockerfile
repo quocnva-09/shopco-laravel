@@ -19,6 +19,9 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 WORKDIR /var/www/html
 COPY . .
 
+# Generate swagger docs
+RUN php artisan l5-swagger:generate
+
 # cấp quyền storage để đồng bộ container
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
