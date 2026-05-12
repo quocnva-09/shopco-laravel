@@ -60,7 +60,7 @@ jobs:
             docker compose -f docker-compose.prod.yaml up -d
 
             echo "Wait for database connection to be ready"
-            sleep 20
+            sleep 45
 
             # Run migration if there are changes in DB
             docker compose -f docker-compose.prod.yaml exec -T app php artisan migrate --force
