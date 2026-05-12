@@ -1,8 +1,9 @@
 services:
   app:
-    image: anhquoc09/shopco-laravel:v1
+    image: anhquoc09/shopco-laravel:latest
     container_name: shopco_app
     restart: always
+    env_file: .env
     ports:
       - "80:80"
     volumes:
@@ -13,12 +14,11 @@ services:
       - shopco-network
 
   worker:
-    image: anhquoc09/shopco-laravel:v1
+    image: anhquoc09/shopco-laravel:latest
     container_name: shopco_worker
     command: php artisan queue:work
     user: "www-data"
-    # ADDED: Pass the .env file to the worker as well
-    env_file: .env 
+    env_file: .env
     volumes:
       - storage_data:/var/www/html/storage
     depends_on:
@@ -33,7 +33,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
       MYSQL_DATABASE: "${DB_DATABASE}"
-    command: 
+    command:
       - --default-authentication-plugin=mysql_native_password
       - --skip-name-resolve
       - --performance-schema=OFF
