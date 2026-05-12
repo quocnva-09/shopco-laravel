@@ -4,7 +4,19 @@ namespace App\Http\Requests\Category;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema(
+    schema: "CategoryRequest",
+    title: "Category Request",
+    description: "Category creation and update payload",
+    required: ["name", "slug"],
+    properties: [
+        new OA\Property(property: "name", type: "string", example: "Electronics"),
+        new OA\Property(property: "slug", type: "string", example: "electronics"),
+        new OA\Property(property: "description", type: "string", nullable: true, example: "Electronic items and gadgets")
+    ]
+)]
 class CategoryRequest extends FormRequest
 {
     /**

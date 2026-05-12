@@ -4,7 +4,17 @@ namespace App\Http\Requests\Cart;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema(
+    schema: 'UpdateCartItemRequest',
+    title: 'Update Cart Item Request',
+    description: 'Payload to update the quantity of a cart item',
+    required: ['quantity'],
+    properties: [
+        new OA\Property(property: 'quantity', type: 'integer', minimum: 1, example: 3),
+    ]
+)]
 class UpdateCartItemRequest extends FormRequest
 {
     /**

@@ -5,7 +5,28 @@ declare(strict_types=1);
 namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema(
+    schema: 'ProductRequest',
+    title: 'Product Request',
+    description: 'Product creation and update payload',
+    required: ['name', 'price', 'category_id'],
+    properties: [
+        new OA\Property(property: 'name', type: 'string', example: 'Classic T-Shirt'),
+        new OA\Property(property: 'slug', type: 'string', nullable: true, example: 'classic-t-shirt'),
+        new OA\Property(property: 'price', type: 'number', format: 'float', example: 150000),
+        new OA\Property(property: 'price_discount', type: 'number', format: 'float', nullable: true, example: 120000),
+        new OA\Property(property: 'description', type: 'string', nullable: true, example: 'A comfortable everyday t-shirt'),
+        new OA\Property(property: 'category_id', type: 'integer', example: 2),
+        new OA\Property(
+            property: 'images[]',
+            type: 'array',
+            nullable: true,
+            items: new OA\Items(type: 'string', format: 'binary')
+        ),
+    ]
+)]
 class ProductRequest extends FormRequest
 {
     /**

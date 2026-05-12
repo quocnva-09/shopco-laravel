@@ -6,7 +6,22 @@ use App\Enums\OrderStatus;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema(
+    schema: 'UpdateOrderStatusRequest',
+    title: 'Update Order Status Request',
+    description: 'Payload to update an order\'s status',
+    required: ['status'],
+    properties: [
+        new OA\Property(
+            property: 'status',
+            type: 'string',
+            enum: ['pending', 'paid', 'cancelled'],
+            example: 'paid'
+        ),
+    ]
+)]
 class UpdateOrderStatusRequest extends FormRequest
 {
     /**

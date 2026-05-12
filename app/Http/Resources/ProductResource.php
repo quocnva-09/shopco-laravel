@@ -6,7 +6,38 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema(
+    schema: 'ProductResource',
+    title: 'ProductResource',
+    description: 'Product resource representation',
+    properties: [
+        new OA\Property(property: 'id', type: 'integer', example: 1),
+        new OA\Property(property: 'name', type: 'string', example: 'Classic T-Shirt'),
+        new OA\Property(property: 'slug', type: 'string', example: 'classic-t-shirt'),
+        new OA\Property(property: 'description', type: 'string', nullable: true, example: 'A comfortable everyday t-shirt'),
+        new OA\Property(property: 'price', type: 'number', format: 'float', example: 150000),
+        new OA\Property(property: 'price_discount', type: 'number', format: 'float', nullable: true, example: 120000),
+        new OA\Property(
+            property: 'category',
+            type: 'object',
+            nullable: true,
+            properties: [
+                new OA\Property(property: 'id', type: 'integer', example: 2),
+                new OA\Property(property: 'name', type: 'string', example: 'T-Shirts'),
+                new OA\Property(property: 'slug', type: 'string', example: 't-shirts'),
+            ]
+        ),
+        new OA\Property(
+            property: 'images',
+            type: 'array',
+            items: new OA\Items(ref: '#/components/schemas/ProductImageResource')
+        ),
+        new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2023-01-01 12:00:00'),
+        new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2023-01-01 12:00:00'),
+    ]
+)]
 class ProductResource extends JsonResource
 {
     /**

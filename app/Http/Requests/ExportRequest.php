@@ -7,7 +7,28 @@ namespace App\Http\Requests;
 use App\Enums\ExportStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema(
+    schema: 'ExportRequest',
+    title: 'Export Request',
+    description: 'Payload to trigger a new product export job',
+    properties: [
+        new OA\Property(
+            property: 'format',
+            type: 'string',
+            enum: ['csv', 'xlsx'],
+            example: 'csv'
+        ),
+        new OA\Property(property: 'search', type: 'string', nullable: true, example: 'shirt'),
+        new OA\Property(
+            property: 'status',
+            type: 'string',
+            nullable: true,
+            enum: ['pending', 'processing', 'completed', 'failed'],
+        ),
+    ]
+)]
 class ExportRequest extends FormRequest
 {
     public const array EXPORT_FORMATS = ['csv', 'xlsx'];

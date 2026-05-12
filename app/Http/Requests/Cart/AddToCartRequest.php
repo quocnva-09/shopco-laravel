@@ -4,7 +4,18 @@ namespace App\Http\Requests\Cart;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema(
+    schema: 'AddToCartRequest',
+    title: 'Add To Cart Request',
+    description: 'Payload to add a product to the authenticated user\'s cart',
+    required: ['product_id', 'quantity'],
+    properties: [
+        new OA\Property(property: 'product_id', type: 'integer', example: 7),
+        new OA\Property(property: 'quantity', type: 'integer', minimum: 1, example: 2),
+    ]
+)]
 class AddToCartRequest extends FormRequest
 {
     /**

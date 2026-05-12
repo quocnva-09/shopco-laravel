@@ -1,18 +1,17 @@
-
 services:
   app:
     image: anhquoc09/shopco-laravel:v1
     container_name: shopco_app
     restart: always
     ports:
-      - "80:80"   
+      - "80:80"
     volumes:
       - storage_data:/var/www/html/storage
     depends_on:
       - shopco_db
     networks:
       - shopco-network
-  
+
   worker:
     image: anhquoc09/shopco-laravel:v1
     container_name: shopco_worker
@@ -30,30 +29,34 @@ services:
     container_name: shopco_db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-      MYSQL_DATABASE: '${DB_DATABASE}'
-    command: --skip-name-resolve
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+    command: 
+      - --default-authentication-plugin=mysql_native_password
+      - --skip-name-resolve
+      - --performance-schema=OFF
+      - --innodb-buffer-pool-size=64M
     ports:
-      - "3306:3306" 
+      - "3306:3306"
     volumes:
       - shopco-db-data:/var/lib/mysql
     networks:
       - shopco-network
 
-  shopco-phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: shopco-phpmyadmin
-    restart: always
-    ports:
-      - "8081:80"
-    environment:
-      PMA_HOST: shopco_db
-      PMA_PORT: 3306
-      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-    depends_on:
-      - shopco_db
-    networks:
-      - shopco-network
+  # shopco-phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   container_name: shopco-phpmyadmin
+  #   restart: always
+  #   ports:
+  #     - "8081:80"
+  #   environment:
+  #     PMA_HOST: shopco_db
+  #     PMA_PORT: 3306
+  #     MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+  #   depends_on:
+  #     - shopco_db
+  #   networks:
+  #     - shopco-network
 
 volumes:
   shopco-db-data:
