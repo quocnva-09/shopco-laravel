@@ -14,6 +14,10 @@ use OpenApi\Attributes as OA;
     url: L5_SWAGGER_CONST_HOST,
     description: "Local Server"
 )]
+#[OA\Server(
+    url: "https://api.quocnva09.me/api",
+    description: "Production Server (Cloudflare SSL)"
+)]
 #[OA\SecurityScheme(
     securityScheme: "bearerAuth",
     type: "http",
@@ -37,7 +41,9 @@ abstract class Controller
         new OA\Property(property: "total", type: "integer", example: 150),
     ]
 )]
-class PaginatedMetaSchema {} // Class ảo
+class PaginatedMetaSchema
+{
+} // Class ảo
 
 #[OA\Schema(
     schema: "PaginatedLinks",
@@ -50,4 +56,6 @@ class PaginatedMetaSchema {} // Class ảo
         new OA\Property(property: "next", type: "string", nullable: true, example: "http://localhost:8000/api/{resource}?page=2"),
     ]
 )]
-class PaginatedLinksSchema {} // Class ảo
+class PaginatedLinksSchema
+{
+} // Class ảo
