@@ -5,7 +5,7 @@ services:
     container_name: shopco_app
     restart: always
     ports:
-      - "8000:80"   
+      - "80:80"   
     volumes:
       - storage_data:/var/www/html/storage
     depends_on:
@@ -34,7 +34,7 @@ services:
       MYSQL_DATABASE: '${DB_DATABASE}'
     command: --skip-name-resolve
     ports:
-      - "3307:3306" 
+      - "3306:3306" 
     volumes:
       - shopco-db-data:/var/lib/mysql
     networks:
