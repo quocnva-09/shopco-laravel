@@ -17,8 +17,10 @@ class UserService implements UserServiceInterface
         $query = User::query();
 
         if ($filter->search) {
-            $query->where('name', 'like', '%'.$filter->search.'%')
-                ->orWhere('email', 'like', '%'.$filter->search.'%');
+            $query->where(function ($q) use ($filter) {
+                $q->where('name', 'like', '%'.$filter->search.'%')
+                  ->orWhere('email', 'like', '%'.$filter->search.'%');
+            });
         }
 
         if (in_array($filter->sortBy, FilterEnum::USER_SORT)) {
@@ -61,5 +63,41 @@ class UserService implements UserServiceInterface
         $user = $this->getUserById($id);
 
         return $user->delete();
+    }
+
+    public function getTrashed(UserFilterDTO $filter)
+    {
+        $query = User::onlyTrashed();
+
+        if ($filter->search) {
+            $query->where(function ($q) use ($filter) {
+                $q->where('name', 'like', '%'.$filter->search.'%')
+                  ->orWhere('email', 'like', '%'.$filter->search.'%');
+            });
+        }
+
+        if (in_array($filter->sortBy, FilterEnum::USER_SORT)) {
+            $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION) ? $filter->sortDir : 'desc';
+            $query->orderBy($filter->sortBy, $direction);
+        } else {
+            $query->orderBy('deleted_at', 'desc');
+        }
+
+        return $query->paginate($filter->perPage, ['*'], 'page', $filter->page);
+    }
+
+    public function restore(int $id): User
+    {
+        $user = User::onlyTrashed()->findOrFail($id);
+        $user->restore();
+
+        return $user;
+    }
+
+    public function forceDelete(int $id): bool
+    {
+        $user = User::withTrashed()->findOrFail($id);
+
+        return $user->forceDelete();
     }
 }

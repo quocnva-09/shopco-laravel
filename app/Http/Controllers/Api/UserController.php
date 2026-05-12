@@ -55,4 +55,26 @@ class UserController extends Controller
 
         return $this->successResponse(null, 'User deleted successfully');
     }
+
+    public function trashed(UserFilterRequest $request): JsonResponse
+    {
+        $filterDTO = UserFilterDTO::fromRequest($request);
+        $users = $this->userService->getTrashed($filterDTO);
+
+        return $this->paginatedResponse(UserResource::collection($users), 'Trashed users retrieved successfully');
+    }
+
+    public function restore(int $id): JsonResponse
+    {
+        $user = $this->userService->restore($id);
+
+        return $this->successResponse(new UserResource($user), 'User restored successfully');
+    }
+
+    public function forceDelete(int $id): JsonResponse
+    {
+        $this->userService->forceDelete($id);
+
+        return $this->successResponse(null, 'User permanently deleted successfully');
+    }
 }

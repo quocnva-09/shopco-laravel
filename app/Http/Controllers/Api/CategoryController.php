@@ -102,6 +102,6 @@ class CategoryController extends Controller
     {
         $this->categoryService->forceDelete($id);
 
-        return $this->successResponse(null, 'Category permanently deleted successfully');
+        return $this->successResponse(true, 'Category permanently deleted successfully');
     }
 }

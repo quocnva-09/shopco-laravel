@@ -33,4 +33,19 @@ interface ProductServiceInterface
      * Xóa Product
      */
     public function delete(int $id);
+
+    /**
+     * Lấy danh sách Product đã xóa
+     */
+    public function getTrashed(ProductFilterDTO $filter);
+
+    /**
+     * Khôi phục Product đã xóa
+     */
+    public function restore(int $id);
+
+    /**
+     * Xóa vĩnh viễn Product
+     */
+    public function forceDelete(int $id);
 }

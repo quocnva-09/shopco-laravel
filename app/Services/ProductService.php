@@ -18,8 +18,10 @@ class ProductService implements ProductServiceInterface
         $query = Product::with(['category', 'images']);
 
         if ($filter->search) {
-            $query->where('name', 'like', '%'.$filter->search.'%')
-                ->orWhere('description', 'like', '%'.$filter->search.'%');
+            $query->where(function ($q) use ($filter) {
+                $q->where('name', 'like', '%'.$filter->search.'%')
+                  ->orWhere('description', 'like', '%'.$filter->search.'%');
+            });
         }
 
         if (! empty($filter->categoryId)) {
@@ -101,5 +103,44 @@ class ProductService implements ProductServiceInterface
                 'is_primary' => $index === 0 && $currentImageCount === 0,
             ]);
         }
+    }
+
+    public function getTrashed(ProductFilterDTO $filter)
+    {
+        $query = Product::onlyTrashed()->with(['category', 'images']);
+
+        if ($filter->search) {
+            $query->where(function ($q) use ($filter) {
+                $q->where('name', 'like', '%'.$filter->search.'%')
+                  ->orWhere('description', 'like', '%'.$filter->search.'%');
+            });
+        }
+
+        if (! empty($filter->categoryId)) {
+            $query->where('category_id', $filter->categoryId);
+        }
+
+        if (in_array($filter->sortBy, FilterEnum::PRODUCT_SORT)) {
+            $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION) ? $filter->sortDir : 'desc';
+            $query->orderBy($filter->sortBy, $direction);
+        } else {
+            $query->orderBy('deleted_at', 'desc');
+        }
+
+        return $query->paginate($filter->perPage, ['*'], 'page', $filter->page);
+    }
+
+    public function restore(int $id)
+    {
+        $product = Product::onlyTrashed()->findOrFail($id);
+        $product->restore();
+
+        return $product->loadMissing(['category', 'images']);
+    }
+
+    public function forceDelete(int $id)
+    {
+        $product = Product::withTrashed()->findOrFail($id);
+        $product->forceDelete();
     }
 }

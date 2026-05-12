@@ -38,6 +38,10 @@ class Product extends Model
                 }
             }
         });
+
+        static::deleting(function ($product) {
+            $product->cartItems()->delete();
+        });
     }
 
     public function cartItems()

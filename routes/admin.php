@@ -16,9 +16,19 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::apiResource('categories', CategoryController::class);
 
     // Product routes
+    Route::prefix('products')->group(function () {
+        Route::get('trashed', [ProductController::class, 'trashed']);
+        Route::patch('{id}/restore', [ProductController::class, 'restore']);
+        Route::delete('{id}/force-delete', [ProductController::class, 'forceDelete']);
+    });
     Route::apiResource('products', ProductController::class);
 
     // User routes
+    Route::prefix('users')->group(function () {
+        Route::get('trashed', [UserController::class, 'trashed']);
+        Route::patch('{id}/restore', [UserController::class, 'restore']);
+        Route::delete('{id}/force-delete', [UserController::class, 'forceDelete']);
+    });
     Route::apiResource('users', UserController::class);
 
     // Order routes
