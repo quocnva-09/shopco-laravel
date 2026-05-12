@@ -59,8 +59,19 @@ jobs:
             # Restart container with new image
             docker compose -f docker-compose.prod.yaml up -d
 
-            echo "Wait for database connection to be ready"
-            sleep 45
-
-            # Run migration if there are changes in DB
-            docker compose -f docker-compose.prod.yaml exec -T app php artisan migrate --force
+            echo "Waiting for database connection to be ready..."
+            
+            # Retry mechanism for up to 60 seconds (12 attempts * 5 seconds)
+            MAX_TRIES=12
+            ATTEMPT=1
+            until docker compose -f docker-compose.prod.yaml exec -T app php artisan migrate --force; do
+              if [ $ATTEMPT -eq $MAX_TRIES ]; then
+                echo "Database failed to become ready in time."
+                exit 1
+              fi
+              echo "Database not ready yet. Retrying in 5 seconds... ($ATTEMPT/$MAX_TRIES)"
+              sleep 5
+              ATTEMPT=$((ATTEMPT+1))
+            done
+            
+            echo "Database migration completed successfully!"
