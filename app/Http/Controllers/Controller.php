@@ -12,11 +12,15 @@ use OpenApi\Attributes as OA;
 )]
 #[OA\Server(
     url: L5_SWAGGER_CONST_HOST,
-    description: "Local Server"
+    description: "Dynamic Server (Follow file .env)"
 )]
 #[OA\Server(
     url: "https://api.quocnva09.me/api",
     description: "Production Server (Cloudflare SSL)"
+)]
+#[OA\Server(
+    url: "http://localhost:8000/api",
+    description: "Local Server (Dự phòng)"
 )]
 #[OA\SecurityScheme(
     securityScheme: "bearerAuth",
