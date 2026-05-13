@@ -52,23 +52,32 @@ jobs:
           script: |
             cd /home/ubuntu/shopco-laravel
 
-            # Write production .env from GitHub Secret (prevents committing secrets)
+            # Step 1: Write production .env from GitHub Secret (prevents committing secrets)
             echo "${{ secrets.ENV_PRODUCTION }}" > .env
 
-            # Pull new image from Docker Hub
+            # Step 2: Pull new image from Docker Hub
             docker compose -f docker-compose.prod.yaml pull
 
-            # Restart containers with new image
+            # Step 3: Restart containers with new image
             docker compose -f docker-compose.prod.yaml up -d
 
+            # Step 4: Wait for DB to be ready before running migrations
             echo "Waiting for database to be ready..."
             sleep 45
 
-            # Run migrations
+            # Step 5: Run database migrations
             docker compose -f docker-compose.prod.yaml exec -T app php artisan migrate --force
 
-            # Cache config so APP_URL=https:// is applied before generating swagger
+            # Step 6: Clear any stale cached config from the previous image/deploy,
+            #         then rebuild the cache from the freshly written .env.
+            #         This MUST happen before swagger generation so that
+            #         APP_URL and L5_SWAGGER_CONST_HOST resolve to the HTTPS values.
+            docker compose -f docker-compose.prod.yaml exec -T app php artisan config:clear
             docker compose -f docker-compose.prod.yaml exec -T app php artisan config:cache
 
-            # Regenerate swagger JSON with correct HTTPS host from production .env
+            # Step 7: Regenerate swagger JSON with the correct HTTPS host now in cache.
+            #         The generated api-docs.json will contain url: https://api.quocnva09.me,
+            #         which allows Swagger UI to fetch the spec without CORS/Mixed-Content errors.
             docker compose -f docker-compose.prod.yaml exec -T app php artisan l5-swagger:generate
+
+            echo "Deployment complete."

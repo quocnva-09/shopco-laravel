@@ -20,7 +20,6 @@ WORKDIR /var/www/html
 COPY composer.json composer.lock ./
 
 # 4. Install dependencies 
-# NOTE: You MUST move l5-swagger to "require" in composer.json for this to work with --no-dev
 RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
 
 # 5. Copy the rest of the application
@@ -29,10 +28,8 @@ COPY . .
 # 6. Generate autoloader and run Laravel package discovery
 RUN composer dump-autoload --optimize
 
-# 7. Generate swagger docs
-# We pass dummy environment variables in case your config requires them to boot during the build
-RUN APP_ENV=production APP_KEY=base64:$(head -c 32 /dev/urandom | base64) php artisan l5-swagger:generate
 
-# 8. Set permissions LAST, so all generated files (like swagger docs) get the correct owner
+
+# 7. Set permissions — covers storage and bootstrap/cache
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache

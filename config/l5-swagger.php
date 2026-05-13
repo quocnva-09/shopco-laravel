@@ -312,7 +312,10 @@ return [
          * Constants which can be used in annotations
          */
         'constants' => [
-            'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', 'http://my-default-host.com'),
+            // Falls back to APP_URL so the generated api-docs.json always contains
+            // a valid host even when L5_SWAGGER_CONST_HOST is not explicitly set.
+            // In production this is overridden by L5_SWAGGER_CONST_HOST=https://api.quocnva09.me
+            'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', env('APP_URL', 'http://localhost')),
         ],
     ],
 ];
