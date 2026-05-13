@@ -22,6 +22,9 @@ COPY composer.json composer.lock ./
 # 4. Install dependencies 
 RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
 
+# 4.1 Install redis cache
+RUN pecl install redis && docker-php-ext-enable redis
+
 # 5. Copy the rest of the application
 COPY . .
 
