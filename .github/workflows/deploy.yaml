@@ -55,6 +55,11 @@ jobs:
             # Step 1: Write production .env from GitHub Secret (prevents committing secrets)
             echo "${{ secrets.ENV_PRODUCTION }}" > .env
 
+            # ── Safety guard ────────────────────────────────────────────────────────
+            grep -q "APP_DEBUG=false" .env \
+              || { echo "ABORT: APP_DEBUG is not false in ENV_PRODUCTION. Refusing to deploy."; exit 1; }
+            # ── End safety guard ────────────────────────────────────────────────────
+
             # Step 2: Pull new image from Docker Hub
             docker compose -f docker-compose.prod.yaml pull
 
@@ -68,16 +73,11 @@ jobs:
             # Step 5: Run database migrations
             docker compose -f docker-compose.prod.yaml exec -T app php artisan migrate --force
 
-            # Step 6: Clear any stale cached config from the previous image/deploy,
-            #         then rebuild the cache from the freshly written .env.
-            #         This MUST happen before swagger generation so that
-            #         APP_URL and L5_SWAGGER_CONST_HOST resolve to the HTTPS values.
+            # Step 6: Clear any stale cached config from the previous image/deploy.
             docker compose -f docker-compose.prod.yaml exec -T app php artisan config:clear
             docker compose -f docker-compose.prod.yaml exec -T app php artisan config:cache
 
             # Step 7: Regenerate swagger JSON with the correct HTTPS host now in cache.
-            #         The generated api-docs.json will contain url: https://api.quocnva09.me,
-            #         which allows Swagger UI to fetch the spec without CORS/Mixed-Content errors.
             docker compose -f docker-compose.prod.yaml exec -T app php artisan l5-swagger:generate
 
             echo "Deployment complete."

@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 // Auth routes
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('logout', [AuthController::class, 'logout'])->middleware('throttle:10,1');
+    Route::post('logout/all', [AuthController::class, 'logoutAll'])->middleware('throttle:5,1');
     Route::get('me', [AuthController::class, 'getMyInfo']);
 
     // Cart routes
@@ -49,8 +50,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // Public routes
 // Authentication Routes
-Route::post('login', [AuthController::class, 'login']);
-Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login'])->middleware('throttle:5,1');
+Route::post('register', [AuthController::class, 'register'])->middleware('throttle:3,1');
 
 // Category routes
 Route::apiResource('categories', CategoryController::class)->only(['index', 'show']);

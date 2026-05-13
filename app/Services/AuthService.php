@@ -31,11 +31,11 @@ class AuthService implements AuthServiceInterface
     {
         $user = User::where('email', $dto->email)->first();
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        if (! $user || ! Hash::check($dto->password, $user->password)) {
+        if (!$user || !Hash::check($dto->password, $user->password)) {
             throw new \Exception('Invalid credentials');
         }
+
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return [
             'user' => $user,
@@ -48,6 +48,12 @@ class AuthService implements AuthServiceInterface
         $user = Auth::user();
 
         return $user->currentAccessToken()->delete();
+    }
+    public function logoutAllDevices(): bool
+    {
+        $user = Auth::user();
+
+        return (bool) $user->tokens()->delete();
     }
 
     public function getMyInfo()

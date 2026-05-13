@@ -147,6 +147,49 @@ class AuthController extends Controller
         return $this->errorResponse('Logout failed', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
+    #[OA\Post(
+        path: '/api/logout/all',
+        summary: 'Logout All Devices',
+        description: 'Revoke ALL Sanctum tokens for the authenticated user. '
+            . 'This signs the user out of every device and browser simultaneously. '
+            . 'Use this when an account is suspected to be compromised.',
+        tags: ['Authentication'],
+        security: [['bearerAuth' => []]],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'All sessions revoked',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(
+                            property: 'message',
+                            type: 'string',
+                            example: 'Logged out from all devices successfully'
+                        ),
+                        new OA\Property(property: 'data', type: 'boolean', example: true)
+                    ]
+                )
+            ),
+            new OA\Response(response: 401, description: 'Unauthenticated'),
+            new OA\Response(response: 500, description: 'Internal Server Error')
+        ]
+    )]
+    public function logoutAll()
+    {
+        $result = $this->authService->logoutAllDevices();
+
+        if ($result) {
+            return $this->successResponse(
+                $result,
+                'Logged out from all devices successfully',
+                Response::HTTP_OK
+            );
+        }
+
+        return $this->errorResponse('Logout failed', Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
     #[OA\Get(
         path: '/api/me',
         summary: 'Get My Info',

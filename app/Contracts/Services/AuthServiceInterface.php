@@ -13,5 +13,7 @@ interface AuthServiceInterface
 
     public function logout(): bool;
 
+    public function logoutAllDevices(): bool;
+
     public function getMyInfo();
 }

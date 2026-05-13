@@ -38,8 +38,6 @@ services:
       - --skip-name-resolve
       - --performance-schema=OFF
       - --innodb-buffer-pool-size=64M
-    ports:
-      - "3306:3306"
     volumes:
       - shopco-db-data:/var/lib/mysql
     networks:
