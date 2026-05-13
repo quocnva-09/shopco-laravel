@@ -4,46 +4,33 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Contracts\Repositories\ProductRepositoryInterface;
 use App\Contracts\Services\ProductServiceInterface;
 use App\DTOs\Product\ProductDTO;
 use App\DTOs\Product\ProductFilterDTO;
-use App\Enums\FilterEnum;
 use App\Models\Product;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 
 class ProductService implements ProductServiceInterface
 {
-    public function getAll(ProductFilterDTO $filter)
-    {
-        $query = Product::with(['category', 'images']);
-
-        if ($filter->search) {
-            $query->where(function ($q) use ($filter) {
-                $q->where('name', 'like', '%'.$filter->search.'%')
-                  ->orWhere('description', 'like', '%'.$filter->search.'%');
-            });
-        }
-
-        if (! empty($filter->categoryId)) {
-            $query->where('category_id', $filter->categoryId);
-        }
-
-        if (in_array($filter->sortBy, FilterEnum::PRODUCT_SORT)) {
-            $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION) ? $filter->sortDir : 'desc';
-            $query->orderBy($filter->sortBy, $direction);
-        } else {
-            $query->orderBy('created_at', 'desc');
-        }
-
-        return $query->paginate($filter->perPage, ['*'], 'page', $filter->page);
+    public function __construct(
+        protected readonly ProductRepositoryInterface $repo,
+    ) {
     }
 
-    public function findById(int $id)
+    public function getAll(ProductFilterDTO $filter): LengthAwarePaginator
     {
-        return Product::findOrFail($id)->loadMissing(['category', 'images']);
+        return $this->repo->paginateAll($filter);
     }
 
-    public function create(ProductDTO $dto)
+    public function findById(int $id): Product
+    {
+        return $this->repo->findById($id);
+    }
+
+    public function create(ProductDTO $dto): Product
     {
         $data = $dto->toArray();
 
@@ -51,7 +38,7 @@ class ProductService implements ProductServiceInterface
             $data['slug'] = Str::slug($data['name']);
         }
 
-        $product = Product::create($data);
+        $product = $this->repo->create($data);
 
         if (! empty($dto->images)) {
             $this->uploadImages($product, $dto->images);
@@ -60,18 +47,16 @@ class ProductService implements ProductServiceInterface
         return $product->loadMissing(['category', 'images']);
     }
 
-    public function update(ProductDTO $dto, int $id)
+    public function update(ProductDTO $dto, int $id): Product
     {
-        $product = $this->findById($id);
-        $data = $dto->toArray();
+        $product = $this->repo->findById($id);
+        $data    = $dto->toArray();
 
-        if (isset($data['name']) && empty($data['slug']) && empty($product->slug)) {
-            $data['slug'] = Str::slug($data['name']);
-        } elseif (isset($data['name']) && empty($data['slug'])) {
+        if (isset($data['name']) && empty($data['slug'])) {
             $data['slug'] = Str::slug($data['name']);
         }
 
-        $product->update($data);
+        $product = $this->repo->update($product, $data);
 
         if (! empty($dto->images)) {
             $this->uploadImages($product, $dto->images);
@@ -80,67 +65,49 @@ class ProductService implements ProductServiceInterface
         return $product->loadMissing(['category', 'images']);
     }
 
-    public function delete(int $id)
+    public function delete(int $id): void
     {
-        $product = $this->findById($id);
-        $product->delete();
+        $product = $this->repo->findById($id);
+        $this->repo->softDelete($product);
     }
 
+    public function getTrashed(ProductFilterDTO $filter): LengthAwarePaginator
+    {
+        return $this->repo->paginateTrashed($filter);
+    }
+
+    public function restore(int $id): Product
+    {
+        $product = $this->repo->findTrashedById($id);
+
+        return $this->repo->restore($product);
+    }
+
+    public function forceDelete(int $id): void
+    {
+        $product = Product::withTrashed()->with('images')->findOrFail($id);
+        $this->repo->forceDelete($product);
+    }
+
+    /**
+     * Handle file storage and delegate image record creation to the repository.
+     *
+     * @param  UploadedFile[]  $images
+     */
     private function uploadImages(Product $product, array $images): void
     {
         $currentImageCount = $product->images()->count();
 
         foreach ($images as $index => $image) {
             $extension = $image->getClientOriginalExtension();
+            $fileName  = $product->id . '_' . time() . '_' . $index . '.' . $extension;
+            $path      = $image->storeAs('products', $fileName, 'public');
 
-            $fileName = $product->id.'_'.time().'_'.$index.'.'.$extension;
-
-            $path = $image->storeAs('products', $fileName, 'public');
-
-            $product->images()->create([
-                'img_path' => $path,
-                'alt' => $product->name.' - '.$index,
+            $this->repo->addImage($product, [
+                'img_path'   => $path,
+                'alt'        => $product->name . ' - ' . $index,
                 'is_primary' => $index === 0 && $currentImageCount === 0,
             ]);
         }
-    }
-
-    public function getTrashed(ProductFilterDTO $filter)
-    {
-        $query = Product::onlyTrashed()->with(['category', 'images']);
-
-        if ($filter->search) {
-            $query->where(function ($q) use ($filter) {
-                $q->where('name', 'like', '%'.$filter->search.'%')
-                  ->orWhere('description', 'like', '%'.$filter->search.'%');
-            });
-        }
-
-        if (! empty($filter->categoryId)) {
-            $query->where('category_id', $filter->categoryId);
-        }
-
-        if (in_array($filter->sortBy, FilterEnum::PRODUCT_SORT)) {
-            $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION) ? $filter->sortDir : 'desc';
-            $query->orderBy($filter->sortBy, $direction);
-        } else {
-            $query->orderBy('deleted_at', 'desc');
-        }
-
-        return $query->paginate($filter->perPage, ['*'], 'page', $filter->page);
-    }
-
-    public function restore(int $id)
-    {
-        $product = Product::onlyTrashed()->findOrFail($id);
-        $product->restore();
-
-        return $product->loadMissing(['category', 'images']);
-    }
-
-    public function forceDelete(int $id): void
-    {
-        $product = Product::withTrashed()->with('images')->findOrFail($id);
-        $product->forceDelete();
     }
 }

@@ -6,46 +6,24 @@ namespace App\Contracts\Services;
 
 use App\DTOs\Product\ProductDTO;
 use App\DTOs\Product\ProductFilterDTO;
+use App\Models\Product;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ProductServiceInterface
 {
-    /**
-     * Lấy danh sách Product
-     */
-    public function getAll(ProductFilterDTO $filter);
+    public function getAll(ProductFilterDTO $filter): LengthAwarePaginator;
 
-    /**
-     * Lấy chi tiết Product
-     */
-    public function findById(int $id);
+    public function findById(int $id): Product;
 
-    /**
-     * Tạo mới Product
-     */
-    public function create(ProductDTO $dto);
+    public function create(ProductDTO $dto): Product;
 
-    /**
-     * Cập nhật Product
-     */
-    public function update(ProductDTO $dto, int $id);
+    public function update(ProductDTO $dto, int $id): Product;
 
-    /**
-     * Xóa Product
-     */
-    public function delete(int $id);
+    public function delete(int $id): void;
 
-    /**
-     * Lấy danh sách Product đã xóa
-     */
-    public function getTrashed(ProductFilterDTO $filter);
+    public function getTrashed(ProductFilterDTO $filter): LengthAwarePaginator;
 
-    /**
-     * Khôi phục Product đã xóa
-     */
-    public function restore(int $id);
+    public function restore(int $id): Product;
 
-    /**
-     * Xóa vĩnh viễn Product
-     */
-    public function forceDelete(int $id);
+    public function forceDelete(int $id): void;
 }

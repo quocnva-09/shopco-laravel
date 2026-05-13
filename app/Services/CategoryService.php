@@ -1,123 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
+use App\Contracts\Repositories\CategoryRepositoryInterface;
 use App\Contracts\Services\CategoryServiceInterface;
+use App\DTOs\Category\CategoryDTO;
 use App\DTOs\Category\CategoryFilterDTO;
-use App\Enums\FilterEnum;
 use App\Models\Category;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class CategoryService implements CategoryServiceInterface
 {
-    /**
-     * Khởi tạo class
-     */
-    public function __construct()
-    {
-        // Inject repository hoặc các dependency khác vào đây
+    public function __construct(
+        protected readonly CategoryRepositoryInterface $repo,
+    ) {
     }
 
-    /**
-     * Lấy danh sách dữ liệu (hềEtrợ phân trang & lọc)
-     */
-    public function getAll(CategoryFilterDTO $filter)
+    public function getAll(CategoryFilterDTO $filter): LengthAwarePaginator
     {
-        $query = Category::query();
-
-        if ($filter->search) {
-            $query->where('name', 'like', '%'.$filter->search.'%')
-                ->orWhere('description', 'like', '%'.$filter->search.'%');
-        }
-
-        if (in_array($filter->sortBy, FilterEnum::CATEGORY_SORT)) {
-            $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION) ? strtolower($filter->sortDir) : 'desc';
-            $query->orderBy($filter->sortBy, $direction);
-        } else {
-            $query->orderBy('created_at', 'desc');
-        }
-
-        return $query->paginate($filter->perPage, ['*'], 'page', $filter->page);
+        return $this->repo->paginateAll($filter);
     }
 
-    /**
-     * Lấy chi tiết một bản ghi theo ID
-     */
-    public function findById(int $id)
+    public function findById(int $id): Category
     {
-        return Category::findOrFail($id);
+        return $this->repo->findById($id);
     }
 
-    /**
-     * Tạo mới dữ liệu từ DTO
-     */
-    public function create(object $dto)
+    public function create(CategoryDTO $dto): Category
     {
-        return Category::create($dto->toArray());
+        return $this->repo->create($dto->toArray());
     }
 
-    /**
-     * Cập nhật dữ liệu từ DTO
-     */
-    public function update(int $id, object $dto)
+    public function update(CategoryDTO $dto, int $id): Category
     {
-        $category = $this->findById($id);
-        $category->update($dto->toArray());
+        $category = $this->repo->findById($id);
+
+        return $this->repo->update($category, $dto->toArray());
+    }
+
+    public function delete(int $id): Category
+    {
+        $category = $this->repo->findById($id);
+        $this->repo->softDelete($category);
 
         return $category;
     }
 
-    /**
-     * Xóa bản ghi
-     */
-    public function delete(int $id)
+    public function getTrashed(CategoryFilterDTO $filter): LengthAwarePaginator
     {
-        $category = $this->findById($id);
-        $category->delete();
-
-        return $category;
+        return $this->repo->paginateTrashed($filter);
     }
 
-    /**
-     * Lấy danh sách bản ghi đã xóa
-     */
-    public function getTrashed(CategoryFilterDTO $filter)
+    public function restore(int $id): Category
     {
-        $query = Category::onlyTrashed();
+        $category = $this->repo->findTrashedById($id);
 
-        if ($filter->search) {
-            $query->where('name', 'like', '%'.$filter->search.'%')
-                ->orWhere('description', 'like', '%'.$filter->search.'%');
-        }
-
-        if (in_array($filter->sortBy, FilterEnum::CATEGORY_SORT)) {
-            $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION) ? strtolower($filter->sortDir) : 'desc';
-            $query->orderBy($filter->sortBy, $direction);
-        } else {
-            $query->orderBy('deleted_at', 'desc');
-        }
-
-        return $query->paginate($filter->perPage, ['*'], 'page', $filter->page);
+        return $this->repo->restore($category);
     }
 
-    /**
-     * Khôi phục bản ghi đã xóa
-     */
-    public function restore(int $id)
+    public function forceDelete(int $id): Category
     {
-        $category = Category::onlyTrashed()->findOrFail($id);
-        $category->restore();
+        $category = $this->repo->findTrashedById($id);
 
-        return $category;
-    }
-
-    /**
-     * Xóa vĩnh viềE bản ghi
-     */
-    public function forceDelete(int $id)
-    {
-        $category = Category::withTrashed()->findOrFail($id);
-        $category->forceDelete();
-
-        return $category;
+        return $this->repo->forceDelete($category);
     }
 }

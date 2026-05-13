@@ -1,51 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Contracts\Services;
 
 use App\DTOs\Category\CategoryDTO;
 use App\DTOs\Category\CategoryFilterDTO;
+use App\Models\Category;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface CategoryServiceInterface
 {
-    /**
-     * Lấy danh sách dữ liệu (hỗ trợ phân trang & lọc)
-     */
-    public function getAll(CategoryFilterDTO $filter);
+    public function getAll(CategoryFilterDTO $filter): LengthAwarePaginator;
+
+    public function findById(int $id): Category;
+
+    public function create(CategoryDTO $dto): Category;
 
     /**
-     * Lấy chi tiết một bản ghi theo ID
+     * Normalized argument order: DTO first, then ID (consistent with ProductServiceInterface).
      */
-    public function findById(int $id);
+    public function update(CategoryDTO $dto, int $id): Category;
 
-    /**
-     * Tạo mới dữ liệu từ DTO
-     * TODO: Gắn type-hint DTO cụ thể (VD: CreateCategoryServiceInterfaceDTO $dto)
-     */
-    public function create(CategoryDTO $dto);
+    public function delete(int $id): Category;
 
-    /**
-     * Cập nhật dữ liệu từ DTO
-     * TODO: Gắn type-hint DTO cụ thể (VD: UpdateCategoryServiceInterfaceDTO $dto)
-     */
-    public function update(int $id, CategoryDTO $dto);
+    public function getTrashed(CategoryFilterDTO $filter): LengthAwarePaginator;
 
-    /**
-     * Xóa bản ghi
-     */
-    public function delete(int $id);
+    public function restore(int $id): Category;
 
-    /**
-     * Lấy danh sách bản ghi đã xóa
-     */
-    public function getTrashed(CategoryFilterDTO $filter);
-
-    /**
-     * Khôi phục bản ghi đã xóa
-     */
-    public function restore(int $id);
-
-    /**
-     * Xóa vĩnh viễn bản ghi
-     */
-    public function forceDelete(int $id);
+    public function forceDelete(int $id): Category;
 }

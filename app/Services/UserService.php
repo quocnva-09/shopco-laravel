@@ -4,100 +4,73 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Contracts\Services\UserServiceInterface;
 use App\DTOs\User\UserDTO;
 use App\DTOs\User\UserFilterDTO;
-use App\Enums\FilterEnum;
 use App\Models\User;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserService implements UserServiceInterface
 {
-    public function getAllUsers(UserFilterDTO $filter)
+    public function __construct(
+        protected readonly UserRepositoryInterface $repo,
+    ) {
+    }
+
+    public function getAllUsers(UserFilterDTO $filter): LengthAwarePaginator
     {
-        $query = User::query()->select(['id', 'name', 'email', 'role', 'created_at']);
-
-        if ($filter->search) {
-            $query->where(function ($q) use ($filter) {
-                $q->where('name', 'like', '%'.$filter->search.'%')
-                  ->orWhere('email', 'like', '%'.$filter->search.'%');
-            });
-        }
-
-        if (in_array($filter->sortBy, FilterEnum::USER_SORT)) {
-            $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION) ? $filter->sortDir : 'desc';
-            $query->orderBy($filter->sortBy, $direction);
-        } else {
-            $query->orderBy('created_at', 'desc');
-        }
-
-        return $query->paginate($filter->perPage, ['*'], 'page', $filter->page);
+        return $this->repo->paginateAll($filter);
     }
 
     public function getUserById(int $id): User
     {
-        return User::findOrFail($id);
+        return $this->repo->findById($id);
     }
 
     public function createUser(UserDTO $dto): User
     {
-        $userData = $dto->toArray();
+        $userData             = $dto->toArray();
         $userData['password'] = bcrypt($dto->password);
 
-        return User::create($userData);
+        return $this->repo->create($userData);
     }
 
     public function updateUser(int $id, UserDTO $dto): User
     {
-        $user = $this->getUserById($id);
+        $user     = $this->repo->findById($id);
         $userData = $dto->toArray();
+
         if ($dto->password) {
             $userData['password'] = bcrypt($dto->password);
         }
-        $user->update($userData);
 
-        return $user;
+        return $this->repo->update($user, $userData);
     }
 
     public function deleteUser(int $id): bool
     {
-        $user = User::with('cart')->findOrFail($id);
+        $user = $this->repo->findById($id);
 
-        return $user->delete();
+        return $this->repo->delete($user);
     }
 
-    public function getTrashed(UserFilterDTO $filter)
+    public function getTrashed(UserFilterDTO $filter): LengthAwarePaginator
     {
-        $query = User::onlyTrashed()->select(['id', 'name', 'email', 'role', 'deleted_at']);
-
-        if ($filter->search) {
-            $query->where(function ($q) use ($filter) {
-                $q->where('name', 'like', '%'.$filter->search.'%')
-                  ->orWhere('email', 'like', '%'.$filter->search.'%');
-            });
-        }
-
-        if (in_array($filter->sortBy, FilterEnum::USER_SORT)) {
-            $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION) ? $filter->sortDir : 'desc';
-            $query->orderBy($filter->sortBy, $direction);
-        } else {
-            $query->orderBy('deleted_at', 'desc');
-        }
-
-        return $query->paginate($filter->perPage, ['*'], 'page', $filter->page);
+        return $this->repo->paginateTrashed($filter);
     }
 
     public function restore(int $id): User
     {
-        $user = User::onlyTrashed()->findOrFail($id);
-        $user->restore();
+        $user = $this->repo->findTrashedById($id);
 
-        return $user;
+        return $this->repo->restore($user);
     }
 
     public function forceDelete(int $id): bool
     {
-        $user = User::withTrashed()->findOrFail($id);
+        $user = $this->repo->findTrashedById($id);
 
-        return $user->forceDelete();
+        return $this->repo->forceDelete($user);
     }
 }
