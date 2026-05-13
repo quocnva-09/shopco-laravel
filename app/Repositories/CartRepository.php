@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Contracts\Repositories\CartRepositoryInterface;
 use App\Models\Cart;
 use App\Models\CartItem;
-use App\Models\User;
+
 
 class CartRepository implements CartRepositoryInterface
 {
@@ -60,8 +60,8 @@ class CartRepository implements CartRepositoryInterface
 
     public function countCartItemsByUserId(int $userId): int
     {
-        $user = User::find($userId);
-
-        return $user->cartItems()->sum('quantity');
+        return CartItem::join('carts', 'cart_items.cart_id', '=', 'carts.id')
+            ->where('carts.user_id', $userId)
+            ->sum('cart_items.quantity');
     }
 }

@@ -14,7 +14,7 @@ class UserService implements UserServiceInterface
 {
     public function getAllUsers(UserFilterDTO $filter)
     {
-        $query = User::query();
+        $query = User::query()->select(['id', 'name', 'email', 'role', 'created_at']);
 
         if ($filter->search) {
             $query->where(function ($q) use ($filter) {
@@ -60,14 +60,14 @@ class UserService implements UserServiceInterface
 
     public function deleteUser(int $id): bool
     {
-        $user = $this->getUserById($id);
+        $user = User::with('cart')->findOrFail($id);
 
         return $user->delete();
     }
 
     public function getTrashed(UserFilterDTO $filter)
     {
-        $query = User::onlyTrashed();
+        $query = User::onlyTrashed()->select(['id', 'name', 'email', 'role', 'deleted_at']);
 
         if ($filter->search) {
             $query->where(function ($q) use ($filter) {

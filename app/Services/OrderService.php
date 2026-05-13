@@ -38,6 +38,9 @@ class OrderService implements OrderServiceInterface
             $orderItemsData = [];
             $totalAmount = 0.0;
 
+            // Explicitly load product (id, price only) to avoid fragile implicit eager-load.
+            $cart->load('cartItems.product:id,price');
+
             foreach ($cart->cartItems as $cartItem) {
                 $price = (float) $cartItem->product->price;
                 $quantity = $cartItem->quantity;

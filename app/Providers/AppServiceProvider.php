@@ -20,6 +20,7 @@ use App\Services\ExportService;
 use App\Services\OrderService;
 use App\Services\ProductService;
 use App\Services\UserService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -46,6 +47,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Throw an exception on lazy loads in non-production to catch N+1 regressions early.
+        Model::preventLazyLoading(! app()->isProduction());
+
         if (env('APP_ENV') === 'production') {
             URL::forceScheme('https');
         }

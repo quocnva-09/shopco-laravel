@@ -138,9 +138,9 @@ class ProductService implements ProductServiceInterface
         return $product->loadMissing(['category', 'images']);
     }
 
-    public function forceDelete(int $id)
+    public function forceDelete(int $id): void
     {
-        $product = Product::withTrashed()->findOrFail($id);
+        $product = Product::withTrashed()->with('images')->findOrFail($id);
         $product->forceDelete();
     }
 }

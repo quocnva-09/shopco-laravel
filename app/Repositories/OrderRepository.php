@@ -8,6 +8,7 @@ use App\Contracts\Repositories\OrderRepositoryInterface;
 use App\DTOs\Order\OrderFilterDTO;
 use App\Enums\OrderStatus;
 use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -17,11 +18,18 @@ class OrderRepository implements OrderRepositoryInterface
     {
         $order = Order::create(array_merge(['user_id' => $userId], $orderData));
 
-        foreach ($orderItemsData as $itemData) {
-            $order->orderItems()->create($itemData);
-        }
+        $now = now();
+        $items = array_map(function (array $item) use ($order, $now): array {
+            return array_merge($item, [
+                'order_id'   => $order->id,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+        }, $orderItemsData);
 
-        return $order;
+        OrderItem::insert($items);
+
+        return $order->load('user');
     }
 
     public function getOrdersByUserId(int $userId): LengthAwarePaginator|Collection
