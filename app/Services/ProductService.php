@@ -8,9 +8,12 @@ use App\Contracts\Repositories\ProductRepositoryInterface;
 use App\Contracts\Services\ProductServiceInterface;
 use App\DTOs\Product\ProductDTO;
 use App\DTOs\Product\ProductFilterDTO;
+use App\Enums\CacheConstants;
+use App\Helpers\CacheHelper;
 use App\Models\Product;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 
 class ProductService implements ProductServiceInterface
@@ -22,7 +25,19 @@ class ProductService implements ProductServiceInterface
 
     public function getAll(ProductFilterDTO $filter): LengthAwarePaginator
     {
-        return $this->repo->paginateAll($filter);
+        $cacheKey = 'products_list' . $filter->toCacheKey();
+
+        // Sử dụng serialize/unserialize thủ công để vượt qua lỗi của igbinary trong Redis
+        $cachedDataString = CacheHelper::rememberWithTags(
+            [CacheConstants::PRODUCT_TAGS->value],
+            $cacheKey,
+            CacheConstants::CACHE_TTL,
+            function () use ($filter) {
+                return serialize($this->repo->paginateAll($filter));
+            }
+        );
+
+        return unserialize($cachedDataString);
     }
 
     public function findById(int $id): Product

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\CacheConstants;
+use App\Helpers\CacheHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
@@ -42,6 +44,14 @@ class Product extends Model
         static::deleting(function ($product) {
             $product->cartItems()->delete();
         });
+
+        $clearCache = function () {
+            CacheHelper::flushTags([CacheConstants::PRODUCT_TAGS->value]);
+        };
+
+        static::created($clearCache);
+        static::updated($clearCache);
+        static::deleted($clearCache);
     }
 
     public function cartItems()

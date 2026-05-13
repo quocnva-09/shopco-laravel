@@ -41,4 +41,15 @@ readonly class CategoryFilterDTO
             'sort_dir' => $this->sortDir,
         ];
     }
+
+    public function toCacheKey(): string
+    {
+        return md5(json_encode([
+            'search' => $this->search,
+            'page' => $this->page,
+            'per_page' => $this->perPage,
+            'sort_by' => $this->sortBy,
+            'sort_dir' => $this->sortDir,
+        ]));
+    }
 }

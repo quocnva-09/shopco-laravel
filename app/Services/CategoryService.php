@@ -8,8 +8,11 @@ use App\Contracts\Repositories\CategoryRepositoryInterface;
 use App\Contracts\Services\CategoryServiceInterface;
 use App\DTOs\Category\CategoryDTO;
 use App\DTOs\Category\CategoryFilterDTO;
+use App\Enums\CacheConstants;
+use App\Helpers\CacheHelper;
 use App\Models\Category;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Request;
 
 class CategoryService implements CategoryServiceInterface
 {
@@ -20,7 +23,18 @@ class CategoryService implements CategoryServiceInterface
 
     public function getAll(CategoryFilterDTO $filter): LengthAwarePaginator
     {
-        return $this->repo->paginateAll($filter);
+        $cacheKey = 'categories_list' . $filter->toCacheKey();
+
+        $cachedDataString = CacheHelper::rememberWithTags(
+            [CacheConstants::CATEGORY_TAGS->value],
+            $cacheKey,
+            CacheConstants::CACHE_TTL,
+            function () use ($filter) {
+                return serialize($this->repo->paginateAll($filter));
+            }
+        );
+
+        return unserialize($cachedDataString);
     }
 
     public function findById(int $id): Category

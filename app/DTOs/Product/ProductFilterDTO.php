@@ -47,4 +47,16 @@ readonly class ProductFilterDTO
             'sort_dir' => $this->sortDir,
         ];
     }
+
+    public function toCacheKey(): string
+    {
+        return md5(json_encode([
+            'search' => $this->search,
+            'category_id' => $this->categoryId,
+            'page' => $this->page,
+            'per_page' => $this->perPage,
+            'sort_by' => $this->sortBy,
+            'sort_dir' => $this->sortDir,
+        ]));
+    }
 }
