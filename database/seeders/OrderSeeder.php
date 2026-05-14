@@ -22,7 +22,7 @@ class OrderSeeder extends Seeder
         $statuses = [
             OrderStatus::PENDING,
             OrderStatus::PAID,
-            OrderStatus::CANCELED,
+            OrderStatus::CANCELLED,
         ];
 
         for ($i = 0; $i < 10; $i++) {
