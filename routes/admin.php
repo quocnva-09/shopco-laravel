@@ -18,6 +18,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     // Product routes
     Route::prefix('products')->group(function () {
+        Route::post('upload', [ProductController::class, 'uploadImage']);
         Route::get('trashed', [ProductController::class, 'trashed']);
         Route::patch('{id}/restore', [ProductController::class, 'restore']);
         Route::delete('{id}/force-delete', [ProductController::class, 'forceDelete']);

@@ -29,7 +29,7 @@ readonly class ProductDTO
             price_discount: isset($validated['price_discount']) ? (float) $validated['price_discount'] : null,
             description: $validated['description'] ?? null,
             category_id: isset($validated['category_id']) ? (int) $validated['category_id'] : null,
-            images: $request->file('images'),
+            images: $validated['images'] ?? null,
         );
     }
 

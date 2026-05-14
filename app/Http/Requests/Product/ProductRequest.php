@@ -20,10 +20,10 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'description', type: 'string', nullable: true, example: 'A comfortable everyday t-shirt'),
         new OA\Property(property: 'category_id', type: 'integer', example: 2),
         new OA\Property(
-            property: 'images[]',
+            property: 'images',
             type: 'array',
             nullable: true,
-            items: new OA\Items(type: 'string', format: 'binary')
+            items: new OA\Items(type: 'string', example: 'products/xyz.jpg')
         ),
     ]
 )]
@@ -46,13 +46,13 @@ class ProductRequest extends FormRequest
 
         $rules = [
             'name' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:products,slug,'.$productId,
+            'slug' => 'nullable|string|max:255|unique:products,slug,' . $productId,
             'price' => 'required|numeric|min:0',
             'price_discount' => 'nullable|numeric|min:0|lte:price',
             'description' => 'nullable|string',
             'category_id' => 'required|integer|exists:categories,id',
             'images' => 'nullable|array',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'images.*' => 'string',
         ];
 
         if ($this->isMethod('put') || $this->isMethod('patch')) {
@@ -62,5 +62,16 @@ class ProductRequest extends FormRequest
         }
 
         return $rules;
+    }
+
+    protected function prepareForValidation()
+    {
+        if ($this->has('images') && is_string($this->images)) {
+            $imagesArray = array_map('trim', explode(',', $this->images));
+
+            $this->merge([
+                'images' => $imagesArray,
+            ]);
+        }
     }
 }

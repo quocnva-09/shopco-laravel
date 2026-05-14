@@ -13,13 +13,14 @@ use App\Helpers\CacheHelper;
 use App\Models\Product;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
+use Exception;
 
 class ProductService implements ProductServiceInterface
 {
     public function __construct(
         protected readonly ProductRepositoryInterface $repo,
+        protected readonly FileUploadService $fileUploadService,
     ) {
     }
 
@@ -55,8 +56,8 @@ class ProductService implements ProductServiceInterface
 
         $product = $this->repo->create($data);
 
-        if (!empty($dto->images)) {
-            $this->uploadImages($product, $dto->images);
+        if ($dto->images !== null && !empty($dto->images)) {
+            $this->addImages($product, $dto->images);
         }
 
         return $product->loadMissing(['category', 'images']);
@@ -73,8 +74,8 @@ class ProductService implements ProductServiceInterface
 
         $product = $this->repo->update($product, $data);
 
-        if (!empty($dto->images)) {
-            $this->uploadImages($product, $dto->images);
+        if ($dto->images !== null) {
+            $this->syncImages($product, $dto->images);
         }
 
         return $product->loadMissing(['category', 'images']);
@@ -104,25 +105,56 @@ class ProductService implements ProductServiceInterface
         $this->repo->forceDelete($product);
     }
 
-    /**
-     * Handle file storage and delegate image record creation to the repository.
-     *
-     * @param  UploadedFile[]  $images
-     */
-    private function uploadImages(Product $product, array $images): void
+    public function uploadImage(UploadedFile $file, string $path = 'products'): string
+    {
+        $uploadedPath = $this->fileUploadService->upload($file, $path);
+
+        if (!$uploadedPath) {
+            throw new Exception('Failed to upload image.');
+        }
+
+        return $uploadedPath;
+    }
+
+    public function syncImages(Product $product, array $imageUrls): void
+    {
+        $existingImages = $product->images()->pluck('img_path')->toArray();
+
+        $imagesToDelete = array_diff($existingImages, $imageUrls);
+        if (!empty($imagesToDelete)) {
+            $this->deleteImages($product, $imagesToDelete);
+        }
+
+        $imagesToAdd = array_diff($imageUrls, $existingImages);
+        if (!empty($imagesToAdd)) {
+            $this->addImages($product, array_values($imagesToAdd));
+        }
+    }
+
+    public function addImages(Product $product, array $imageUrls): void
     {
         $currentImageCount = $product->images()->count();
 
-        foreach ($images as $index => $image) {
-            $extension = $image->getClientOriginalExtension();
-            $fileName = $product->id . '_' . time() . '_' . $index . '.' . $extension;
-            $path = $image->storeAs('products', $fileName);
-
+        foreach ($imageUrls as $index => $path) {
             $this->repo->addImage($product, [
                 'img_path' => $path,
-                'alt' => $product->name . ' - ' . $index,
+                'alt' => $product->name . ' - ' . ($currentImageCount + $index + 1),
                 'is_primary' => $index === 0 && $currentImageCount === 0,
             ]);
+        }
+    }
+
+    public function deleteImages(Product $product, array $imageUrls): void
+    {
+        if (empty($imageUrls)) {
+            return;
+        }
+
+        $imagesToDelete = $product->images()->whereIn('img_path', $imageUrls)->get();
+
+        foreach ($imagesToDelete as $image) {
+            $this->fileUploadService->delete($image->img_path);
+            $image->delete();
         }
     }
 }

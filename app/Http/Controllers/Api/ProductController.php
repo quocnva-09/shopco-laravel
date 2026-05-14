@@ -7,10 +7,13 @@ namespace App\Http\Controllers\Api;
 use App\Contracts\Services\ProductServiceInterface;
 use App\DTOs\Product\ProductDTO;
 use App\DTOs\Product\ProductFilterDTO;
+use App\DTOs\Upload\FileUploadDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\ProductFilterRequest;
 use App\Http\Requests\Product\ProductRequest;
+use App\Http\Requests\Upload\FileUploadRequest;
 use App\Http\Resources\ProductResource;
+use App\Services\FileUploadService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +22,8 @@ class ProductController extends Controller
 {
     public function __construct(
         private readonly ProductServiceInterface $productService
-    ) {}
+    ) {
+    }
 
     // -------------------------------------------------------------------------
     // Public Routes
@@ -129,15 +133,65 @@ class ProductController extends Controller
     // -------------------------------------------------------------------------
 
     #[OA\Post(
-        path: '/api/admin/products',
-        summary: 'Create a new product',
+        path: '/api/admin/products/upload',
+        summary: 'Upload a product image',
         security: [['bearerAuth' => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\MediaType(
                 mediaType: 'multipart/form-data',
-                schema: new OA\Schema(ref: '#/components/schemas/ProductRequest')
+                schema: new OA\Schema(
+                    required: ['image'],
+                    properties: [
+                        new OA\Property(property: 'image', type: 'string', format: 'binary', description: 'Product image file (max 5MB, jpeg/png/jpg/webp)'),
+                    ]
+                )
             )
+        ),
+        tags: ['Admin - Product Module'],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Image uploaded successfully',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'integer', example: 200),
+                        new OA\Property(property: 'message', type: 'string', example: 'Uploaded successfully'),
+                        new OA\Property(
+                            property: 'data',
+                            properties: [
+                                new OA\Property(property: 'img_path', type: 'string', example: 'products/xyz.jpg'),
+                                new OA\Property(property: 'image_url', type: 'string', example: 'https://s3.amazonaws.com/bucket/products/xyz.jpg'),
+                            ],
+                            type: 'object'
+                        ),
+                    ]
+                )
+            ),
+        ]
+    )]
+    public function uploadImage(FileUploadRequest $request): JsonResponse
+    {
+        $dto = FileUploadDTO::fromRequest($request);
+        $path = $this->productService->uploadImage($dto->file, 'products');
+
+        if (!$path) {
+            return $this->errorResponse('Upload failed', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $this->successResponse([
+            'img_path' => $path,
+            'image_url' => app(FileUploadService::class)->url($path),
+        ], 'Uploaded successfully');
+    }
+
+    #[OA\Post(
+        path: '/api/admin/products',
+        summary: 'Create a new product',
+        security: [['bearerAuth' => []]],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: '#/components/schemas/ProductRequest')
         ),
         tags: ['Admin - Product Module'],
         responses: [
@@ -168,10 +222,7 @@ class ProductController extends Controller
         security: [['bearerAuth' => []]],
         requestBody: new OA\RequestBody(
             required: true,
-            content: new OA\MediaType(
-                mediaType: 'multipart/form-data',
-                schema: new OA\Schema(ref: '#/components/schemas/ProductRequest')
-            )
+            content: new OA\JsonContent(ref: '#/components/schemas/ProductRequest')
         ),
         tags: ['Admin - Product Module'],
         parameters: [
