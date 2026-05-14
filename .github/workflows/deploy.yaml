@@ -59,8 +59,8 @@ jobs:
             docker compose -f docker-compose.prod.yaml pull
 
             # 2.1: Stop and remove container volume code
-            docker compose -f docker-compose.prod.yaml stop app nginx worker
-            docker compose -f docker-compose.prod.yaml rm -f app nginx worker
+            docker compose -f docker-compose.prod.yaml stop app web worker
+            docker compose -f docker-compose.prod.yaml rm -f app web worker
 
             # 2.2: Remove volume code
             docker volume ls -q | grep "shared_app_code" | xargs -r docker volume rm
