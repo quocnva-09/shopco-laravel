@@ -32,8 +32,10 @@ services:
       - shared_app_code:/var/www/html 
       - storage_data:/var/www/html/storage
     depends_on:
-      - shopco_db
-      - redis_data
+      shopco_db:
+        condition: service_healthy
+      redis_data:
+        condition: service_started
     networks:
       - shopco-network
 
@@ -77,6 +79,11 @@ services:
       - shopco-db-data:/var/lib/mysql
     networks:
       - shopco-network
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p$${MYSQL_ROOT_PASSWORD} || exit 1"]
+      interval: 3s
+      timeout: 3s
+      retries: 15
 
   redis_data:
     image: redis:7-alpine

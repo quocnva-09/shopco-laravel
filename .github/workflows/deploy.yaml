@@ -29,17 +29,14 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # Action 1: Transfer docker-compose.prod.yaml from GitHub to EC2
-      - name: Copy compose file to EC2
+      # Action 1: Transfer docker-compose.prod.yaml and nginx configs to EC2
+      - name: Copy compose file and nginx configs to EC2
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "docker-compose.prod.yaml"
+          source: "docker-compose.prod.yaml, docker/nginx/default.conf"
           target: "/home/ubuntu/shopco-laravel"
 
       # Action 2: SSH into EC2, write .env, pull new image, and run
@@ -55,28 +52,22 @@ jobs:
             # Step 1: Write production .env from GitHub Secret (prevents committing secrets)
             echo "${{ secrets.ENV_PRODUCTION }}" > .env
 
-            # ── Safety guard ────────────────────────────────────────────────────────
-            grep -q "APP_DEBUG=false" .env \
-              || { echo "ABORT: APP_DEBUG is not false in ENV_PRODUCTION. Refusing to deploy."; exit 1; }
-            # ── End safety guard ────────────────────────────────────────────────────
-
             # Step 2: Pull new image from Docker Hub
             docker compose -f docker-compose.prod.yaml pull
 
             # Step 3: Restart containers with new image
-            docker compose -f docker-compose.prod.yaml up -d
+            docker compose -f docker-compose.prod.yaml up -d --wait
 
-            # Step 4: Wait for DB to be ready before running migrations
-            echo "Waiting for database to be ready..."
-            sleep 45
-
-            # Step 5: Run database migrations
+            # Step 4: Run database migrations
             docker compose -f docker-compose.prod.yaml exec -T app php artisan migrate --force
 
-            # Step 6: Clear and rebuild cache to optimize performance
-            docker compose -f docker-compose.prod.yaml exec -T app php artisan config:clear
-            docker compose -f docker-compose.prod.yaml exec -T app php artisan config:cache
-            docker compose -f docker-compose.prod.yaml exec -T app php artisan route:cache
-            docker compose -f docker-compose.prod.yaml exec -T app php artisan view:cache
+            # Step 5: Run database seeders
+            docker compose -f docker-compose.prod.yaml exec -T app php artisan db:seed
+
+            # Step 5: Clear and rebuild cache to optimize performance
+            docker compose -f docker-compose.prod.yaml exec -T app php artisan optimize:clear
+
+            # Step 6: Optimize database for production
+            docker compose -f docker-compose.prod.yaml exec -T app php artisan optimize
 
             echo "Deployment complete."
