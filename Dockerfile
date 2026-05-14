@@ -20,6 +20,12 @@ COPY . .
 # Generate autoloader
 RUN composer dump-autoload --optimize
 
+# Generate Swagger docs during build to save memory on production
+RUN cp .env.example .env \
+    && php artisan key:generate \
+    && php artisan l5-swagger:generate \
+    && rm .env
+
 # Copy supervisor config
 COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 

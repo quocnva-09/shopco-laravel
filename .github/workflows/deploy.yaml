@@ -73,11 +73,10 @@ jobs:
             # Step 5: Run database migrations
             docker compose -f docker-compose.prod.yaml exec -T app php artisan migrate --force
 
-            # Step 6: Clear any stale cached config from the previous image/deploy.
+            # Step 6: Clear and rebuild cache to optimize performance
             docker compose -f docker-compose.prod.yaml exec -T app php artisan config:clear
             docker compose -f docker-compose.prod.yaml exec -T app php artisan config:cache
-
-            # Step 7: Regenerate swagger JSON with the correct HTTPS host now in cache.
-            docker compose -f docker-compose.prod.yaml exec -T app php artisan l5-swagger:generate
+            docker compose -f docker-compose.prod.yaml exec -T app php artisan route:cache
+            docker compose -f docker-compose.prod.yaml exec -T app php artisan view:cache
 
             echo "Deployment complete."

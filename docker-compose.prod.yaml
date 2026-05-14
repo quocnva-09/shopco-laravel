@@ -3,6 +3,10 @@ services:
     image: nginx:alpine
     container_name: shopco_nginx
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 50M
     ports:
       - "80:80"
     volumes:
@@ -19,6 +23,10 @@ services:
     image: anhquoc09/shopco-laravel:latest
     container_name: shopco_app
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 300M
     env_file: .env
     volumes:
       - shared_app_code:/var/www/html 
@@ -33,6 +41,10 @@ services:
     image: anhquoc09/shopco-laravel:latest
     container_name: shopco_worker
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 150M
     # Overwrite command to active supervisor
     command: ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
     env_file: .env
@@ -49,6 +61,10 @@ services:
     image: mysql:8.0.45-debian
     container_name: shopco_db
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 250M
     environment:
       MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
       MYSQL_DATABASE: "${DB_DATABASE}"
@@ -66,6 +82,10 @@ services:
     image: redis:7-alpine
     container_name: shopco_redis
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 100M
     command: redis-server --requirepass "${REDIS_PASSWORD}" --maxmemory 256mb --maxmemory-policy allkeys-lru
     volumes:
       - redis_data:/data
