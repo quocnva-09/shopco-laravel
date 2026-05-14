@@ -22,7 +22,7 @@ class FileUploadService
     public function upload(UploadedFile $file, string $folder = 'uploads', string $disk = 's3'): ?string
     {
         try {
-            return $file->store($folder, $disk);
+            return $file->storePublicly($folder, $disk);
         } catch (Exception $e) {
             Log::error('File upload failed: ' . $e->getMessage(), [
                 'folder' => $folder,

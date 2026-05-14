@@ -1,28 +1,47 @@
 services:
+  web:
+    image: nginx:alpine
+    container_name: shopco_nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      # Get code from shared volume
+      - shared_app_code:/var/www/html 
+      # Mount config file nginx
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - shopco-network
+
   app:
     image: anhquoc09/shopco-laravel:latest
     container_name: shopco_app
     restart: always
     env_file: .env
-    ports:
-      - "80:80"
     volumes:
+      - shared_app_code:/var/www/html 
       - storage_data:/var/www/html/storage
     depends_on:
       - shopco_db
+      - redis_data
     networks:
       - shopco-network
 
   worker:
     image: anhquoc09/shopco-laravel:latest
     container_name: shopco_worker
-    command: php artisan queue:work
-    user: "www-data"
+    restart: always
+    # Overwrite command to active supervisor
+    command: ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
     env_file: .env
     volumes:
+      - shared_app_code:/var/www/html
       - storage_data:/var/www/html/storage
     depends_on:
       - shopco_db
+      - redis_data
     networks:
       - shopco-network
 
@@ -57,6 +76,7 @@ volumes:
   shopco-db-data:
   storage_data:
   redis_data:
+  shared_app_code: 
 
 networks:
   shopco-network:

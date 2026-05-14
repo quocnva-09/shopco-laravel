@@ -54,3 +54,8 @@ Route::get('categories/{id}', [CategoryController::class, 'show']);
 // Route::apiResource('products', ProductController::class)->only(['index', 'show']);
 Route::get('products', [ProductController::class, 'index']);
 Route::get('products/{id}', [ProductController::class, 'show']);
+
+
+Route::get('ping', function () {
+    return response()->json(['message' => 'pong', 'time' => microtime(true)]);
+});
