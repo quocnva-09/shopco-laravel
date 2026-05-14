@@ -38,14 +38,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{order}', [OrderController::class, 'show']);
         Route::patch('/{order}/status', [OrderController::class, 'updateStatus']);
     });
-
-    // Export routes (admin only)
-    Route::middleware(CheckAdminMiddleware::class)->prefix('exports')->group(function () {
-        Route::post('/', [ExportController::class, 'store']);
-        Route::get('/', [ExportController::class, 'index']);
-        Route::get('/{id}', [ExportController::class, 'show']);
-        Route::get('/{id}/download', [ExportController::class, 'download']);
-    });
 });
 
 // Public routes
@@ -54,7 +46,11 @@ Route::post('login', [AuthController::class, 'login'])->middleware('throttle:5,1
 Route::post('register', [AuthController::class, 'register'])->middleware('throttle:3,1');
 
 // Category routes
-Route::apiResource('categories', CategoryController::class)->only(['index', 'show']);
+// Route::apiResource('categories', CategoryController::class)->only(['index', 'show']);
+Route::get('categories', [CategoryController::class, 'index']);
+Route::get('categories/{id}', [CategoryController::class, 'show']);
 
 // Product routes
-Route::apiResource('products', ProductController::class)->only(['index', 'show']);
+// Route::apiResource('products', ProductController::class)->only(['index', 'show']);
+Route::get('products', [ProductController::class, 'index']);
+Route::get('products/{id}', [ProductController::class, 'show']);

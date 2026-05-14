@@ -26,7 +26,7 @@ class ExportController extends Controller
     }
 
     #[OA\Post(
-        path: '/api/exports',
+        path: '/api/admin/exports',
         summary: 'Trigger a new product export job',
         security: [['bearerAuth' => []]],
         tags: ['Admin - Export Module'],
@@ -66,7 +66,7 @@ class ExportController extends Controller
     }
 
     #[OA\Get(
-        path: '/api/exports',
+        path: '/api/admin/exports',
         summary: 'List the current admin\'s export history',
         security: [['bearerAuth' => []]],
         tags: ['Admin - Export Module'],
@@ -97,7 +97,7 @@ class ExportController extends Controller
     }
 
     #[OA\Get(
-        path: '/api/exports/{id}',
+        path: '/api/admin/exports/{id}',
         summary: 'Get a single export job record',
         security: [['bearerAuth' => []]],
         tags: ['Admin - Export Module'],
@@ -126,7 +126,7 @@ class ExportController extends Controller
     }
 
     #[OA\Get(
-        path: '/api/exports/{id}/download',
+        path: '/api/admin/exports/{id}/download',
         summary: 'Download a completed export file',
         security: [['bearerAuth' => []]],
         tags: ['Admin - Export Module'],

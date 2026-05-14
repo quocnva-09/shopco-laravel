@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ExportController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\UserController;
@@ -36,5 +37,13 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
         Route::get('/', [OrderController::class, 'adminIndex']);
         Route::get('/{order}', [OrderController::class, 'show']);
         Route::patch('/{order}/status', [OrderController::class, 'updateStatus']);
+    });
+
+    // Export routes (admin only)
+    Route::prefix('exports')->group(function () {
+        Route::post('/', [ExportController::class, 'store']);
+        Route::get('/', [ExportController::class, 'index']);
+        Route::get('/{id}', [ExportController::class, 'show']);
+        Route::get('/{id}/download', [ExportController::class, 'download']);
     });
 });

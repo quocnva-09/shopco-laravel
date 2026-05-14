@@ -49,13 +49,13 @@ class ProductService implements ProductServiceInterface
     {
         $data = $dto->toArray();
 
-        if (empty($data['slug']) && ! empty($data['name'])) {
+        if (empty($data['slug']) && !empty($data['name'])) {
             $data['slug'] = Str::slug($data['name']);
         }
 
         $product = $this->repo->create($data);
 
-        if (! empty($dto->images)) {
+        if (!empty($dto->images)) {
             $this->uploadImages($product, $dto->images);
         }
 
@@ -65,7 +65,7 @@ class ProductService implements ProductServiceInterface
     public function update(ProductDTO $dto, int $id): Product
     {
         $product = $this->repo->findById($id);
-        $data    = $dto->toArray();
+        $data = $dto->toArray();
 
         if (isset($data['name']) && empty($data['slug'])) {
             $data['slug'] = Str::slug($data['name']);
@@ -73,7 +73,7 @@ class ProductService implements ProductServiceInterface
 
         $product = $this->repo->update($product, $data);
 
-        if (! empty($dto->images)) {
+        if (!empty($dto->images)) {
             $this->uploadImages($product, $dto->images);
         }
 
@@ -115,12 +115,12 @@ class ProductService implements ProductServiceInterface
 
         foreach ($images as $index => $image) {
             $extension = $image->getClientOriginalExtension();
-            $fileName  = $product->id . '_' . time() . '_' . $index . '.' . $extension;
-            $path      = $image->storeAs('products', $fileName, 'public');
+            $fileName = $product->id . '_' . time() . '_' . $index . '.' . $extension;
+            $path = $image->storeAs('products', $fileName);
 
             $this->repo->addImage($product, [
-                'img_path'   => $path,
-                'alt'        => $product->name . ' - ' . $index,
+                'img_path' => $path,
+                'alt' => $product->name . ' - ' . $index,
                 'is_primary' => $index === 0 && $currentImageCount === 0,
             ]);
         }
