@@ -29,6 +29,15 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Check files exists
+        run: |
+          ls -la
+          echo "Kiểm tra thư mục Nginx:"
+          ls -la docker/nginx/ || echo "Thư mục docker/nginx không tồn tại!"
+
       # Action 1: Transfer docker-compose.prod.yaml and nginx configs to EC2
       - name: Copy compose file and nginx configs to EC2
         uses: appleboy/scp-action@master
@@ -36,7 +45,9 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "docker-compose.prod.yaml,docker/nginx/default.conf"
+          source: |
+            docker-compose.prod.yaml
+            docker/nginx/default.conf
           target: "/home/ubuntu/shopco-laravel"
 
       # Action 2: SSH into EC2, write .env, pull new image, and run
