@@ -36,7 +36,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "docker-compose.prod.yaml, docker/nginx/default.conf"
+          source: "docker-compose.prod.yaml,docker/nginx/default.conf"
           target: "/home/ubuntu/shopco-laravel"
 
       # Action 2: SSH into EC2, write .env, pull new image, and run
