@@ -58,14 +58,21 @@ jobs:
             # Step 2: Pull new image from Docker Hub
             docker compose -f docker-compose.prod.yaml pull
 
-            # Step 3: Restart containers with new image
+            # 2.1: Stop and remove container volume code
+            docker compose -f docker-compose.prod.yaml stop app nginx worker
+            docker compose -f docker-compose.prod.yaml rm -f app nginx worker
+
+            # 2.2: Remove volume code
+            docker volume ls -q | grep "shared_app_code" | xargs -r docker volume rm
+
+            # 2.3: Start app container
+            docker compose -f docker-compose.prod.yaml up -d app
+
+            # Step 3: Start other containers
             docker compose -f docker-compose.prod.yaml up -d --wait
 
             # Step 4: Run database migrations
             docker compose -f docker-compose.prod.yaml exec -T app php artisan migrate --force
-
-            # Step 5: Run database seeders
-            docker compose -f docker-compose.prod.yaml exec -T app php artisan db:seed
 
             # Step 5: Clear and rebuild cache to optimize performance
             docker compose -f docker-compose.prod.yaml exec -T app php artisan optimize:clear
