@@ -23,6 +23,7 @@ services:
     restart: always
     volumes:
       - .:/var/www/html
+      - vendor_data:/var/www/html/vendor
     depends_on:
       - shopco_db
       - shopco_redis
@@ -56,6 +57,7 @@ services:
       - "3307:3306" 
     volumes:
       - shopco-db-data:/var/lib/mysql
+      - vendor_data:/var/www/html/vendor
     networks:
       - shopco-network
 
@@ -89,6 +91,7 @@ services:
 volumes:
   shopco-db-data:
   redis_data:
+  vendor_data:
 
 networks:
   shopco-network:
