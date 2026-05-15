@@ -6,14 +6,13 @@ namespace App\Http\Requests\User;
 
 use App\Enums\UserRole;
 use Illuminate\Foundation\Http\FormRequest;
-
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: "UserRequest",
-    title: "User Request",
-    description: "User creation payload",
-    required: ["name", "email", "role", "password"],
+    schema: "UpdateUserRequest",
+    title: "Update User Request",
+    description: "User update payload",
+    required: ["name", "email", "role"],
     properties: [
         new OA\Property(property: "name", type: "string", example: "John Doe"),
         new OA\Property(property: "email", type: "string", format: "email", example: "john@example.com"),
@@ -24,7 +23,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: "phone_number", type: "string", example: "1234567890", nullable: true)
     ]
 )]
-class UserRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -33,11 +32,13 @@ class UserRequest extends FormRequest
 
     public function rules(): array
     {
+        $userId = $this->route('id');
+
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $userId,
             'role' => 'required|string|in:' . implode(',', UserRole::getValues()),
-            'password' => 'required|string|min:8',
+            'password' => 'nullable|string|min:8',
             'avatar' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:20',

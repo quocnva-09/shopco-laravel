@@ -8,7 +8,6 @@ use App\DTOs\Product\ProductDTO;
 use App\DTOs\Product\ProductFilterDTO;
 use App\Models\Product;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Http\UploadedFile;
 
 interface ProductServiceInterface
 {
@@ -27,8 +26,6 @@ interface ProductServiceInterface
     public function restore(int $id): Product;
 
     public function forceDelete(int $id): void;
-
-    public function uploadImage(UploadedFile $file, string $path = 'products'): string;
 
     public function syncImages(Product $product, array $imageUrls): void;
 

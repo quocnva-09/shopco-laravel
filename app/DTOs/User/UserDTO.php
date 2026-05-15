@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\DTOs\User;
 
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Requests\User\UserRequest;
 
 readonly class UserDTO
@@ -13,9 +14,12 @@ readonly class UserDTO
         public string $email,
         public ?string $password,
         public string $role,
+        public ?string $avatar,
+        public ?string $address,
+        public ?string $phone_number,
     ) {}
 
-    public static function fromRequest(UserRequest $request): self
+    public static function fromRequest(UserRequest|UpdateUserRequest $request): self
     {
         $validated = $request->validated();
 
@@ -24,6 +28,9 @@ readonly class UserDTO
             email: $validated['email'],
             password: $validated['password'] ?? null,
             role: $validated['role'] ?? 'user',
+            avatar: $validated['avatar'] ?? null,
+            address: $validated['address'] ?? null,
+            phone_number: $validated['phone_number'] ?? null,
         );
     }
 
@@ -33,6 +40,9 @@ readonly class UserDTO
             'name' => $this->name,
             'email' => $this->email,
             'role' => $this->role,
+            'avatar' => $this->avatar,
+            'address' => $this->address,
+            'phone_number' => $this->phone_number,
         ];
 
         if ($this->password !== null) {

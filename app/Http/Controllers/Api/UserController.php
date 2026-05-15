@@ -6,6 +6,7 @@ use App\Contracts\Services\UserServiceInterface;
 use App\DTOs\User\UserDTO;
 use App\DTOs\User\UserFilterDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Requests\User\UserFilterRequest;
 use App\Http\Requests\User\UserRequest;
 use App\Http\Resources\UserResource;
@@ -128,7 +129,7 @@ class UserController extends Controller
         ],
         requestBody: new OA\RequestBody(
             required: true,
-            content: new OA\JsonContent(ref: '#/components/schemas/UserRequest')
+            content: new OA\JsonContent(ref: '#/components/schemas/UpdateUserRequest')
         ),
         responses: [
             new OA\Response(
@@ -144,7 +145,7 @@ class UserController extends Controller
             )
         ]
     )]
-    public function update(UserRequest $request, int $id): JsonResponse
+    public function update(UpdateUserRequest $request, int $id): JsonResponse
     {
         $dto = UserDTO::fromRequest($request);
         $user = $this->userService->updateUser($id, $dto);

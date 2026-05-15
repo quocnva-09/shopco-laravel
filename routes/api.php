@@ -42,6 +42,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Review routes
     Route::post('reviews', [ReviewController::class, 'store']);
+
+    // User routes
+    Route::post('users/upload', [\App\Http\Controllers\Api\UploadController::class, 'uploadUserImage']);
 });
 
 // Public routes

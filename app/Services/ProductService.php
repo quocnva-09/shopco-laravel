@@ -11,7 +11,6 @@ use App\DTOs\Product\ProductFilterDTO;
 use App\Enums\CacheConstants;
 use App\Helpers\CacheHelper;
 use App\Models\Product;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use Exception;
@@ -105,16 +104,6 @@ class ProductService implements ProductServiceInterface
         $this->repo->forceDelete($product);
     }
 
-    public function uploadImage(UploadedFile $file, string $path = 'products'): string
-    {
-        $uploadedPath = $this->fileUploadService->upload($file, $path);
-
-        if (!$uploadedPath) {
-            throw new Exception('Failed to upload image');
-        }
-
-        return $uploadedPath;
-    }
 
     public function syncImages(Product $product, array $imageUrls): void
     {

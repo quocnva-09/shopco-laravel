@@ -14,7 +14,7 @@ class UserRepository implements UserRepositoryInterface
 {
     public function paginateAll(UserFilterDTO $filter): LengthAwarePaginator
     {
-        $query = User::query()->select(['id', 'name', 'email', 'role', 'created_at']);
+        $query = User::query()->select(['id', 'name', 'email', 'role', 'avatar', 'address', 'phone_number', 'created_at']);
 
         if ($filter->search) {
             $query->where(function ($q) use ($filter) {
@@ -69,7 +69,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function paginateTrashed(UserFilterDTO $filter): LengthAwarePaginator
     {
-        $query = User::onlyTrashed()->select(['id', 'name', 'email', 'role', 'deleted_at']);
+        $query = User::onlyTrashed()->select(['id', 'name', 'email', 'role', 'avatar', 'address', 'phone_number', 'deleted_at']);
 
         if ($filter->search) {
             $query->where(function ($q) use ($filter) {

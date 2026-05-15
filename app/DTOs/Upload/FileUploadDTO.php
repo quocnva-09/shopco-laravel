@@ -10,14 +10,16 @@ use Illuminate\Http\UploadedFile;
 class FileUploadDTO
 {
     public function __construct(
-        public readonly UploadedFile $file
+        public readonly UploadedFile $file,
+        public readonly string $type
     ) {
     }
 
-    public static function fromRequest(FileUploadRequest $request): self
+    public static function fromRequest(FileUploadRequest $request, string $type): self
     {
         return new self(
-            $request->file('image')
+            $request->file('image'),
+            $type
         );
     }
 }
