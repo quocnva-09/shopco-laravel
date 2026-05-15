@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Contracts\Services;
 
-use App\DTOs\ExportDTO;
+use App\DTOs\Export\ExportDTO;
 use App\Models\ExportHistory;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;

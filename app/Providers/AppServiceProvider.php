@@ -7,6 +7,7 @@ use App\Contracts\Repositories\CategoryRepositoryInterface;
 use App\Contracts\Repositories\ExportHistoryRepositoryInterface;
 use App\Contracts\Repositories\OrderRepositoryInterface;
 use App\Contracts\Repositories\ProductRepositoryInterface;
+use App\Contracts\Repositories\ReviewRepositoryInterface;
 use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Contracts\Services\AuthServiceInterface;
 use App\Contracts\Services\CartServiceInterface;
@@ -14,12 +15,14 @@ use App\Contracts\Services\CategoryServiceInterface;
 use App\Contracts\Services\ExportServiceInterface;
 use App\Contracts\Services\OrderServiceInterface;
 use App\Contracts\Services\ProductServiceInterface;
+use App\Contracts\Services\ReviewServiceInterface;
 use App\Contracts\Services\UserServiceInterface;
 use App\Repositories\CartRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ExportHistoryRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
+use App\Repositories\ReviewRepository;
 use App\Repositories\UserRepository;
 use App\Services\AuthService;
 use App\Services\CartService;
@@ -27,6 +30,7 @@ use App\Services\CategoryService;
 use App\Services\ExportService;
 use App\Services\OrderService;
 use App\Services\ProductService;
+use App\Services\ReviewService;
 use App\Services\UserService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\URL;
@@ -45,6 +49,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ExportHistoryRepositoryInterface::class, ExportHistoryRepository::class);
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
         $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
+        $this->app->bind(ReviewRepositoryInterface::class, ReviewRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
 
         // Services
@@ -54,6 +59,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ExportServiceInterface::class, ExportService::class);
         $this->app->bind(OrderServiceInterface::class, OrderService::class);
         $this->app->bind(ProductServiceInterface::class, ProductService::class);
+        $this->app->bind(ReviewServiceInterface::class, ReviewService::class);
         $this->app->bind(UserServiceInterface::class, UserService::class);
     }
 

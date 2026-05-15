@@ -25,6 +25,10 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'phone',
+        'profile_image',
+        'bio',
+        'address',
     ];
 
     /**
@@ -54,6 +58,11 @@ class User extends Authenticatable
     public function cartItems()
     {
         return $this->hasManyThrough(CartItem::class, Cart::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 
     public function isAdmin(): bool

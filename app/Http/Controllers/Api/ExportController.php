@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\Services\ExportServiceInterface;
-use App\DTOs\ExportDTO;
+use App\DTOs\Export\ExportDTO;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ExportRequest;
+use App\Http\Requests\Export\ExportRequest;
 use App\Http\Resources\ExportResource;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;

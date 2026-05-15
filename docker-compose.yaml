@@ -24,6 +24,7 @@ services:
     volumes:
       - .:/var/www/html
       - vendor_data:/var/www/html/vendor
+      - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     depends_on:
       - shopco_db
       - shopco_redis

@@ -10,7 +10,7 @@ Mục đích của skill này là định hướng cho AI agent cách xây dựn
 ## Kiến trúc luồng dữ liệu (Data Flow)
 
 Mọi chức năng CRUD (Create, Read, Update, Delete) phải tuân theo luồng nghiêm ngặt sau:
-`Route` ➡️ `Form Request` ➡️ `DTO` ➡️ `Controller` ➡️ `Service Interface` ➡️ `Service Implementation` ➡️ `API Resource` ➡️ `Response`
+`Route` ➡️ `Form Request` ➡️ `DTO` ➡️ `Controller` ➡️ `Service Interface` ➡️ `Service Implementation` ➡️ `Repository Interface` ➡️ `Repository Implementation` ➡️ `API Resource` ➡️ `Response`
 
 ## Quy tắc Implement Chi Tiết
 
@@ -21,54 +21,72 @@ Mọi chức năng CRUD (Create, Read, Update, Delete) phải tuân theo luồng
 - Sử dụng `Route::middleware('auth:sanctum')` để bảo vệ route nếu cần.
 - **Lưu ý Soft Delete**: Tính năng này (như `trashed`, `restore`, `force-delete`) **chỉ implement khi thực sự cần thiết**. Tuy nhiên, một khi đã khai báo route cho các chức năng này thì **bắt buộc** phải triển khai đầy đủ logic trong Controller và Service để tránh lỗi `BadMethodCallException`.
 
-### 2. Form Request (`app/Http/Requests`)
+### 2. Form Request (`app/Http/Requests/{Module name}`)
 
 - **Nhiệm vụ:** Chỉ thực hiện Validation và Authorization.
-- **Authorization:** Xử lý logic kiểm tra quyền trong hàm `authorize()` (ví dụ check Admin, Ownership).
-- **Validation:**
-  - Khai báo rules theo dạng **mảng** (array) thay vì string (VD: `['required', 'string', 'max:255']`) để dễ bảo trì và đọc hiểu.
-  - Phân tách rules dựa trên phương thức request (POST hoặc PUT/PATCH).
-  - Với logic `unique` khi update: tự động bỏ qua ID của bản ghi hiện tại qua hàm route parameter. VD: `Rule::unique('table')->ignore($this->route('model'))`.
-  - Khai báo class riêng `TemplateFilterRequest` dành cho các API dạng `GET /index` chứa logic rules tìm kiếm và phân trang.
+- **Quy tắc:**
+    - **Authorization:** Xử lý logic kiểm tra quyền trong hàm `authorize()` (ví dụ check Admin, Ownership).
+    - **Validation:**
+        - Khai báo rules theo dạng **mảng** (array) thay vì string (VD: `['required', 'string', 'max:255']`) để dễ bảo trì và đọc hiểu.
+        - Phân tách rules dựa trên phương thức request (POST hoặc PUT/PATCH).
+        - Với logic `unique` khi update: tự động bỏ qua ID của bản ghi hiện tại qua hàm route parameter. VD: `Rule::unique('table')->ignore($this->route('model'))`.
+        - Khai báo class riêng `TemplateFilterRequest` dành cho các API dạng `GET /index` chứa logic rules tìm kiếm và phân trang.
+    - **API Documentation (Swagger/OpenAPI):** Khai báo attribute `#[OA\Schema]` trực tiếp trên class FormRequest, định nghĩa cấu trúc của request body (`properties`) dùng cho các phương thức POST/PUT/PATCH.
 
-### 3. DTO - Data Transfer Object (`app/DTOs`)
+### 3. DTO - Data Transfer Object (`app/DTOs/{Module name}`)
 
 - **Nhiệm vụ:** Đóng gói và chuẩn hóa dữ liệu từ Request trước khi đưa vào Service.
 - **Quy tắc:**
-  - Dùng `readonly class` (PHP 8.2+).
-  - Khai báo constructor dùng Constructor Property Promotion với type-hint.
-  - Method static `fromRequest(FormRequest $request): self` chỉ lấy dữ liệu hợp lệ `$request->validated()`.
-  - Tách riêng `TemplateDTO` (chứa data payload CRUD) và `TemplateFilterDTO` (chứa query constraints cho list: keyword, sort, limit).
-  - Không nhét URL param `id` vào DTO; truyền thẳng object Model từ Route Model Binding xuống Service.
+    - Dùng `readonly class` (PHP 8.2+).
+    - Khai báo constructor dùng Constructor Property Promotion với type-hint.
+    - Method static `fromRequest(FormRequest $request): self` chỉ lấy dữ liệu hợp lệ `$request->validated()`.
+    - Tách riêng `TemplateDTO` (chứa data payload CRUD) và `TemplateFilterDTO` (chứa query constraints cho list: keyword, sort, limit).
+    - Không nhét URL param `id` vào DTO; truyền thẳng object Model từ Route Model Binding xuống Service.
 
 ### 4. Controller (`app/Http/Controllers`)
 
 - **Nhiệm vụ:** Nhận request, gọi Service và chuẩn hóa Response. **KHÔNG CHỨA BUSINESS LOGIC**.
 - **Quy tắc:**
-  - Inject Dependency thông qua `Interface` ở constructor.
-  - Tận dụng triệt để **Route Model Binding**.
-  - **Sử dụng `ApiResponseTrait`**: Thay vì viết hardcode `response()->json(...)` lặp lại, hãy dùng trait (`successResponse`, `paginatedResponse`, `errorResponse`) để định dạng JSON trả về chuẩn nhất quán.
+    - Inject Dependency thông qua `Interface` ở constructor.
+    - Tận dụng triệt để **Route Model Binding**.
+    - **Sử dụng `ApiResponseTrait`**: Thay vì viết hardcode `response()->json(...)` lặp lại, hãy dùng trait (`successResponse`, `paginatedResponse`, `errorResponse`) để định dạng JSON trả về chuẩn nhất quán.
+    - **API Documentation (Swagger/OpenAPI):** Bắt buộc phải khai báo attributes `#[OA\Get]`, `#[OA\Post]`, `#[OA\Put]`, `#[OA\Delete]`... trên mỗi phương thức. Phải xác định rõ `path`, `summary`, `security` (nếu có), `tags`, `parameters`, `requestBody`, và cấu trúc `responses` chuẩn với Swagger. Tái sử dụng schema qua `ref: '#/components/schemas/...'`.
 
-### 5. Service & Interface (`app/Services` & `app/Contracts`)
+### 5. Service & Interface (`app/Services` & `app/Contracts/Services`)
 
 - **Nhiệm vụ:** Xử lý nghiệp vụ lõi (Business Logic).
 - **Quy tắc:**
-  - Có Interface đi kèm.
-  - Type-hint đúng DTO. Nhận vào tham số là Object Model nếu đã được Binding.
-  - **Dynamic Ordering & Enum**: Tránh hardcode giá trị string khi sort (`if ($sort == 'name')`). Hãy dùng **Enums** để định nghĩa danh sách các trường được phép sort/filter. Điều này giúp code dễ mở rộng, an toàn và đồng nhất.
-  - Tối ưu hóa Database queries, tránh N+1. Tận dụng `$model->load('relations')`.
+    - Có Interface đi kèm.
+    - Type-hint đúng DTO. Nhận vào tham số là Object Model nếu đã được Binding.
+    - **Dynamic Ordering & Enum**: Tránh hardcode giá trị string khi sort (`if ($sort == 'name')`). Hãy dùng **Enums** để định nghĩa danh sách các trường được phép sort/filter. Điều này giúp code dễ mở rộng, an toàn và đồng nhất.
+    - Tối ưu hóa Database queries, tránh N+1. Tận dụng `$model->load('relations')`.
 
-### 6. API Resource (`app/Http/Resources`)
+### 6. Repository & Interface (`app/Repositories` & `app/Contracts/Repositories`)
+
+- **Nhiệm vụ:** Xử lý tương tác dữ liệu model - database (data access layer).
+- **Quy tắc:**
+    - Có Interface đi kèm.
+    - Đối với các tác vụ khác: nhận vào tham số là Object Model hoặc array data.
+    - Đối với filter: Type-hint đúng DTOFilter.
+    - **Dynamic Ordering & Enum**: Tránh hardcode giá trị string khi sort (`if ($sort == 'name')`). Hãy dùng **Enums** để định nghĩa danh sách các trường được phép sort/filter. Điều này giúp code dễ mở rộng, an toàn và đồng nhất.
+    - Tối ưu hóa Database queries, tránh N+1. Tận dụng `$model->load('relations')`.
+
+### 7. API Resource (`app/Http/Resources`)
 
 - **Nhiệm vụ:** Chuyển đổi Eloquent Model thành JSON Object trả về frontend.
-- **Quy tắc:** Mapping thủ công field, ẩn metadata/fields nhạy cảm.
+- **Quy tắc:** 
+    - Mapping thủ công field, ẩn metadata/fields nhạy cảm.
+    - **API Documentation (Swagger/OpenAPI):** Khai báo attribute `#[OA\Schema]` trên class Resource để định nghĩa format JSON trả về cho model đó, phục vụ cho thuộc tính `ref` trong phần responses của Controller.
 
 ## File Mẫu (References)
 
 Trong quá trình khởi tạo một CRUD module mới (ví dụ `Post`), hãy tham khảo bộ template sau trong thư mục `references/`:
+
 - `TemplateController.php`
 - `TemplateService.php`
 - `TemplateServiceInterface.php`
+- `TemplateRepository.php`
+- `TemplateRepositoryInterface.php`
 - `TemplateDTO.php` & `TemplateFilterDTO.php`
 - `TemplateRequest.php` & `TemplateFilterRequest.php`
 - `TemplateResource.php`

@@ -6,7 +6,7 @@ namespace App\Services;
 
 use App\Contracts\Repositories\ExportHistoryRepositoryInterface;
 use App\Contracts\Services\ExportServiceInterface;
-use App\DTOs\ExportDTO;
+use App\DTOs\Export\ExportDTO;
 use App\Enums\ExportStatus;
 use App\Jobs\ProcessProductExport;
 use App\Models\ExportHistory;
@@ -27,9 +27,9 @@ class ExportService implements ExportServiceInterface
     {
         $exportHistory = $this->exportHistoryRepo->create([
             'user_id' => Auth::id(),
-            'type'    => 'products',
-            'format'  => $dto->format,
-            'status'  => ExportStatus::PENDING,
+            'type' => 'products',
+            'format' => $dto->format,
+            'status' => ExportStatus::PENDING,
         ]);
 
         ProcessProductExport::dispatch($exportHistory, $dto->filters);
@@ -51,11 +51,11 @@ class ExportService implements ExportServiceInterface
     {
         $exportHistory = $this->getUserExportHistory($id);
 
-        if (! $exportHistory->status->isFinalState() || $exportHistory->status !== ExportStatus::COMPLETED) {
+        if (!$exportHistory->status->isFinalState() || $exportHistory->status !== ExportStatus::COMPLETED) {
             throw new LogicException('Export is not ready for download.');
         }
 
-        if (! $exportHistory->file_path || ! Storage::disk('local')->exists($exportHistory->file_path)) {
+        if (!$exportHistory->file_path || !Storage::disk('local')->exists($exportHistory->file_path)) {
             throw new LogicException('Export file not found.');
         }
 

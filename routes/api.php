@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ExportController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ReviewController;
 use App\Http\Middleware\CheckAdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{order}', [OrderController::class, 'show']);
         Route::patch('/{order}/status', [OrderController::class, 'updateStatus']);
     });
+
+    // Review routes
+    Route::post('reviews', [ReviewController::class, 'store']);
 });
 
 // Public routes
@@ -54,6 +58,7 @@ Route::get('categories/{id}', [CategoryController::class, 'show']);
 // Route::apiResource('products', ProductController::class)->only(['index', 'show']);
 Route::get('products', [ProductController::class, 'index']);
 Route::get('products/{id}', [ProductController::class, 'show']);
+Route::get('products/{productId}/reviews', [ReviewController::class, 'getByProduct']);
 
 
 Route::get('ping', function () {

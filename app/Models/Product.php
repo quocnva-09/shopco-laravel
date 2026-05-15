@@ -31,6 +31,11 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     public static function booted()
     {
         static::forceDeleting(function ($product) {

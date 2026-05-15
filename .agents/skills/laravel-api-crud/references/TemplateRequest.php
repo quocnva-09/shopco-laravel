@@ -6,7 +6,18 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema(
+    schema: "TemplateRequest",
+    title: "Template Request",
+    description: "Template creation and update payload",
+    required: ["name"],
+    properties: [
+        new OA\Property(property: "name", type: "string", example: "Sample Name"),
+        new OA\Property(property: "description", type: "string", example: "Sample Description")
+    ]
+)]
 class TemplateRequest extends FormRequest
 {
     public function authorize(): bool
