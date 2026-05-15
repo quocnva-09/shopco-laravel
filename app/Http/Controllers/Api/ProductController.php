@@ -141,6 +141,7 @@ class ProductController extends Controller
             content: new OA\MediaType(
                 mediaType: 'multipart/form-data',
                 schema: new OA\Schema(
+                    type: 'object',
                     required: ['image'],
                     properties: [
                         new OA\Property(property: 'image', type: 'string', format: 'binary', description: 'Product image file (max 5MB, jpeg/png/jpg/webp)'),

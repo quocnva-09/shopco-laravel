@@ -27,4 +27,14 @@ class FileUploadRequest extends FormRequest
             'image' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'], // 5MB
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'image.required' => 'Hình ảnh là bắt buộc.',
+            'image.image' => 'File phải là hình ảnh.',
+            'image.mimes' => 'File phải có định dạng jpeg, png, jpg, hoặc webp.',
+            'image.max' => 'File không được vượt quá 5MB.',
+        ];
+    }
 }

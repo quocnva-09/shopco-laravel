@@ -110,7 +110,7 @@ class ProductService implements ProductServiceInterface
         $uploadedPath = $this->fileUploadService->upload($file, $path);
 
         if (!$uploadedPath) {
-            throw new Exception('Failed to upload image.');
+            throw new Exception('Failed to upload image');
         }
 
         return $uploadedPath;

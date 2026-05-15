@@ -8,11 +8,15 @@
     "servers": [
         {
             "url": "http://localhost:8000",
-            "description": "Local Server"
+            "description": "Dynamic Server (Follow file .env)"
         },
         {
             "url": "https://api.quocnva09.me/api",
             "description": "Production Server (Cloudflare SSL)"
+        },
+        {
+            "url": "http://localhost:8000/api",
+            "description": "Local Server (Dự phòng)"
         }
     ],
     "paths": {
@@ -160,6 +164,53 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Logout successfully"
+                                        },
+                                        "data": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/logout/all": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Logout All Devices",
+                "description": "Revoke ALL Sanctum tokens for the authenticated user. This signs the user out of every device and browser simultaneously. Use this when an account is suspected to be compromised.",
+                "operationId": "993f9877e3a057cbbe2e3873625a2049",
+                "responses": {
+                    "200": {
+                        "description": "All sessions revoked",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logged out from all devices successfully"
                                         },
                                         "data": {
                                             "type": "boolean",
@@ -986,13 +1037,13 @@
                 ]
             }
         },
-        "/api/exports": {
+        "/api/admin/exports": {
             "get": {
                 "tags": [
                     "Admin - Export Module"
                 ],
                 "summary": "List the current admin's export history",
-                "operationId": "d25d334b0d44e07cb893c96a709ba949",
+                "operationId": "8194f158161a9b397dc3240b200ce41c",
                 "responses": {
                     "200": {
                         "description": "Export history retrieved successfully",
@@ -1035,7 +1086,7 @@
                     "Admin - Export Module"
                 ],
                 "summary": "Trigger a new product export job",
-                "operationId": "d729cf8e078f61999ccf50d4359d8de3",
+                "operationId": "49e351f2adc5b90ff896bb986156bf9f",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1078,13 +1129,13 @@
                 ]
             }
         },
-        "/api/exports/{id}": {
+        "/api/admin/exports/{id}": {
             "get": {
                 "tags": [
                     "Admin - Export Module"
                 ],
                 "summary": "Get a single export job record",
-                "operationId": "f1f9f4d065d36f6e95adecce1f82fa50",
+                "operationId": "09e5eb0b6c7c0634d34118d22fa0d44f",
                 "parameters": [
                     {
                         "name": "id",
@@ -1127,13 +1178,13 @@
                 ]
             }
         },
-        "/api/exports/{id}/download": {
+        "/api/admin/exports/{id}/download": {
             "get": {
                 "tags": [
                     "Admin - Export Module"
                 ],
                 "summary": "Download a completed export file",
-                "operationId": "9e1f5a8ae212030379780e7af1636c9a",
+                "operationId": "c4c3100a099bbf5adde90c678e374f24",
                 "parameters": [
                     {
                         "name": "id",
@@ -1900,7 +1951,7 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "multipart/form-data": {
+                        "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/ProductRequest"
                             }
@@ -1983,6 +2034,75 @@
                 }
             }
         },
+        "/api/admin/products/upload": {
+            "post": {
+                "tags": [
+                    "Admin - Product Module"
+                ],
+                "summary": "Upload a product image",
+                "operationId": "2cb2943c7c774cd08ec7bbcd7be893cd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "image"
+                                ],
+                                "properties": {
+                                    "image": {
+                                        "description": "Product image file (max 5MB, jpeg/png/jpg/webp)",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Image uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Uploaded successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "img_path": {
+                                                    "type": "string",
+                                                    "example": "products/xyz.jpg"
+                                                },
+                                                "image_url": {
+                                                    "type": "string",
+                                                    "example": "https://s3.amazonaws.com/bucket/products/xyz.jpg"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/admin/products/{id}": {
             "put": {
                 "tags": [
@@ -2003,7 +2123,7 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "multipart/form-data": {
+                        "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/ProductRequest"
                             }
@@ -3016,11 +3136,11 @@
                         "type": "integer",
                         "example": 2
                     },
-                    "images[]": {
+                    "images": {
                         "type": "array",
                         "items": {
                             "type": "string",
-                            "format": "binary"
+                            "example": "products/xyz.jpg"
                         },
                         "nullable": true
                     }
