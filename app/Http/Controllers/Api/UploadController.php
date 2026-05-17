@@ -36,7 +36,7 @@ class UploadController extends Controller
                 )
             )
         ),
-        tags: ['Admin - Products'],
+        tags: ['Upload Images'],
         responses: [
             new OA\Response(
                 response: 200,
@@ -91,7 +91,7 @@ class UploadController extends Controller
                 )
             )
         ),
-        tags: ['Users'],
+        tags: ['Upload Images'],
         responses: [
             new OA\Response(
                 response: 200,

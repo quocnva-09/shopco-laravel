@@ -14,13 +14,14 @@ use OpenApi\Attributes as OA;
     description: "User update payload",
     required: ["name", "email", "role"],
     properties: [
-        new OA\Property(property: "name", type: "string", example: "John Doe"),
-        new OA\Property(property: "email", type: "string", format: "email", example: "john@example.com"),
-        new OA\Property(property: "role", type: "string", example: "user", enum: ["admin", "user"]),
-        new OA\Property(property: "password", type: "string", format: "password", example: "password"),
-        new OA\Property(property: "avatar", type: "string", example: "users/avatar.jpg", nullable: true),
+        new OA\Property(property: "name", type: "string", example: "John Doe", nullable: true),
+        new OA\Property(property: "email", type: "string", format: "email", example: "john@example.com", nullable: true),
+        new OA\Property(property: "role", type: "string", example: "user", enum: ["admin", "user"], nullable: true),
+        new OA\Property(property: "password", type: "string", format: "password", example: "password", nullable: true),
+        new OA\Property(property: "profile_image", type: "string", example: "users/avatar.jpg", nullable: true),
         new OA\Property(property: "address", type: "string", example: "123 Main St", nullable: true),
-        new OA\Property(property: "phone_number", type: "string", example: "1234567890", nullable: true)
+        new OA\Property(property: "phone", type: "string", example: "1234567890", nullable: true),
+        new OA\Property(property: "bio", type: "string", example: "I am a user", nullable: true)
     ]
 )]
 class UpdateUserRequest extends FormRequest
@@ -35,13 +36,14 @@ class UpdateUserRequest extends FormRequest
         $userId = $this->route('id');
 
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $userId,
-            'role' => 'required|string|in:' . implode(',', UserRole::getValues()),
-            'password' => 'nullable|string|min:8',
-            'avatar' => 'nullable|string|max:255',
-            'address' => 'nullable|string|max:255',
-            'phone_number' => 'nullable|string|max:20',
+            'name' => ['nullable', 'string', 'max:255'],
+            'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users,email,' . $userId],
+            'role' => ['nullable', 'string', 'in:' . implode(',', UserRole::getValues())],
+            'password' => ['nullable', 'string', 'min:8'],
+            'profile_image' => ['nullable', 'string', 'max:255'],
+            'address' => ['nullable', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:20'],
+            'bio' => ['nullable', 'string', 'max:500'],
         ];
     }
 }

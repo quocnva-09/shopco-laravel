@@ -147,7 +147,7 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, int $id): JsonResponse
     {
         $data = CategoryDTO::fromRequest($request);
-        $category = $this->categoryService->update($id, $data);
+        $category = $this->categoryService->update($data, $id);
 
         return $this->successResponse(new CategoryResource($category), 'Category updated successfully');
     }

@@ -2034,75 +2034,6 @@
                 }
             }
         },
-        "/api/admin/products/upload": {
-            "post": {
-                "tags": [
-                    "Admin - Product Module"
-                ],
-                "summary": "Upload a product image",
-                "operationId": "2cb2943c7c774cd08ec7bbcd7be893cd",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [
-                                    "image"
-                                ],
-                                "properties": {
-                                    "image": {
-                                        "description": "Product image file (max 5MB, jpeg/png/jpg/webp)",
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Image uploaded successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 200
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Uploaded successfully"
-                                        },
-                                        "data": {
-                                            "properties": {
-                                                "img_path": {
-                                                    "type": "string",
-                                                    "example": "products/xyz.jpg"
-                                                },
-                                                "image_url": {
-                                                    "type": "string",
-                                                    "example": "https://s3.amazonaws.com/bucket/products/xyz.jpg"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
         "/api/admin/products/{id}": {
             "put": {
                 "tags": [
@@ -2402,6 +2333,497 @@
                 ]
             }
         },
+        "/api/admin/reviews": {
+            "get": {
+                "tags": [
+                    "Admin - Review Module"
+                ],
+                "summary": "Get a list of all reviews (Admin only)",
+                "operationId": "getAdminReviews",
+                "parameters": [
+                    {
+                        "name": "keyword",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "id",
+                                "created_at",
+                                "rating"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "sort_direction",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of reviews",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ReviewResource"
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        },
+                                        "links": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/reviews/{id}": {
+            "get": {
+                "tags": [
+                    "Admin - Review Module"
+                ],
+                "summary": "Get a review by ID",
+                "operationId": "getAdminReviewById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Review details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ReviewResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Review not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin - Review Module"
+                ],
+                "summary": "Delete a review",
+                "operationId": "deleteAdminReview",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Review deleted successfully"
+                    },
+                    "404": {
+                        "description": "Review not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/reviews": {
+            "post": {
+                "tags": [
+                    "User - Review Module"
+                ],
+                "summary": "Create a new review for a product",
+                "operationId": "createUserReview",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ReviewRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Review created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Review created successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ReviewResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Not eligible to review this product"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/reviews/{id}/approve": {
+            "patch": {
+                "tags": [
+                    "Admin - Review Module"
+                ],
+                "summary": "Approve or reject a review",
+                "operationId": "approveReview",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ReviewApproveRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Review status updated successfully"
+                    },
+                    "404": {
+                        "description": "Review not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/products/{productId}/reviews": {
+            "get": {
+                "tags": [
+                    "User - Review Module"
+                ],
+                "summary": "Get approved reviews for a specific product",
+                "operationId": "getProductReviews",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "id",
+                                "created_at",
+                                "rating"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "sort_direction",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of approved product reviews",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ReviewResource"
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        },
+                                        "links": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/products/upload": {
+            "post": {
+                "tags": [
+                    "Upload Images"
+                ],
+                "summary": "Upload a product image (Admin only)",
+                "operationId": "bf45f60942e1954bf2bab8ed725e331c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "image"
+                                ],
+                                "properties": {
+                                    "image": {
+                                        "description": "Image file (max 5MB, jpeg/png/jpg/webp)",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Image uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Uploaded successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "img_path": {
+                                                    "type": "string",
+                                                    "example": "products/xyz.jpg"
+                                                },
+                                                "image_url": {
+                                                    "type": "string",
+                                                    "example": "https://s3.amazonaws.com/bucket/products/xyz.jpg"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/upload": {
+            "post": {
+                "tags": [
+                    "Upload Images"
+                ],
+                "summary": "Upload a user profile image",
+                "operationId": "496ac73663f20707e7b52dea79da3445",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "image"
+                                ],
+                                "properties": {
+                                    "image": {
+                                        "description": "Image file (max 5MB, jpeg/png/jpg/webp)",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Image uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Uploaded successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "img_path": {
+                                                    "type": "string",
+                                                    "example": "users/xyz.jpg"
+                                                },
+                                                "image_url": {
+                                                    "type": "string",
+                                                    "example": "https://s3.amazonaws.com/bucket/users/xyz.jpg"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/admin/users": {
             "get": {
                 "tags": [
@@ -2609,7 +3031,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/UserRequest"
+                                "$ref": "#/components/schemas/UpdateUserRequest"
                             }
                         }
                     }
@@ -2884,359 +3306,6 @@
                         "bearerAuth": []
                     }
                 ]
-            }
-        },
-        "/api/admin/reviews": {
-            "get": {
-                "tags": [
-                    "Admin Reviews"
-                ],
-                "summary": "Get a list of all reviews (Admin only)",
-                "operationId": "getAdminReviews",
-                "parameters": [
-                    {
-                        "name": "keyword",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "sort_by",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "id",
-                                "created_at",
-                                "rating"
-                            ]
-                        }
-                    },
-                    {
-                        "name": "sort_direction",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "asc",
-                                "desc"
-                            ]
-                        }
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "List of reviews",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 200
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Success"
-                                        },
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/ReviewResource"
-                                            }
-                                        },
-                                        "meta": {
-                                            "type": "object"
-                                        },
-                                        "links": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/admin/reviews/{id}": {
-            "get": {
-                "tags": [
-                    "Admin Reviews"
-                ],
-                "summary": "Get a review by ID",
-                "operationId": "getAdminReviewById",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Review details",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 200
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Success"
-                                        },
-                                        "data": {
-                                            "$ref": "#/components/schemas/ReviewResource"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Review not found"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Admin Reviews"
-                ],
-                "summary": "Delete a review",
-                "operationId": "deleteAdminReview",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Review deleted successfully"
-                    },
-                    "404": {
-                        "description": "Review not found"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/reviews": {
-            "post": {
-                "tags": [
-                    "User Reviews"
-                ],
-                "summary": "Create a new review for a product",
-                "operationId": "createUserReview",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ReviewRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Review created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 201
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Review created successfully."
-                                        },
-                                        "data": {
-                                            "$ref": "#/components/schemas/ReviewResource"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Not eligible to review this product"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/admin/reviews/{id}/approve": {
-            "patch": {
-                "tags": [
-                    "Admin Reviews"
-                ],
-                "summary": "Approve or reject a review",
-                "operationId": "approveReview",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ReviewApproveRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Review status updated successfully"
-                    },
-                    "404": {
-                        "description": "Review not found"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/products/{productId}/reviews": {
-            "get": {
-                "tags": [
-                    "User Reviews"
-                ],
-                "summary": "Get approved reviews for a specific product",
-                "operationId": "getProductReviews",
-                "parameters": [
-                    {
-                        "name": "productId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "sort_by",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "id",
-                                "created_at",
-                                "rating"
-                            ]
-                        }
-                    },
-                    {
-                        "name": "sort_direction",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "asc",
-                                "desc"
-                            ]
-                        }
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "List of approved product reviews",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 200
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Success"
-                                        },
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/ReviewResource"
-                                            }
-                                        },
-                                        "meta": {
-                                            "type": "object"
-                                        },
-                                        "links": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
             }
         }
     },
@@ -3571,13 +3640,72 @@
                 },
                 "type": "object"
             },
-            "UserRequest": {
-                "title": "User Request",
-                "description": "User creation and update payload",
+            "UpdateUserRequest": {
+                "title": "Update User Request",
+                "description": "User update payload",
                 "required": [
                     "name",
                     "email",
                     "role"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe",
+                        "nullable": true
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "john@example.com",
+                        "nullable": true
+                    },
+                    "role": {
+                        "type": "string",
+                        "example": "user",
+                        "nullable": true,
+                        "enum": [
+                            "admin",
+                            "user"
+                        ]
+                    },
+                    "password": {
+                        "type": "string",
+                        "format": "password",
+                        "example": "password",
+                        "nullable": true
+                    },
+                    "profile_image": {
+                        "type": "string",
+                        "example": "users/avatar.jpg",
+                        "nullable": true
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "123 Main St",
+                        "nullable": true
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "1234567890",
+                        "nullable": true
+                    },
+                    "bio": {
+                        "type": "string",
+                        "example": "I am a user",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UserRequest": {
+                "title": "User Request",
+                "description": "User creation payload",
+                "required": [
+                    "name",
+                    "email",
+                    "role",
+                    "password"
                 ],
                 "properties": {
                     "name": {
@@ -3601,6 +3729,26 @@
                         "type": "string",
                         "format": "password",
                         "example": "password"
+                    },
+                    "profile_image": {
+                        "type": "string",
+                        "example": "users/avatar.jpg",
+                        "nullable": true
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "123 Main St",
+                        "nullable": true
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "1234567890",
+                        "nullable": true
+                    },
+                    "bio": {
+                        "type": "string",
+                        "example": "I am a user",
+                        "nullable": true
                     }
                 },
                 "type": "object"
@@ -4047,6 +4195,26 @@
                         "type": "string",
                         "example": "user"
                     },
+                    "avatar": {
+                        "type": "string",
+                        "example": "users/avatar.jpg",
+                        "nullable": true
+                    },
+                    "avatar_url": {
+                        "type": "string",
+                        "example": "https://s3.amazonaws.com/bucket/users/avatar.jpg",
+                        "nullable": true
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "123 Main St",
+                        "nullable": true
+                    },
+                    "phone_number": {
+                        "type": "string",
+                        "example": "1234567890",
+                        "nullable": true
+                    },
                     "created_at": {
                         "type": "string",
                         "format": "date-time",
@@ -4103,16 +4271,20 @@
             "description": "Admin - Product Module"
         },
         {
+            "name": "Admin - Review Module",
+            "description": "Admin - Review Module"
+        },
+        {
+            "name": "User - Review Module",
+            "description": "User - Review Module"
+        },
+        {
+            "name": "Upload Images",
+            "description": "Upload Images"
+        },
+        {
             "name": "Admin - User Module",
             "description": "Admin - User Module"
-        },
-        {
-            "name": "Admin Reviews",
-            "description": "Admin Reviews"
-        },
-        {
-            "name": "User Reviews",
-            "description": "User Reviews"
         }
     ]
 }

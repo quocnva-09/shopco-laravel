@@ -10,13 +10,14 @@ use App\Http\Requests\User\UserRequest;
 readonly class UserDTO
 {
     public function __construct(
-        public string $name,
-        public string $email,
+        public ?string $name,
+        public ?string $email,
         public ?string $password,
-        public string $role,
-        public ?string $avatar,
+        public ?string $role,
+        public ?string $profile_image,
         public ?string $address,
-        public ?string $phone_number,
+        public ?string $phone,
+        public ?string $bio,
     ) {}
 
     public static function fromRequest(UserRequest|UpdateUserRequest $request): self
@@ -24,13 +25,15 @@ readonly class UserDTO
         $validated = $request->validated();
 
         return new self(
-            name: $validated['name'],
-            email: $validated['email'],
+            name: $validated['name'] ?? null,
+            email: $validated['email'] ?? null,
             password: $validated['password'] ?? null,
-            role: $validated['role'] ?? 'user',
-            avatar: $validated['avatar'] ?? null,
+            // If it's a create request, set default role, otherwise null
+            role: $validated['role'] ?? ($request instanceof UserRequest ? 'user' : null),
+            profile_image: $validated['profile_image'] ?? null,
             address: $validated['address'] ?? null,
-            phone_number: $validated['phone_number'] ?? null,
+            phone: $validated['phone'] ?? null,
+            bio: $validated['bio'] ?? null
         );
     }
 
@@ -39,16 +42,15 @@ readonly class UserDTO
         $data = [
             'name' => $this->name,
             'email' => $this->email,
+            'password' => $this->password,
             'role' => $this->role,
-            'avatar' => $this->avatar,
+            'profile_image' => $this->profile_image,
             'address' => $this->address,
-            'phone_number' => $this->phone_number,
+            'phone' => $this->phone,
+            'bio' => $this->bio,
         ];
 
-        if ($this->password !== null) {
-            $data['password'] = $this->password;
-        }
-
-        return $data;
+        // Filter out null values
+        return array_filter($data, fn($value) => $value !== null);
     }
 }

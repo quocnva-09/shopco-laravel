@@ -19,9 +19,10 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: "email", type: "string", format: "email", example: "john@example.com"),
         new OA\Property(property: "role", type: "string", example: "user", enum: ["admin", "user"]),
         new OA\Property(property: "password", type: "string", format: "password", example: "password"),
-        new OA\Property(property: "avatar", type: "string", example: "users/avatar.jpg", nullable: true),
+        new OA\Property(property: "profile_image", type: "string", example: "users/avatar.jpg", nullable: true),
         new OA\Property(property: "address", type: "string", example: "123 Main St", nullable: true),
-        new OA\Property(property: "phone_number", type: "string", example: "1234567890", nullable: true)
+        new OA\Property(property: "phone", type: "string", example: "1234567890", nullable: true),
+        new OA\Property(property: "bio", type: "string", example: "I am a user", nullable: true)
     ]
 )]
 class UserRequest extends FormRequest
@@ -34,13 +35,14 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email',
-            'role' => 'required|string|in:' . implode(',', UserRole::getValues()),
-            'password' => 'required|string|min:8',
-            'avatar' => 'nullable|string|max:255',
-            'address' => 'nullable|string|max:255',
-            'phone_number' => 'nullable|string|max:20',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'role' => ['required', 'string', 'in:' . implode(',', UserRole::getValues())],
+            'password' => ['required', 'string', 'min:8'],
+            'profile_image' => ['nullable', 'string', 'max:255'],
+            'address' => ['nullable', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:20'],
+            'bio' => ['nullable', 'string', 'max:500'],
         ];
     }
 }
