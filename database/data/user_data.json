@@ -1,0 +1,104 @@
+{
+    "users": [
+        {
+            "name": "System Admin",
+            "email": "admin@shop.co",
+            "role": "admin",
+            "password": "password",
+            "profile_image": null,
+            "address": "Trụ sở chính, TP.HCM",
+            "phone": "0900000000",
+            "bio": "Quản trị viên hệ thống SHOP.CO"
+        },
+        {
+            "name": "Kenji",
+            "email": "kenjiprovip@gmail.com",
+            "role": "user",
+            "password": "password",
+            "profile_image": "users/kenji.jpg",
+            "address": "Hà Nội, Việt Nam",
+            "phone": "0911111111",
+            "bio": "Khách hàng thân thiết"
+        },
+        {
+            "name": "Nguyễn Võ Anh Quốc",
+            "email": "anhquoc7a4@gmail.com",
+            "role": "user",
+            "password": "password",
+            "profile_image": "users/quoc.jpg",
+            "address": "TP.HCM, Việt Nam",
+            "phone": "0922222222",
+            "bio": "Software Developer"
+        },
+        {
+            "name": "John Doe",
+            "email": "john.doe@example.com",
+            "role": "user",
+            "password": "password",
+            "profile_image": "users/avatar1.jpg",
+            "address": "123 Main St, New York",
+            "phone": "0933333333",
+            "bio": "I love shopping!"
+        },
+        {
+            "name": "Jane Smith",
+            "email": "jane.smith@example.com",
+            "role": "user",
+            "password": "password",
+            "profile_image": "users/avatar2.jpg",
+            "address": "456 Oak St, California",
+            "phone": "0944444444",
+            "bio": "Fashion enthusiast"
+        },
+        {
+            "name": "Michael Johnson",
+            "email": "michael.j@example.com",
+            "role": "user",
+            "password": "password",
+            "profile_image": null,
+            "address": "789 Pine St, Texas",
+            "phone": "0955555555",
+            "bio": "Casual buyer"
+        },
+        {
+            "name": "Sarah Williams",
+            "email": "sarah.w@example.com",
+            "role": "user",
+            "password": "password",
+            "profile_image": "users/avatar3.jpg",
+            "address": "321 Cedar St, Florida",
+            "phone": "0966666666",
+            "bio": "Looking for the best deals"
+        },
+        {
+            "name": "David Brown",
+            "email": "david.b@example.com",
+            "role": "user",
+            "password": "password",
+            "profile_image": null,
+            "address": "654 Maple St, Washington",
+            "phone": "0977777777",
+            "bio": "Tech gadget lover"
+        },
+        {
+            "name": "Emily Davis",
+            "email": "emily.d@example.com",
+            "role": "user",
+            "password": "password",
+            "profile_image": "users/avatar4.jpg",
+            "address": "987 Elm St, Oregon",
+            "phone": "0988888888",
+            "bio": "Vintage clothing collector"
+        },
+        {
+            "name": "Chris Wilson",
+            "email": "chris.w@example.com",
+            "role": "user",
+            "password": "password",
+            "profile_image": null,
+            "address": "159 Birch St, Nevada",
+            "phone": "0999999999",
+            "bio": "Sneakerhead"
+        }
+    ]
+}

@@ -30,11 +30,10 @@ class ReviewController extends Controller
     }
 
     #[OA\Get(
-        path: "/api/admin/reviews",
-        operationId: "getAdminReviews",
-        summary: "Get a list of all reviews (Admin only)",
-        security: [["bearerAuth" => []]],
-        tags: ["Admin - Review Module"],
+        path: "/api/reviews",
+        operationId: "getReviews",
+        summary: "Get a list of all reviews",
+        tags: ["Review Module"],
         parameters: [
             new OA\Parameter(name: "keyword", in: "query", required: false, schema: new OA\Schema(type: "string")),
             new OA\Parameter(name: "sort_by", in: "query", required: false, schema: new OA\Schema(type: "string", enum: ["id", "created_at", "rating"])),
@@ -69,11 +68,10 @@ class ReviewController extends Controller
     }
 
     #[OA\Get(
-        path: "/api/admin/reviews/{id}",
-        operationId: "getAdminReviewById",
+        path: "/api/reviews/{id}",
+        operationId: "getReviewById",
         summary: "Get a review by ID",
-        security: [["bearerAuth" => []]],
-        tags: ["Admin - Review Module"],
+        tags: ["Review Module"],
         parameters: [
             new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
         ],

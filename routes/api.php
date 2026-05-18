@@ -63,6 +63,9 @@ Route::get('products', [ProductController::class, 'index']);
 Route::get('products/{id}', [ProductController::class, 'show']);
 Route::get('products/{productId}/reviews', [ReviewController::class, 'getByProduct']);
 
+Route::get('reviews', [ReviewController::class, 'index']);
+Route::get('reviews/{id}', [ReviewController::class, 'show']);
+
 
 Route::get('ping', function () {
     return response()->json(['message' => 'pong', 'time' => microtime(true)]);

@@ -2333,13 +2333,13 @@
                 ]
             }
         },
-        "/api/admin/reviews": {
+        "/api/reviews": {
             "get": {
                 "tags": [
-                    "Admin - Review Module"
+                    "Review Module"
                 ],
-                "summary": "Get a list of all reviews (Admin only)",
-                "operationId": "getAdminReviews",
+                "summary": "Get a list of all reviews",
+                "operationId": "getReviews",
                 "parameters": [
                     {
                         "name": "keyword",
@@ -2416,97 +2416,8 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/admin/reviews/{id}": {
-            "get": {
-                "tags": [
-                    "Admin - Review Module"
-                ],
-                "summary": "Get a review by ID",
-                "operationId": "getAdminReviewById",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Review details",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 200
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Success"
-                                        },
-                                        "data": {
-                                            "$ref": "#/components/schemas/ReviewResource"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Review not found"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             },
-            "delete": {
-                "tags": [
-                    "Admin - Review Module"
-                ],
-                "summary": "Delete a review",
-                "operationId": "deleteAdminReview",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Review deleted successfully"
-                    },
-                    "404": {
-                        "description": "Review not found"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/reviews": {
             "post": {
                 "tags": [
                     "User - Review Module"
@@ -2558,6 +2469,53 @@
                 ]
             }
         },
+        "/api/reviews/{id}": {
+            "get": {
+                "tags": [
+                    "Review Module"
+                ],
+                "summary": "Get a review by ID",
+                "operationId": "getReviewById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Review details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ReviewResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Review not found"
+                    }
+                }
+            }
+        },
         "/api/admin/reviews/{id}/approve": {
             "patch": {
                 "tags": [
@@ -2588,6 +2546,38 @@
                 "responses": {
                     "200": {
                         "description": "Review status updated successfully"
+                    },
+                    "404": {
+                        "description": "Review not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/reviews/{id}": {
+            "delete": {
+                "tags": [
+                    "Admin - Review Module"
+                ],
+                "summary": "Delete a review",
+                "operationId": "deleteAdminReview",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Review deleted successfully"
                     },
                     "404": {
                         "description": "Review not found"
@@ -4361,12 +4351,16 @@
             "description": "Admin - Product Module"
         },
         {
-            "name": "Admin - Review Module",
-            "description": "Admin - Review Module"
+            "name": "Review Module",
+            "description": "Review Module"
         },
         {
             "name": "User - Review Module",
             "description": "User - Review Module"
+        },
+        {
+            "name": "Admin - Review Module",
+            "description": "Admin - Review Module"
         },
         {
             "name": "Upload Images",

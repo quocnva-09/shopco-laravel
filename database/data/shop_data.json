@@ -1,0 +1,780 @@
+{
+    "categories": [
+        {
+            "name": "T-shirt",
+            "slug": "t-shirt",
+            "description": "Bộ sưu tập áo thun năng động, thoải mái cho mọi hoạt động hàng ngày.",
+            "products": [
+                {
+                    "name": "Gradient Graphic T-Shirt",
+                    "slug": "gradient-graphic-t-shirt",
+                    "price": 35,
+                    "price_discount": 29,
+                    "description": "Áo thun với họa tiết gradient nổi bật, mang đậm phong cách đường phố.",
+                    "images": [
+                        "products/WNhRnYY6YWCarSli44gSmsDly0Y6WmIRVA2RTqHy.png"
+                    ],
+                    "sizes": [
+                        "S",
+                        "M",
+                        "L",
+                        "XL"
+                    ],
+                    "colors": [
+                        "Black",
+                        "White"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Courage T-Shirt",
+                    "slug": "courage-t-shirt",
+                    "price": 30,
+                    "price_discount": null,
+                    "description": "Áo thun in chữ Courage đơn giản nhưng truyền cảm hứng mạnh mẽ.",
+                    "images": [
+                        "products/hyJyPJSSdJtLW3G3M5lerqb1fJ7vVOja2f52P6Jh.png"
+                    ],
+                    "sizes": [
+                        "M",
+                        "L"
+                    ],
+                    "colors": [
+                        "White",
+                        "Navy"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Denim T-Shirt",
+                    "slug": "denim-t-shirt",
+                    "price": 40,
+                    "price_discount": 35,
+                    "description": "Áo thun giả họa tiết denim độc đáo, chất vải mềm mịn thấm hút mồ hôi.",
+                    "images": [
+                        "products/Fs18jnV8WUDIf3SvSd6pUghx2GRiYz6GnQxnNFmg.png"
+                    ],
+                    "sizes": [
+                        "S",
+                        "M",
+                        "L"
+                    ],
+                    "colors": [
+                        "Blue",
+                        "Dark Blue"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Tape Details T-Shirt",
+                    "slug": "tape-details-t-shirt",
+                    "price": 45,
+                    "price_discount": 39,
+                    "description": "Áo thun với dải viền trang trí chạy dọc vai cá tính.",
+                    "images": [
+                        "products/f1HwFoPpLPHMZhItk1bMKLQuYpMzsHTH8O4zsmzz.png"
+                    ],
+                    "sizes": [
+                        "M",
+                        "L",
+                        "XL"
+                    ],
+                    "colors": [
+                        "Black",
+                        "Red"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Vintage Logo T-Shirt",
+                    "slug": "vintage-logo-t-shirt",
+                    "price": 32,
+                    "price_discount": null,
+                    "description": "Phong cách retro cổ điển với logo in mờ.",
+                    "images": [
+                        "products/AgwWSRg8DMCB1gmqRPsYPuBuiVIVB3C7LboPZOzR.png"
+                    ],
+                    "sizes": [
+                        "S",
+                        "M",
+                        "L"
+                    ],
+                    "colors": [
+                        "Gray",
+                        "Mustard"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Black Striped T-Shirt",
+                    "slug": "black-striped-t-shirt",
+                    "price": 38,
+                    "price_discount": null,
+                    "description": "Áo thun sọc đen trắng thanh lịch, dễ dàng phối đồ.",
+                    "images": [
+                        "products/kNKLFvDD0l9a9VsrM6NmtiB4uT2o5PqNqMXCPwSC.png"
+                    ],
+                    "sizes": [
+                        "M",
+                        "L"
+                    ],
+                    "colors": [
+                        "Black/White"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Oversized Cotton T-Shirt",
+                    "slug": "oversized-cotton-t-shirt",
+                    "price": 42,
+                    "price_discount": 35,
+                    "description": "Form rộng thoải mái, chất liệu 100% cotton cao cấp.",
+                    "images": [
+                        "products/9ByuopTIZsBfABhLbvyORAABepyTa4QZlQdhAe97.png"
+                    ],
+                    "sizes": [
+                        "L",
+                        "XL",
+                        "XXL"
+                    ],
+                    "colors": [
+                        "Beige",
+                        "Olive"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Sleeve Striped T-Shirt",
+                    "slug": "sleeve-striped-t-shirt",
+                    "price": 36,
+                    "price_discount": 30,
+                    "description": "Điểm nhấn sọc ngang ở tay áo tạo sự khác biệt.",
+                    "images": [
+                        "products/RRGAaBQNU1p3hZJLtSIjJtg5bwOqnYmSlrbNZGF5.png"
+                    ],
+                    "sizes": [
+                        "S",
+                        "M",
+                        "L"
+                    ],
+                    "colors": [
+                        "White",
+                        "Burgundy"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Essential V-Neck T-Shirt",
+                    "slug": "essential-v-neck-t-shirt",
+                    "price": 25,
+                    "price_discount": null,
+                    "description": "Áo thun cổ tim cơ bản, món đồ không thể thiếu trong tủ đồ.",
+                    "images": [
+                        "products/qqQltaGLwQOLKDSauAzoIdT9GAkNi8osJCD24P88.png"
+                    ],
+                    "sizes": [
+                        "S",
+                        "M",
+                        "L",
+                        "XL"
+                    ],
+                    "colors": [
+                        "Black",
+                        "White",
+                        "Gray"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Urban Camo T-Shirt",
+                    "slug": "urban-camo-t-shirt",
+                    "price": 45,
+                    "price_discount": 40,
+                    "description": "Họa tiết rằn ri phong cách thành thị cực ngầu.",
+                    "images": [
+                        "products/x27saOO4irXiFO0odML1t4vgm12Y10BjWunjnDMC.png"
+                    ],
+                    "sizes": [
+                        "M",
+                        "L",
+                        "XL"
+                    ],
+                    "colors": [
+                        "Green Camo",
+                        "Gray Camo"
+                    ],
+                    "is_active": true
+                }
+            ]
+        },
+        {
+            "name": "Polo",
+            "slug": "polo",
+            "description": "Áo Polo thanh lịch, phù hợp từ công sở đến những buổi dạo phố.",
+            "products": [
+                {
+                    "name": "Polo With Piping Detail",
+                    "slug": "polo-with-piping-detail",
+                    "price": 55,
+                    "price_discount": null,
+                    "description": "Áo polo với viền nổi tinh tế, tạo điểm nhấn nam tính.",
+                    "images": [
+                        "products/pmCG3Oq8bx4nfXrHepDhIImR0RSxTQvKw9xlxdGW.png"
+                    ],
+                    "sizes": [
+                        "M",
+                        "L",
+                        "XL"
+                    ],
+                    "colors": [
+                        "Navy",
+                        "White"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Cool-Fabric Polo Shirt",
+                    "slug": "cool-fabric-polo-shirt",
+                    "price": 60,
+                    "price_discount": 50,
+                    "description": "Sử dụng công nghệ vải mát lạnh cool-fabric, co giãn cực tốt và giữ form hoàn hảo.",
+                    "images": [
+                        "products/R54Cpon8IDT87oDDP3Eh9GXqb9uvAiw9aek3PO1J.png"
+                    ],
+                    "sizes": [
+                        "S",
+                        "M",
+                        "L"
+                    ],
+                    "colors": [
+                        "Ice Blue",
+                        "Mint Green",
+                        "Black"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Classic Pique Polo",
+                    "slug": "classic-pique-polo",
+                    "price": 45,
+                    "price_discount": 39,
+                    "description": "Áo polo vải cá sấu cổ điển, form dáng chuẩn mực.",
+                    "images": [
+                        "products/WNhRnYY6YWCarSli44gSmsDly0Y6WmIRVA2RTqHy.png"
+                    ],
+                    "sizes": [
+                        "S",
+                        "M",
+                        "L",
+                        "XL"
+                    ],
+                    "colors": [
+                        "Red",
+                        "Navy",
+                        "White"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Polo With Contrast Trims",
+                    "slug": "polo-with-contrast-trims",
+                    "price": 50,
+                    "price_discount": null,
+                    "description": "Thiết kế nổi bật với viền cổ và tay áo khác màu.",
+                    "images": [
+                        "products/hyJyPJSSdJtLW3G3M5lerqb1fJ7vVOja2f52P6Jh.png"
+                    ],
+                    "sizes": [
+                        "M",
+                        "L"
+                    ],
+                    "colors": [
+                        "Black/Red",
+                        "White/Navy"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Slim-Fit Knitted Polo",
+                    "slug": "slim-fit-knitted-polo",
+                    "price": 65,
+                    "price_discount": 55,
+                    "description": "Chất liệu len mỏng dệt kim, ôm dáng tôn lên đường nét cơ thể.",
+                    "images": [
+                        "products/Fs18jnV8WUDIf3SvSd6pUghx2GRiYz6GnQxnNFmg.png"
+                    ],
+                    "sizes": [
+                        "S",
+                        "M"
+                    ],
+                    "colors": [
+                        "Beige",
+                        "Brown"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Striped Collar Polo",
+                    "slug": "striped-collar-polo",
+                    "price": 48,
+                    "price_discount": 40,
+                    "description": "Cổ áo kẻ sọc tạo điểm nhấn trẻ trung và hiện đại.",
+                    "images": [
+                        "products/f1HwFoPpLPHMZhItk1bMKLQuYpMzsHTH8O4zsmzz.png"
+                    ],
+                    "sizes": [
+                        "M",
+                        "L",
+                        "XL"
+                    ],
+                    "colors": [
+                        "White",
+                        "Light Blue"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Performance Golf Polo",
+                    "slug": "performance-golf-polo",
+                    "price": 70,
+                    "price_discount": 60,
+                    "description": "Áo polo thể thao thấm hút tuyệt đối, thiết kế chuyên dụng cho golfer.",
+                    "images": [
+                        "products/AgwWSRg8DMCB1gmqRPsYPuBuiVIVB3C7LboPZOzR.png"
+                    ],
+                    "sizes": [
+                        "L",
+                        "XL"
+                    ],
+                    "colors": [
+                        "Black",
+                        "Royal Blue"
+                    ],
+                    "is_active": true
+                }
+            ]
+        },
+        {
+            "name": "Shirt",
+            "slug": "shirt",
+            "description": "Sơ mi phong cách, nâng tầm diện mạo trưởng thành.",
+            "products": [
+                {
+                    "name": "Checkered Shirt",
+                    "slug": "checkered-shirt",
+                    "price": 45,
+                    "price_discount": 35,
+                    "description": "Sơ mi kẻ caro trẻ trung, dễ dàng phối cùng áo thun trắng bên trong.",
+                    "images": [
+                        "products/kNKLFvDD0l9a9VsrM6NmtiB4uT2o5PqNqMXCPwSC.png"
+                    ],
+                    "sizes": [
+                        "S",
+                        "M",
+                        "L"
+                    ],
+                    "colors": [
+                        "Red/Black",
+                        "Blue/White"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Slim-Fit Dress Shirt",
+                    "slug": "slim-fit-dress-shirt",
+                    "price": 55,
+                    "price_discount": null,
+                    "description": "Sơ mi công sở ôm dáng, chống nhăn hiệu quả.",
+                    "images": [
+                        "products/9ByuopTIZsBfABhLbvyORAABepyTa4QZlQdhAe97.png"
+                    ],
+                    "sizes": [
+                        "M",
+                        "L",
+                        "XL"
+                    ],
+                    "colors": [
+                        "White",
+                        "Light Blue",
+                        "Pink"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Striped Shirt",
+                    "slug": "striped-shirt",
+                    "price": 48,
+                    "price_discount": 40,
+                    "description": "Sơ mi kẻ sọc dọc giúp tôn dáng người mặc.",
+                    "images": [
+                        "products/RRGAaBQNU1p3hZJLtSIjJtg5bwOqnYmSlrbNZGF5.png"
+                    ],
+                    "sizes": [
+                        "M",
+                        "L"
+                    ],
+                    "colors": [
+                        "Blue/White",
+                        "Black/White"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Short Sleeve Cuban Collar Shirt",
+                    "slug": "short-sleeve-cuban-collar-shirt",
+                    "price": 40,
+                    "price_discount": 32,
+                    "description": "Sơ mi cổ Cuba tay ngắn, mang hơi thở mùa hè nhiệt đới.",
+                    "images": [
+                        "products/qqQltaGLwQOLKDSauAzoIdT9GAkNi8osJCD24P88.png"
+                    ],
+                    "sizes": [
+                        "S",
+                        "M",
+                        "L"
+                    ],
+                    "colors": [
+                        "Mustard",
+                        "Olive"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Oxford Button-Down Shirt",
+                    "slug": "oxford-button-down-shirt",
+                    "price": 50,
+                    "price_discount": null,
+                    "description": "Sơ mi Oxford cổ điển với nút cài cổ áo chắc chắn.",
+                    "images": [
+                        "products/x27saOO4irXiFO0odML1t4vgm12Y10BjWunjnDMC.png"
+                    ],
+                    "sizes": [
+                        "S",
+                        "M",
+                        "L",
+                        "XL"
+                    ],
+                    "colors": [
+                        "White",
+                        "Navy",
+                        "Gray"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Casual Linen Shirt",
+                    "slug": "casual-linen-shirt",
+                    "price": 60,
+                    "price_discount": 49,
+                    "description": "Chất liệu đũi (linen) thoáng mát, mộc mạc và phong trần.",
+                    "images": [
+                        "products/pmCG3Oq8bx4nfXrHepDhIImR0RSxTQvKw9xlxdGW.png"
+                    ],
+                    "sizes": [
+                        "M",
+                        "L"
+                    ],
+                    "colors": [
+                        "Beige",
+                        "White"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Flannel Overshirt",
+                    "slug": "flannel-overshirt",
+                    "price": 65,
+                    "price_discount": 50,
+                    "description": "Sơ mi khoác ngoài vải flannel dày dặn, ấm áp.",
+                    "images": [
+                        "products/R54Cpon8IDT87oDDP3Eh9GXqb9uvAiw9aek3PO1J.png"
+                    ],
+                    "sizes": [
+                        "L",
+                        "XL"
+                    ],
+                    "colors": [
+                        "Brown Check",
+                        "Green Check"
+                    ],
+                    "is_active": true
+                }
+            ]
+        },
+        {
+            "name": "Jeans",
+            "slug": "jeans",
+            "description": "Quần Jeans bền bỉ, phong cách bụi bặm vĩnh cửu.",
+            "products": [
+                {
+                    "name": "Relaxed Fit Baggy Jeans",
+                    "slug": "relaxed-fit-baggy-jeans",
+                    "price": 75,
+                    "price_discount": 65,
+                    "description": "Quần jeans ống rộng baggy, xu hướng thời trang đường phố.",
+                    "images": [
+                        "products/WNhRnYY6YWCarSli44gSmsDly0Y6WmIRVA2RTqHy.png"
+                    ],
+                    "sizes": [
+                        "M",
+                        "L",
+                        "XL"
+                    ],
+                    "colors": [
+                        "Light Blue",
+                        "Washed Black"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Skinny Jeans",
+                    "slug": "skinny-jeans",
+                    "price": 60,
+                    "price_discount": null,
+                    "description": "Quần jeans ôm sát cơ thể, độ co giãn cao không gây gò bó.",
+                    "images": [
+                        "products/hyJyPJSSdJtLW3G3M5lerqb1fJ7vVOja2f52P6Jh.png"
+                    ],
+                    "sizes": [
+                        "S",
+                        "M",
+                        "L"
+                    ],
+                    "colors": [
+                        "Black",
+                        "Dark Blue"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Classic Straight Leg Jeans",
+                    "slug": "classic-straight-leg-jeans",
+                    "price": 65,
+                    "price_discount": null,
+                    "description": "Quần ống đứng cổ điển, form dáng cơ bản dễ mặc nhất.",
+                    "images": [
+                        "products/Fs18jnV8WUDIf3SvSd6pUghx2GRiYz6GnQxnNFmg.png"
+                    ],
+                    "sizes": [
+                        "S",
+                        "M",
+                        "L",
+                        "XL"
+                    ],
+                    "colors": [
+                        "Indigo",
+                        "Black"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Faded Jeans",
+                    "slug": "faded-jeans",
+                    "price": 70,
+                    "price_discount": 59,
+                    "description": "Quần jeans hiệu ứng mài mòn (faded) cá tính, bụi bặm.",
+                    "images": [
+                        "products/f1HwFoPpLPHMZhItk1bMKLQuYpMzsHTH8O4zsmzz.png"
+                    ],
+                    "sizes": [
+                        "M",
+                        "L"
+                    ],
+                    "colors": [
+                        "Faded Blue",
+                        "Faded Gray"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Ripped Knee Denim",
+                    "slug": "ripped-knee-denim",
+                    "price": 80,
+                    "price_discount": 69,
+                    "description": "Điểm nhấn rách gối cực chất, phù hợp phong cách rock/grunge.",
+                    "images": [
+                        "products/AgwWSRg8DMCB1gmqRPsYPuBuiVIVB3C7LboPZOzR.png"
+                    ],
+                    "sizes": [
+                        "S",
+                        "M",
+                        "L"
+                    ],
+                    "colors": [
+                        "Light Wash",
+                        "Black"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Tapered Fit Jeans",
+                    "slug": "tapered-fit-jeans",
+                    "price": 68,
+                    "price_discount": 60,
+                    "description": "Rộng ở đùi và ôm dần xuống ống chân, tạo cảm giác thoải mái nhưng vẫn gọn gàng.",
+                    "images": [
+                        "products/kNKLFvDD0l9a9VsrM6NmtiB4uT2o5PqNqMXCPwSC.png"
+                    ],
+                    "sizes": [
+                        "M",
+                        "L",
+                        "XL"
+                    ],
+                    "colors": [
+                        "Navy",
+                        "Charcoal"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Vintage Wash Bootcut Jeans",
+                    "slug": "vintage-wash-bootcut-jeans",
+                    "price": 85,
+                    "price_discount": null,
+                    "description": "Quần ống loe nhẹ (bootcut) mang âm hưởng thời trang thập niên 90.",
+                    "images": [
+                        "products/9ByuopTIZsBfABhLbvyORAABepyTa4QZlQdhAe97.png"
+                    ],
+                    "sizes": [
+                        "M",
+                        "L"
+                    ],
+                    "colors": [
+                        "Vintage Blue"
+                    ],
+                    "is_active": true
+                }
+            ]
+        },
+        {
+            "name": "Shorts",
+            "slug": "shorts",
+            "description": "Quần shorts thoáng mát, giải phóng sự năng động.",
+            "products": [
+                {
+                    "name": "Chino Tailored Shorts",
+                    "slug": "chino-tailored-shorts",
+                    "price": 45,
+                    "price_discount": 35,
+                    "description": "Quần short kaki may đo thanh lịch, phù hợp mặc dạo phố hay hẹn hò.",
+                    "images": [
+                        "products/RRGAaBQNU1p3hZJLtSIjJtg5bwOqnYmSlrbNZGF5.png"
+                    ],
+                    "sizes": [
+                        "S",
+                        "M",
+                        "L",
+                        "XL"
+                    ],
+                    "colors": [
+                        "Beige",
+                        "Navy",
+                        "Olive"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Classic Shorts",
+                    "slug": "classic-shorts",
+                    "price": 35,
+                    "price_discount": null,
+                    "description": "Quần short cotton cơ bản, mềm mại và siêu thoải mái.",
+                    "images": [
+                        "products/qqQltaGLwQOLKDSauAzoIdT9GAkNi8osJCD24P88.png"
+                    ],
+                    "sizes": [
+                        "M",
+                        "L",
+                        "XL"
+                    ],
+                    "colors": [
+                        "Gray",
+                        "Black"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Cargo Utility Shorts",
+                    "slug": "cargo-utility-shorts",
+                    "price": 50,
+                    "price_discount": 42,
+                    "description": "Quần short túi hộp tiện dụng, chất liệu vải dù chống nước nhẹ.",
+                    "images": [
+                        "products/x27saOO4irXiFO0odML1t4vgm12Y10BjWunjnDMC.png"
+                    ],
+                    "sizes": [
+                        "M",
+                        "L",
+                        "XL"
+                    ],
+                    "colors": [
+                        "Khaki",
+                        "Camo",
+                        "Black"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Denim Cut-Off Shorts",
+                    "slug": "denim-cut-off-shorts",
+                    "price": 48,
+                    "price_discount": 39,
+                    "description": "Quần short jeans cắt gấu tua rua cực kỳ phong cách.",
+                    "images": [
+                        "products/pmCG3Oq8bx4nfXrHepDhIImR0RSxTQvKw9xlxdGW.png"
+                    ],
+                    "sizes": [
+                        "S",
+                        "M",
+                        "L"
+                    ],
+                    "colors": [
+                        "Light Blue",
+                        "Acid Wash"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Swim Trunks",
+                    "slug": "swim-trunks",
+                    "price": 30,
+                    "price_discount": null,
+                    "description": "Quần bơi nhanh khô với họa tiết mùa hè rực rỡ.",
+                    "images": [
+                        "products/R54Cpon8IDT87oDDP3Eh9GXqb9uvAiw9aek3PO1J.png"
+                    ],
+                    "sizes": [
+                        "S",
+                        "M",
+                        "L"
+                    ],
+                    "colors": [
+                        "Floral Print",
+                        "Neon Blue"
+                    ],
+                    "is_active": true
+                },
+                {
+                    "name": "Athletic Sweat Shorts",
+                    "slug": "athletic-sweat-shorts",
+                    "price": 40,
+                    "price_discount": 30,
+                    "description": "Quần short nỉ thun thể thao, hoàn hảo cho việc tập gym hoặc mặc nhà.",
+                    "images": [
+                        "products/WNhRnYY6YWCarSli44gSmsDly0Y6WmIRVA2RTqHy.png"
+                    ],
+                    "sizes": [
+                        "M",
+                        "L",
+                        "XL"
+                    ],
+                    "colors": [
+                        "Heather Gray",
+                        "Black"
+                    ],
+                    "is_active": true
+                }
+            ]
+        }
+    ]
+}

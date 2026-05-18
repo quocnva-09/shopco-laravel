@@ -51,8 +51,6 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     // Review routes
     Route::prefix('reviews')->group(function () {
-        Route::get('/', [ReviewController::class, 'index']);
-        Route::get('/{id}', [ReviewController::class, 'show']);
         Route::patch('/{id}/approve', [ReviewController::class, 'approve']);
         Route::delete('/{id}', [ReviewController::class, 'destroy']);
     });
