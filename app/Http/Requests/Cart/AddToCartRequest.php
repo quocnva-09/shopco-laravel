@@ -14,6 +14,15 @@ use OpenApi\Attributes as OA;
     properties: [
         new OA\Property(property: 'product_id', type: 'integer', example: 7),
         new OA\Property(property: 'quantity', type: 'integer', minimum: 1, example: 2),
+        new OA\Property(
+            property: 'options',
+            type: 'object',
+            nullable: true,
+            properties: [
+                new OA\Property(property: 'sizes', type: 'string', example: 'M'),
+                new OA\Property(property: 'colors', type: 'string', example: 'Red'),
+            ]
+        ),
     ]
 )]
 class AddToCartRequest extends FormRequest
@@ -33,9 +42,16 @@ class AddToCartRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'product_id' => ['required', 'integer', 'exists:products,id'],
             'quantity' => ['required', 'integer', 'min:1'],
+            'options' => ['nullable', 'array'],
         ];
+
+        foreach (\App\Enums\ProductVariants::cases() as $variant) {
+            $rules['options.' . $variant->value] = ['nullable', 'string'];
+        }
+
+        return $rules;
     }
 }

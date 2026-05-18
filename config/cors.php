@@ -20,7 +20,7 @@ return [
     'allowed_methods' => ['*'],
 
     // Modify in future when need integrate Frontend (Next.js, Vue.js, React.js)
-    'allowed_origins' => ['*'],
+    'allowed_origins' => [env('FRONTEND_URL')],
 
     'allowed_origins_patterns' => [],
 

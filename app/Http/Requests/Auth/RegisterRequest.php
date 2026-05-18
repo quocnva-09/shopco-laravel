@@ -14,6 +14,7 @@ use OpenApi\Attributes as OA;
     properties: [
         new OA\Property(property: 'name', type: 'string', example: 'John Doe'),
         new OA\Property(property: 'email', type: 'string', format: 'email', example: 'john.doe@example.com'),
+        new OA\Property(property: 'phone', type: 'string', example: '0123456789'),
         new OA\Property(property: 'password', type: 'string', format: 'password', example: 'password123'),
         new OA\Property(property: 'password_confirmation', type: 'string', format: 'password', example: 'password123'),
     ]
@@ -27,7 +28,6 @@ class RegisterRequest extends FormRequest
     {
         return true;
     }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -38,6 +38,7 @@ class RegisterRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
+            'phone' => ['nullable', 'string', 'max:20'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }

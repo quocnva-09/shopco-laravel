@@ -15,9 +15,9 @@ interface CartRepositoryInterface
 
     public function countCartItemsByUserId(int $userId): int;
 
-    public function getCartItem(int $cartId, int $productId): ?CartItem;
+    public function getCartItem(int $cartId, int $productId, ?array $options = null): ?CartItem;
 
-    public function addCartItem(int $cartId, int $productId, int $quantity): CartItem;
+    public function addCartItem(int $cartId, int $productId, int $quantity, ?array $options = null): CartItem;
 
     public function updateCartItem(int $itemId, int $quantity): bool;
 

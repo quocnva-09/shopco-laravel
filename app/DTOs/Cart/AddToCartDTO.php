@@ -9,6 +9,7 @@ readonly class AddToCartDTO
     public function __construct(
         public int $product_id,
         public int $quantity,
+        public ?array $options = null,
     ) {}
 
     /**
@@ -19,6 +20,7 @@ readonly class AddToCartDTO
         return new self(
             product_id: (int) $request->validated('product_id'),
             quantity: (int) $request->validated('quantity'),
+            options: $request->validated('options'),
         );
     }
 
@@ -30,6 +32,7 @@ readonly class AddToCartDTO
         return [
             'product_id' => $this->product_id,
             'quantity' => $this->quantity,
+            'options' => $this->options,
         ];
     }
 }

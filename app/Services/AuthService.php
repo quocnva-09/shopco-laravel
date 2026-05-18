@@ -25,6 +25,7 @@ class AuthService implements AuthServiceInterface
         $user = $this->userRepo->create([
             'name'     => $dto->name,
             'email'    => $dto->email,
+            'phone'    => $dto->phone,
             'password' => bcrypt($dto->password, ['rounds' => 10]),
         ]);
 

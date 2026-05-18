@@ -16,6 +16,15 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'price', type: 'number', format: 'float', example: 150000),
         new OA\Property(property: 'totalMoney', type: 'number', format: 'float', example: 300000),
         new OA\Property(
+            property: 'options',
+            type: 'object',
+            nullable: true,
+            properties: [
+                new OA\Property(property: 'sizes', type: 'string', example: 'M'),
+                new OA\Property(property: 'colors', type: 'string', example: 'Red'),
+            ]
+        ),
+        new OA\Property(
             property: 'product',
             type: 'object',
             nullable: true,
@@ -54,6 +63,7 @@ class OrderItemResource extends JsonResource
             'quantity' => $this->quantity,
             'price' => (float) $this->price,
             'totalMoney' => (float) $this->totalMoney,
+            'options' => $this->options,
             'product' => $this->whenLoaded('product', function () {
                 return [
                     'id' => $this->product->id,

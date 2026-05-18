@@ -19,6 +19,15 @@ class Product extends Model
         'price_discount',
         'description',
         'category_id',
+        'sizes',
+        'colors',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'sizes' => 'array',
+        'colors' => 'array',
+        'is_active' => 'boolean',
     ];
 
     public function category()

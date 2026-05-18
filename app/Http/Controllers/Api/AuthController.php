@@ -127,7 +127,7 @@ class AuthController extends Controller
                 description: 'Logout successful',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'int', example: '200'),
                         new OA\Property(property: 'message', type: 'string', example: 'Logout successfully'),
                         new OA\Property(property: 'data', type: 'boolean', example: true)
                     ]
@@ -151,8 +151,8 @@ class AuthController extends Controller
         path: '/api/logout/all',
         summary: 'Logout All Devices',
         description: 'Revoke ALL Sanctum tokens for the authenticated user. '
-            . 'This signs the user out of every device and browser simultaneously. '
-            . 'Use this when an account is suspected to be compromised.',
+        . 'This signs the user out of every device and browser simultaneously. '
+        . 'Use this when an account is suspected to be compromised.',
         tags: ['Authentication'],
         security: [['bearerAuth' => []]],
         responses: [

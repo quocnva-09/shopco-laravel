@@ -20,6 +20,21 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'price', type: 'number', format: 'float', example: 150000),
         new OA\Property(property: 'price_discount', type: 'number', format: 'float', nullable: true, example: 120000),
         new OA\Property(
+            property: 'sizes',
+            type: 'array',
+            items: new OA\Items(type: 'string'),
+            nullable: true,
+            example: ['S', 'M', 'L']
+        ),
+        new OA\Property(
+            property: 'colors',
+            type: 'array',
+            items: new OA\Items(type: 'string'),
+            nullable: true,
+            example: ['Red', 'Blue', 'Black']
+        ),
+        new OA\Property(property: 'is_active', type: 'boolean', example: true),
+        new OA\Property(
             property: 'category',
             type: 'object',
             nullable: true,
@@ -54,6 +69,9 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'price_discount' => $this->price_discount,
+            'sizes' => $this->sizes,
+            'colors' => $this->colors,
+            'is_active' => (bool)$this->is_active,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
             'category' => $this->whenLoaded('category', function () {

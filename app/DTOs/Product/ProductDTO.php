@@ -16,6 +16,9 @@ readonly class ProductDTO
         public ?string $description,
         public ?int $category_id,
         public ?array $images,
+        public ?array $sizes,
+        public ?array $colors,
+        public ?bool $is_active,
     ) {}
 
     public static function fromRequest(ProductRequest $request): self
@@ -30,6 +33,9 @@ readonly class ProductDTO
             description: $validated['description'] ?? null,
             category_id: isset($validated['category_id']) ? (int) $validated['category_id'] : null,
             images: $validated['images'] ?? null,
+            sizes: $validated['sizes'] ?? null,
+            colors: $validated['colors'] ?? null,
+            is_active: isset($validated['is_active']) ? (bool) $validated['is_active'] : null,
         );
     }
 
@@ -42,6 +48,9 @@ readonly class ProductDTO
             'price_discount' => $this->price_discount,
             'description' => $this->description,
             'category_id' => $this->category_id,
+            'sizes' => $this->sizes,
+            'colors' => $this->colors,
+            'is_active' => $this->is_active,
         ];
 
         return array_filter($data, fn ($value) => $value !== null);

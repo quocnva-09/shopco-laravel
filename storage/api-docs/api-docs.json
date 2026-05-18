@@ -158,8 +158,8 @@
                                 "schema": {
                                     "properties": {
                                         "status": {
-                                            "type": "string",
-                                            "example": "success"
+                                            "type": "integer",
+                                            "example": "200"
                                         },
                                         "message": {
                                             "type": "string",
@@ -3399,6 +3399,10 @@
                         "format": "email",
                         "example": "john.doe@example.com"
                     },
+                    "phone": {
+                        "type": "string",
+                        "example": "0123456789"
+                    },
                     "password": {
                         "type": "string",
                         "format": "password",
@@ -3428,6 +3432,20 @@
                         "type": "integer",
                         "example": 2,
                         "minimum": 1
+                    },
+                    "options": {
+                        "properties": {
+                            "sizes": {
+                                "type": "string",
+                                "example": "M"
+                            },
+                            "colors": {
+                                "type": "string",
+                                "example": "Red"
+                            }
+                        },
+                        "type": "object",
+                        "nullable": true
                     }
                 },
                 "type": "object"
@@ -3564,6 +3582,27 @@
                             "type": "string",
                             "example": "products/xyz.jpg"
                         },
+                        "nullable": true
+                    },
+                    "sizes": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "M"
+                        },
+                        "nullable": true
+                    },
+                    "colors": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "Red"
+                        },
+                        "nullable": true
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "example": true,
                         "nullable": true
                     }
                 },
@@ -3773,6 +3812,20 @@
                         "type": "integer",
                         "example": 2
                     },
+                    "options": {
+                        "properties": {
+                            "sizes": {
+                                "type": "string",
+                                "example": "M"
+                            },
+                            "colors": {
+                                "type": "string",
+                                "example": "Red"
+                            }
+                        },
+                        "type": "object",
+                        "nullable": true
+                    },
                     "product": {
                         "properties": {
                             "id": {
@@ -3953,6 +4006,20 @@
                         "format": "float",
                         "example": 300000
                     },
+                    "options": {
+                        "properties": {
+                            "sizes": {
+                                "type": "string",
+                                "example": "M"
+                            },
+                            "colors": {
+                                "type": "string",
+                                "example": "Red"
+                            }
+                        },
+                        "type": "object",
+                        "nullable": true
+                    },
                     "product": {
                         "properties": {
                             "id": {
@@ -4092,6 +4159,34 @@
                         "example": 120000,
                         "nullable": true
                     },
+                    "sizes": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "S",
+                            "M",
+                            "L"
+                        ],
+                        "nullable": true
+                    },
+                    "colors": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "Red",
+                            "Blue",
+                            "Black"
+                        ],
+                        "nullable": true
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "example": true
+                    },
                     "category": {
                         "properties": {
                             "id": {
@@ -4195,12 +4290,7 @@
                         "type": "string",
                         "example": "user"
                     },
-                    "avatar": {
-                        "type": "string",
-                        "example": "users/avatar.jpg",
-                        "nullable": true
-                    },
-                    "avatar_url": {
+                    "profile_image": {
                         "type": "string",
                         "example": "https://s3.amazonaws.com/bucket/users/avatar.jpg",
                         "nullable": true
@@ -4210,17 +4300,17 @@
                         "example": "123 Main St",
                         "nullable": true
                     },
-                    "phone_number": {
+                    "phone": {
                         "type": "string",
                         "example": "1234567890",
                         "nullable": true
                     },
-                    "created_at": {
+                    "bio": {
                         "type": "string",
-                        "format": "date-time",
-                        "example": "2023-01-01 12:00:00"
+                        "example": "I am a user",
+                        "nullable": true
                     },
-                    "updated_at": {
+                    "created_at": {
                         "type": "string",
                         "format": "date-time",
                         "example": "2023-01-01 12:00:00"

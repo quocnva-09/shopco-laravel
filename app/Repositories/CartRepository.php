@@ -19,19 +19,33 @@ class CartRepository implements CartRepositoryInterface
         return Cart::create(['user_id' => $userId]);
     }
 
-    public function getCartItem(int $cartId, int $productId): ?CartItem
+    public function getCartItem(int $cartId, int $productId, ?array $options = null): ?CartItem
     {
-        return CartItem::where('cart_id', $cartId)
-            ->where('product_id', $productId)
-            ->first();
+        $query = CartItem::where('cart_id', $cartId)
+            ->where('product_id', $productId);
+
+        if (empty($options)) {
+            $query->whereNull('options');
+        } else {
+            // Sort options to ensure consistent JSON encoding
+            ksort($options);
+            $query->where('options', json_encode($options));
+        }
+
+        return $query->first();
     }
 
-    public function addCartItem(int $cartId, int $productId, int $quantity): CartItem
+    public function addCartItem(int $cartId, int $productId, int $quantity, ?array $options = null): CartItem
     {
+        if (is_array($options)) {
+            ksort($options);
+        }
+
         return CartItem::create([
             'cart_id' => $cartId,
             'product_id' => $productId,
             'quantity' => $quantity,
+            'options' => $options,
         ]);
     }
 

@@ -51,6 +51,7 @@ class OrderService implements OrderServiceInterface
                     'quantity' => $quantity,
                     'price' => $price,
                     'totalMoney' => $totalMoney,
+                    'options' => $cartItem->options,
                 ];
 
                 $totalAmount += $totalMoney;

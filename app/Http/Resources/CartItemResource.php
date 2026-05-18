@@ -16,6 +16,15 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'product_id', type: 'integer', example: 7),
         new OA\Property(property: 'quantity', type: 'integer', example: 2),
         new OA\Property(
+            property: 'options',
+            type: 'object',
+            nullable: true,
+            properties: [
+                new OA\Property(property: 'sizes', type: 'string', example: 'M'),
+                new OA\Property(property: 'colors', type: 'string', example: 'Red'),
+            ]
+        ),
+        new OA\Property(
             property: 'product',
             type: 'object',
             nullable: true,
@@ -62,6 +71,7 @@ class CartItemResource extends JsonResource
             'cart_id' => $this->cart_id,
             'product_id' => $this->product_id,
             'quantity' => $this->quantity,
+            'options' => $this->options,
             'product' => $this->whenLoaded('product', function () {
                 return [
                     'id' => $this->product->id,

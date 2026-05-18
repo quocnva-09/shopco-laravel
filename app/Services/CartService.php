@@ -31,7 +31,7 @@ class CartService implements CartServiceInterface
             $cart = $this->cartRepository->createCart($userId);
         }
 
-        $existingItem = $this->cartRepository->getCartItem($cart->id, $dto->product_id);
+        $existingItem = $this->cartRepository->getCartItem($cart->id, $dto->product_id, $dto->options);
 
         if ($existingItem) {
             $newQuantity = $existingItem->quantity + $dto->quantity;
@@ -41,7 +41,7 @@ class CartService implements CartServiceInterface
             return $existingItem;
         }
 
-        return $this->cartRepository->addCartItem($cart->id, $dto->product_id, $dto->quantity);
+        return $this->cartRepository->addCartItem($cart->id, $dto->product_id, $dto->quantity, $dto->options);
     }
 
     public function updateCartItem(int $userId, int $itemId, UpdateCartItemDTO $dto): bool

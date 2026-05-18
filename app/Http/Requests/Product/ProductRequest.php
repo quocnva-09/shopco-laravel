@@ -25,6 +25,9 @@ use OpenApi\Attributes as OA;
             nullable: true,
             items: new OA\Items(type: 'string', example: 'products/xyz.jpg')
         ),
+        new OA\Property(property: 'sizes', type: 'array', nullable: true, items: new OA\Items(type: 'string', example: 'M')),
+        new OA\Property(property: 'colors', type: 'array', nullable: true, items: new OA\Items(type: 'string', example: 'Red')),
+        new OA\Property(property: 'is_active', type: 'boolean', nullable: true, example: true),
     ]
 )]
 class ProductRequest extends FormRequest
@@ -53,6 +56,11 @@ class ProductRequest extends FormRequest
             'category_id' => 'required|integer|exists:categories,id',
             'images' => 'nullable|array',
             'images.*' => 'string',
+            'sizes' => 'nullable|array',
+            'sizes.*' => 'string',
+            'colors' => 'nullable|array',
+            'colors.*' => 'string',
+            'is_active' => 'nullable|boolean',
         ];
 
         if ($this->isMethod('put') || $this->isMethod('patch')) {

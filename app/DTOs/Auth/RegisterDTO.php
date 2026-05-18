@@ -10,7 +10,9 @@ readonly class RegisterDTO
         public string $name,
         public string $email,
         public string $password,
-    ) {}
+        public ?string $phone = null,
+    ) {
+    }
 
     /**
      * Khởi tạo DTO từ Form Request
@@ -21,6 +23,7 @@ readonly class RegisterDTO
             name: $request->validated('name'),
             email: $request->validated('email'),
             password: $request->validated('password'),
+            phone: $request->validated('phone'),
         );
     }
 }
