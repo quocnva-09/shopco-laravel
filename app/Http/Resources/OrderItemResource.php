@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Services\FileUploadService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
@@ -38,7 +39,7 @@ use OpenApi\Attributes as OA;
                         properties: [
                             new OA\Property(property: 'id', type: 'integer', example: 1),
                             new OA\Property(
-                                property: 'url',
+                                property: 'img_path',
                                 type: 'string',
                                 example: 'https://example.com/images/shirt.jpg'
                             ),
@@ -68,12 +69,7 @@ class OrderItemResource extends JsonResource
                 return [
                     'id' => $this->product->id,
                     'name' => $this->product->name,
-                    'images' => $this->product->images->map(function ($image) {
-                        return [
-                            'id' => $image->id,
-                            'url' => $image->url,
-                        ];
-                    }),
+                    'img_path' => app(FileUploadService::class)->url($this->product->images[0]->img_path),
                 ];
             }),
         ];
