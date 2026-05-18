@@ -18,13 +18,14 @@ class UserController extends Controller
 {
     public function __construct(
         private readonly UserServiceInterface $userService
-    ) {}
+    ) {
+    }
 
     #[OA\Get(
         path: '/api/admin/users',
         summary: 'List users',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - User Module'],
+        tags: ['User Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'search', in: 'query', required: false, schema: new OA\Schema(type: 'string')),
             new OA\Parameter(name: 'page', in: 'query', required: false, schema: new OA\Schema(type: 'integer')),
@@ -63,7 +64,7 @@ class UserController extends Controller
         path: '/api/admin/users',
         summary: 'Create a new user',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - User Module'],
+        tags: ['User Module - Admin'],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: '#/components/schemas/UserRequest')
@@ -94,7 +95,7 @@ class UserController extends Controller
         path: '/api/admin/users/{id}',
         summary: 'Get a single user',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - User Module'],
+        tags: ['User Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
         ],
@@ -123,7 +124,7 @@ class UserController extends Controller
         path: '/api/admin/users/{id}',
         summary: 'Update a user',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - User Module'],
+        tags: ['User Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
         ],
@@ -157,7 +158,7 @@ class UserController extends Controller
         path: '/api/admin/users/{id}',
         summary: 'Delete a user',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - User Module'],
+        tags: ['User Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
         ],
@@ -186,7 +187,7 @@ class UserController extends Controller
         path: '/api/admin/users/trashed',
         summary: 'List trashed users',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - User Module'],
+        tags: ['User Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'search', in: 'query', required: false, schema: new OA\Schema(type: 'string')),
             new OA\Parameter(name: 'page', in: 'query', required: false, schema: new OA\Schema(type: 'integer')),
@@ -225,7 +226,7 @@ class UserController extends Controller
         path: '/api/admin/users/{id}/restore',
         summary: 'Restore a trashed user',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - User Module'],
+        tags: ['User Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
         ],
@@ -254,7 +255,7 @@ class UserController extends Controller
         path: '/api/admin/users/{id}/force-delete',
         summary: 'Permanently delete a user',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - User Module'],
+        tags: ['User Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
         ],

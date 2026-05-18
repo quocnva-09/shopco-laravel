@@ -29,7 +29,7 @@ class ExportController extends Controller
         path: '/api/admin/exports',
         summary: 'Trigger a new product export job',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Export Module'],
+        tags: ['Export Module - Admin'],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: '#/components/schemas/ExportRequest')
@@ -69,7 +69,7 @@ class ExportController extends Controller
         path: '/api/admin/exports',
         summary: 'List the current admin\'s export history',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Export Module'],
+        tags: ['Export Module - Admin'],
         responses: [
             new OA\Response(
                 response: 200,
@@ -100,7 +100,7 @@ class ExportController extends Controller
         path: '/api/admin/exports/{id}',
         summary: 'Get a single export job record',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Export Module'],
+        tags: ['Export Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
@@ -129,7 +129,7 @@ class ExportController extends Controller
         path: '/api/admin/exports/{id}/download',
         summary: 'Download a completed export file',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Export Module'],
+        tags: ['Export Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],

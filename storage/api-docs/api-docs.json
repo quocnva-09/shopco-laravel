@@ -282,7 +282,7 @@
         "/api/cart": {
             "get": {
                 "tags": [
-                    "User - Cart Module"
+                    "Cart Module - User"
                 ],
                 "summary": "Get the authenticated user's cart",
                 "operationId": "7fdb9b40bd4ad2baf12aa15164eab788",
@@ -319,7 +319,7 @@
             },
             "delete": {
                 "tags": [
-                    "User - Cart Module"
+                    "Cart Module - User"
                 ],
                 "summary": "Clear all items from the cart",
                 "operationId": "2c37760f7c1c679d2a0c391e6a666105",
@@ -359,7 +359,7 @@
         "/api/cart/add": {
             "post": {
                 "tags": [
-                    "User - Cart Module"
+                    "Cart Module - User"
                 ],
                 "summary": "Add a product to the cart",
                 "operationId": "e940193f73a57895e17830b67c48f89c",
@@ -408,7 +408,7 @@
         "/api/cart/items/{itemId}": {
             "put": {
                 "tags": [
-                    "User - Cart Module"
+                    "Cart Module - User"
                 ],
                 "summary": "Update the quantity of a cart item",
                 "operationId": "036029e09ee88372592d04dc2153ca79",
@@ -466,7 +466,7 @@
             },
             "delete": {
                 "tags": [
-                    "User - Cart Module"
+                    "Cart Module - User"
                 ],
                 "summary": "Remove a specific item from the cart",
                 "operationId": "41074311a09fc03a3ca1d243be819a67",
@@ -516,7 +516,7 @@
         "/api/cart/items/count": {
             "get": {
                 "tags": [
-                    "User - Cart Module"
+                    "Cart Module - User"
                 ],
                 "summary": "Get the total number of items in the cart",
                 "operationId": "eeb9f940fb12cc66685dd02d6f78f47b",
@@ -556,7 +556,7 @@
         "/api/admin/categories": {
             "get": {
                 "tags": [
-                    "Admin - Category Module"
+                    "Category Module - Admin"
                 ],
                 "summary": "List categories",
                 "operationId": "8337773a2c74418316bc7d900b21bfd5",
@@ -645,7 +645,7 @@
             },
             "post": {
                 "tags": [
-                    "Admin - Category Module"
+                    "Category Module - Admin"
                 ],
                 "summary": "Create a new category",
                 "operationId": "75b0f0a6bf53d317ac1c98222a694749",
@@ -694,7 +694,7 @@
         "/api/admin/categories/{id}": {
             "get": {
                 "tags": [
-                    "Admin - Category Module"
+                    "Category Module - Admin"
                 ],
                 "summary": "Get a single category",
                 "operationId": "0642a45028fc2a23df21000d28565ba4",
@@ -741,7 +741,7 @@
             },
             "put": {
                 "tags": [
-                    "Admin - Category Module"
+                    "Category Module - Admin"
                 ],
                 "summary": "Update a category",
                 "operationId": "77b56b5a1740be1a8e039bd762675849",
@@ -798,7 +798,7 @@
             },
             "delete": {
                 "tags": [
-                    "Admin - Category Module"
+                    "Category Module - Admin"
                 ],
                 "summary": "Delete a category",
                 "operationId": "31b6b58caffc9597b2fdbcbe71c81525",
@@ -849,7 +849,7 @@
         "/api/admin/categories/trashed": {
             "get": {
                 "tags": [
-                    "Admin - Category Module"
+                    "Category Module - Admin"
                 ],
                 "summary": "List trashed categories",
                 "operationId": "4f4e76130e8f3b333b9608000f34ef2c",
@@ -940,7 +940,7 @@
         "/api/admin/categories/{id}/restore": {
             "patch": {
                 "tags": [
-                    "Admin - Category Module"
+                    "Category Module - Admin"
                 ],
                 "summary": "Restore a trashed category",
                 "operationId": "7a9b4a249fed2ec5c1a3c52f9c2c404e",
@@ -989,7 +989,7 @@
         "/api/admin/categories/{id}/force-delete": {
             "delete": {
                 "tags": [
-                    "Admin - Category Module"
+                    "Category Module - Admin"
                 ],
                 "summary": "Permanently delete a category",
                 "operationId": "eb063c276f36bbd31460c184e29685db",
@@ -1040,7 +1040,7 @@
         "/api/admin/exports": {
             "get": {
                 "tags": [
-                    "Admin - Export Module"
+                    "Export Module - Admin"
                 ],
                 "summary": "List the current admin's export history",
                 "operationId": "8194f158161a9b397dc3240b200ce41c",
@@ -1083,7 +1083,7 @@
             },
             "post": {
                 "tags": [
-                    "Admin - Export Module"
+                    "Export Module - Admin"
                 ],
                 "summary": "Trigger a new product export job",
                 "operationId": "49e351f2adc5b90ff896bb986156bf9f",
@@ -1132,7 +1132,7 @@
         "/api/admin/exports/{id}": {
             "get": {
                 "tags": [
-                    "Admin - Export Module"
+                    "Export Module - Admin"
                 ],
                 "summary": "Get a single export job record",
                 "operationId": "09e5eb0b6c7c0634d34118d22fa0d44f",
@@ -1181,7 +1181,7 @@
         "/api/admin/exports/{id}/download": {
             "get": {
                 "tags": [
-                    "Admin - Export Module"
+                    "Export Module - Admin"
                 ],
                 "summary": "Download a completed export file",
                 "operationId": "c4c3100a099bbf5adde90c678e374f24",
@@ -1238,7 +1238,7 @@
         "/api/orders": {
             "get": {
                 "tags": [
-                    "User - Order Module"
+                    "Order Module - User"
                 ],
                 "summary": "List the authenticated user's orders",
                 "operationId": "955bb77a45ae173a485fadb8befed93f",
@@ -1332,7 +1332,7 @@
             },
             "post": {
                 "tags": [
-                    "User - Order Module"
+                    "Order Module - User"
                 ],
                 "summary": "Create an order from the authenticated user's cart",
                 "operationId": "2123ba58dadb22bd6f2c8081af562230",
@@ -1391,7 +1391,7 @@
         "/api/admin/orders": {
             "get": {
                 "tags": [
-                    "Admin - Order Module"
+                    "Order Module - Admin"
                 ],
                 "summary": "List all orders (admin)",
                 "operationId": "211a48a2370018da008fa4cc3943e380",
@@ -1487,7 +1487,7 @@
         "/api/orders/{order}": {
             "get": {
                 "tags": [
-                    "User - Order Module"
+                    "Order Module - User"
                 ],
                 "summary": "Get a single order (user)",
                 "operationId": "8114ac185cc1bf301d8862617e497098",
@@ -1539,7 +1539,7 @@
         "/api/admin/orders/{order}": {
             "get": {
                 "tags": [
-                    "Admin - Order Module"
+                    "Order Module - Admin"
                 ],
                 "summary": "Get a single order (admin)",
                 "operationId": "7d3483578301b434e4626e414992e3cf",
@@ -1591,7 +1591,7 @@
         "/api/orders/{order}/status": {
             "patch": {
                 "tags": [
-                    "User - Order Module"
+                    "Order Module - User"
                 ],
                 "summary": "Update order status (user)",
                 "operationId": "186761e4638080314ffcc09ee265e4b2",
@@ -1672,7 +1672,7 @@
         "/api/admin/orders/{order}/status": {
             "patch": {
                 "tags": [
-                    "Admin - Order Module"
+                    "Order Module - Admin"
                 ],
                 "summary": "Update order status (admin)",
                 "operationId": "613ddaa332503ebbc71fed9cbb0cf514",
@@ -1753,7 +1753,7 @@
         "/api/products": {
             "get": {
                 "tags": [
-                    "User - Product Module"
+                    "Product Module - User"
                 ],
                 "summary": "List products (public)",
                 "operationId": "d97d1c3727cbac49708b85f7d11f7d58",
@@ -1847,7 +1847,7 @@
         "/api/admin/products": {
             "get": {
                 "tags": [
-                    "Admin - Product Module"
+                    "Product Module - Admin"
                 ],
                 "summary": "List products (admin)",
                 "operationId": "a9ec4c6dfbc2f352ae06931b08bcba4f",
@@ -1944,7 +1944,7 @@
             },
             "post": {
                 "tags": [
-                    "Admin - Product Module"
+                    "Product Module - Admin"
                 ],
                 "summary": "Create a new product",
                 "operationId": "c8507ffd7fe8f285b4ef798ce152e6de",
@@ -1993,7 +1993,7 @@
         "/api/products/{id}": {
             "get": {
                 "tags": [
-                    "User - Product Module"
+                    "Product Module - User"
                 ],
                 "summary": "Get a single product (public)",
                 "operationId": "c87fb2e4d617e7b36c712cad358acdb8",
@@ -2037,7 +2037,7 @@
         "/api/admin/products/{id}": {
             "put": {
                 "tags": [
-                    "Admin - Product Module"
+                    "Product Module - Admin"
                 ],
                 "summary": "Update a product",
                 "operationId": "f7c9d433064d519dc50fabbf70f375e5",
@@ -2094,7 +2094,7 @@
             },
             "delete": {
                 "tags": [
-                    "Admin - Product Module"
+                    "Product Module - Admin"
                 ],
                 "summary": "Delete a product",
                 "operationId": "5d135580dfd01486894605288c177a0f",
@@ -2145,7 +2145,7 @@
         "/api/admin/products/trashed": {
             "get": {
                 "tags": [
-                    "Admin - Product Module"
+                    "Product Module - Admin"
                 ],
                 "summary": "List trashed products",
                 "operationId": "49be6ab4486140c2a71b37b7b4ec6cba",
@@ -2236,7 +2236,7 @@
         "/api/admin/products/{id}/restore": {
             "patch": {
                 "tags": [
-                    "Admin - Product Module"
+                    "Product Module - Admin"
                 ],
                 "summary": "Restore a trashed product",
                 "operationId": "d8605ed15320e2c2c6738b468cafce31",
@@ -2285,7 +2285,7 @@
         "/api/admin/products/{id}/force-delete": {
             "delete": {
                 "tags": [
-                    "Admin - Product Module"
+                    "Product Module - Admin"
                 ],
                 "summary": "Permanently delete a product",
                 "operationId": "a050fdad4d2028c30b11f2e2217a6d49",
@@ -2420,7 +2420,7 @@
             },
             "post": {
                 "tags": [
-                    "User - Review Module"
+                    "Review Module"
                 ],
                 "summary": "Create a new review for a product",
                 "operationId": "createUserReview",
@@ -2519,7 +2519,7 @@
         "/api/admin/reviews/{id}/approve": {
             "patch": {
                 "tags": [
-                    "Admin - Review Module"
+                    "Review Module - Admin"
                 ],
                 "summary": "Approve or reject a review",
                 "operationId": "approveReview",
@@ -2561,7 +2561,7 @@
         "/api/admin/reviews/{id}": {
             "delete": {
                 "tags": [
-                    "Admin - Review Module"
+                    "Review Module - Admin"
                 ],
                 "summary": "Delete a review",
                 "operationId": "deleteAdminReview",
@@ -2593,7 +2593,7 @@
         "/api/products/{productId}/reviews": {
             "get": {
                 "tags": [
-                    "User - Review Module"
+                    "Review Module"
                 ],
                 "summary": "Get approved reviews for a specific product",
                 "operationId": "getProductReviews",
@@ -2817,7 +2817,7 @@
         "/api/admin/users": {
             "get": {
                 "tags": [
-                    "Admin - User Module"
+                    "User Module - Admin"
                 ],
                 "summary": "List users",
                 "operationId": "7dd4baaf77f85b1282854bf0aa281464",
@@ -2906,7 +2906,7 @@
             },
             "post": {
                 "tags": [
-                    "Admin - User Module"
+                    "User Module - Admin"
                 ],
                 "summary": "Create a new user",
                 "operationId": "389f94ca462a68bc9f573c4a08b3d5fe",
@@ -2955,7 +2955,7 @@
         "/api/admin/users/{id}": {
             "get": {
                 "tags": [
-                    "Admin - User Module"
+                    "User Module - Admin"
                 ],
                 "summary": "Get a single user",
                 "operationId": "71e44103eaa6df5095bc0af5cbe1d483",
@@ -3002,7 +3002,7 @@
             },
             "put": {
                 "tags": [
-                    "Admin - User Module"
+                    "User Module - Admin"
                 ],
                 "summary": "Update a user",
                 "operationId": "e2686c6d3f24049d1c98818faa091360",
@@ -3059,7 +3059,7 @@
             },
             "delete": {
                 "tags": [
-                    "Admin - User Module"
+                    "User Module - Admin"
                 ],
                 "summary": "Delete a user",
                 "operationId": "180f0ee009c229ee193669ddf59bb38a",
@@ -3110,7 +3110,7 @@
         "/api/admin/users/trashed": {
             "get": {
                 "tags": [
-                    "Admin - User Module"
+                    "User Module - Admin"
                 ],
                 "summary": "List trashed users",
                 "operationId": "03dd1c5801abcc2608fdb61cdca5e838",
@@ -3201,7 +3201,7 @@
         "/api/admin/users/{id}/restore": {
             "patch": {
                 "tags": [
-                    "Admin - User Module"
+                    "User Module - Admin"
                 ],
                 "summary": "Restore a trashed user",
                 "operationId": "eb6d94ea60c3f422b8ee027207492948",
@@ -3250,7 +3250,7 @@
         "/api/admin/users/{id}/force-delete": {
             "delete": {
                 "tags": [
-                    "Admin - User Module"
+                    "User Module - Admin"
                 ],
                 "summary": "Permanently delete a user",
                 "operationId": "56150857c6d855b2694fdf8dc6be128f",
@@ -4323,52 +4323,48 @@
             "description": "Authentication"
         },
         {
-            "name": "User - Cart Module",
-            "description": "User - Cart Module"
+            "name": "Cart Module - User",
+            "description": "Cart Module - User"
         },
         {
-            "name": "Admin - Category Module",
-            "description": "Admin - Category Module"
+            "name": "Category Module - Admin",
+            "description": "Category Module - Admin"
         },
         {
-            "name": "Admin - Export Module",
-            "description": "Admin - Export Module"
+            "name": "Export Module - Admin",
+            "description": "Export Module - Admin"
         },
         {
-            "name": "User - Order Module",
-            "description": "User - Order Module"
+            "name": "Order Module - User",
+            "description": "Order Module - User"
         },
         {
-            "name": "Admin - Order Module",
-            "description": "Admin - Order Module"
+            "name": "Order Module - Admin",
+            "description": "Order Module - Admin"
         },
         {
-            "name": "User - Product Module",
-            "description": "User - Product Module"
+            "name": "Product Module - User",
+            "description": "Product Module - User"
         },
         {
-            "name": "Admin - Product Module",
-            "description": "Admin - Product Module"
+            "name": "Product Module - Admin",
+            "description": "Product Module - Admin"
         },
         {
             "name": "Review Module",
             "description": "Review Module"
         },
         {
-            "name": "User - Review Module",
-            "description": "User - Review Module"
-        },
-        {
-            "name": "Admin - Review Module",
-            "description": "Admin - Review Module"
+            "name": "Review Module - Admin",
+            "description": "Review Module - Admin"
         },
         {
             "name": "Upload Images",
             "description": "Upload Images"
         },
         {
-            "name": "Admin - User Module",
-            "description": "Admin - User Module"
+            "name": "User Module - Admin",
+            "description": "User Module - Admin"
         }
     ]
 }

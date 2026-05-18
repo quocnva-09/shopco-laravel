@@ -17,13 +17,14 @@ class CategoryController extends Controller
 {
     public function __construct(
         private readonly CategoryServiceInterface $categoryService
-    ) {}
+    ) {
+    }
 
     #[OA\Get(
         path: '/api/admin/categories',
         summary: 'List categories',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Category Module'],
+        tags: ['Category Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'search', in: 'query', required: false, schema: new OA\Schema(type: 'string')),
             new OA\Parameter(name: 'page', in: 'query', required: false, schema: new OA\Schema(type: 'integer')),
@@ -62,7 +63,7 @@ class CategoryController extends Controller
         path: '/api/admin/categories',
         summary: 'Create a new category',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Category Module'],
+        tags: ['Category Module - Admin'],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: '#/components/schemas/CategoryRequest')
@@ -93,7 +94,7 @@ class CategoryController extends Controller
         path: '/api/admin/categories/{id}',
         summary: 'Get a single category',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Category Module'],
+        tags: ['Category Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
         ],
@@ -122,7 +123,7 @@ class CategoryController extends Controller
         path: '/api/admin/categories/{id}',
         summary: 'Update a category',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Category Module'],
+        tags: ['Category Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
         ],
@@ -156,7 +157,7 @@ class CategoryController extends Controller
         path: '/api/admin/categories/{id}',
         summary: 'Delete a category',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Category Module'],
+        tags: ['Category Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
         ],
@@ -185,7 +186,7 @@ class CategoryController extends Controller
         path: '/api/admin/categories/trashed',
         summary: 'List trashed categories',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Category Module'],
+        tags: ['Category Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'search', in: 'query', required: false, schema: new OA\Schema(type: 'string')),
             new OA\Parameter(name: 'page', in: 'query', required: false, schema: new OA\Schema(type: 'integer')),
@@ -224,7 +225,7 @@ class CategoryController extends Controller
         path: '/api/admin/categories/{id}/restore',
         summary: 'Restore a trashed category',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Category Module'],
+        tags: ['Category Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
         ],
@@ -253,7 +254,7 @@ class CategoryController extends Controller
         path: '/api/admin/categories/{id}/force-delete',
         summary: 'Permanently delete a category',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Category Module'],
+        tags: ['Category Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
         ],

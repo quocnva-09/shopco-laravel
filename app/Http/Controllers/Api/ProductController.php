@@ -29,7 +29,7 @@ class ProductController extends Controller
     #[OA\Get(
         path: '/api/products',
         summary: 'List products (public)',
-        tags: ['User - Product Module'],
+        tags: ['Product Module - User'],
         parameters: [
             new OA\Parameter(name: 'search', in: 'query', required: false, schema: new OA\Schema(type: 'string')),
             new OA\Parameter(name: 'category_id', in: 'query', required: false, schema: new OA\Schema(type: 'integer')),
@@ -61,7 +61,7 @@ class ProductController extends Controller
         path: '/api/admin/products',
         summary: 'List products (admin)',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Product Module'],
+        tags: ['Product Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'search', in: 'query', required: false, schema: new OA\Schema(type: 'string')),
             new OA\Parameter(name: 'category_id', in: 'query', required: false, schema: new OA\Schema(type: 'integer')),
@@ -100,7 +100,7 @@ class ProductController extends Controller
     #[OA\Get(
         path: '/api/products/{id}',
         summary: 'Get a single product (public)',
-        tags: ['User - Product Module'],
+        tags: ['Product Module - User'],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
@@ -138,7 +138,7 @@ class ProductController extends Controller
             required: true,
             content: new OA\JsonContent(ref: '#/components/schemas/ProductRequest')
         ),
-        tags: ['Admin - Product Module'],
+        tags: ['Product Module - Admin'],
         responses: [
             new OA\Response(
                 response: 201,
@@ -169,7 +169,7 @@ class ProductController extends Controller
             required: true,
             content: new OA\JsonContent(ref: '#/components/schemas/ProductRequest')
         ),
-        tags: ['Admin - Product Module'],
+        tags: ['Product Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
@@ -199,7 +199,7 @@ class ProductController extends Controller
         path: '/api/admin/products/{id}',
         summary: 'Delete a product',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Product Module'],
+        tags: ['Product Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
@@ -229,7 +229,7 @@ class ProductController extends Controller
         path: '/api/admin/products/trashed',
         summary: 'List trashed products',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Product Module'],
+        tags: ['Product Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'search', in: 'query', required: false, schema: new OA\Schema(type: 'string')),
             new OA\Parameter(name: 'page', in: 'query', required: false, schema: new OA\Schema(type: 'integer')),
@@ -268,7 +268,7 @@ class ProductController extends Controller
         path: '/api/admin/products/{id}/restore',
         summary: 'Restore a trashed product',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Product Module'],
+        tags: ['Product Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
@@ -297,7 +297,7 @@ class ProductController extends Controller
         path: '/api/admin/products/{id}/force-delete',
         summary: 'Permanently delete a product',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Product Module'],
+        tags: ['Product Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],

@@ -106,7 +106,7 @@ class ReviewController extends Controller
         operationId: "createUserReview",
         summary: "Create a new review for a product",
         security: [["bearerAuth" => []]],
-        tags: ["User - Review Module"],
+        tags: ["Review Module"],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: "#/components/schemas/ReviewRequest")
@@ -142,7 +142,7 @@ class ReviewController extends Controller
         operationId: "approveReview",
         summary: "Approve or reject a review",
         security: [["bearerAuth" => []]],
-        tags: ["Admin - Review Module"],
+        tags: ["Review Module - Admin"],
         parameters: [
             new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
         ],
@@ -173,7 +173,7 @@ class ReviewController extends Controller
         operationId: "deleteAdminReview",
         summary: "Delete a review",
         security: [["bearerAuth" => []]],
-        tags: ["Admin - Review Module"],
+        tags: ["Review Module - Admin"],
         parameters: [
             new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
         ],
@@ -199,7 +199,7 @@ class ReviewController extends Controller
         path: "/api/products/{productId}/reviews",
         operationId: "getProductReviews",
         summary: "Get approved reviews for a specific product",
-        tags: ["User - Review Module"],
+        tags: ["Review Module"],
         parameters: [
             new OA\Parameter(name: "productId", in: "path", required: true, schema: new OA\Schema(type: "integer")),
             new OA\Parameter(name: "sort_by", in: "query", required: false, schema: new OA\Schema(type: "string", enum: ["id", "created_at", "rating"])),

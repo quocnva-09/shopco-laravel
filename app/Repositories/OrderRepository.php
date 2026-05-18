@@ -38,7 +38,7 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function getOrdersByUserId(int $userId): LengthAwarePaginator|Collection
     {
-        return Order::with('orderItems.product')
+        return Order::with('orderItems.product.images')
             ->where('user_id', $userId)
             ->orderBy('id', 'desc')
             ->paginate(15);
@@ -46,7 +46,7 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function getPaginatedOrders(OrderFilterDTO $dto): LengthAwarePaginator
     {
-        $query = Order::with(['orderItems.product', 'user']);
+        $query = Order::with(['orderItems.product.images', 'user']);
 
         if ($dto->userId !== null) {
             $query->where('user_id', $dto->userId);
@@ -76,7 +76,7 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function findByIdAndUser(int $orderId, int $userId): ?Order
     {
-        return Order::with('orderItems.product')
+        return Order::with('orderItems.product.images')
             ->where('id', $orderId)
             ->where('user_id', $userId)
             ->first();
@@ -84,7 +84,7 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function findById(int $orderId): ?Order
     {
-        return Order::with(['orderItems.product', 'user'])->find($orderId);
+        return Order::with(['orderItems.product.images', 'user'])->find($orderId);
     }
 
     public function updateStatus(Order $order, OrderStatus $status): bool

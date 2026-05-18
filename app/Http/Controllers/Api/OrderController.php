@@ -24,13 +24,14 @@ class OrderController extends Controller
 
     public function __construct(
         protected readonly OrderServiceInterface $orderService
-    ) {}
+    ) {
+    }
 
     #[OA\Post(
         path: '/api/orders',
         summary: 'Create an order from the authenticated user\'s cart',
         security: [['bearerAuth' => []]],
-        tags: ['User - Order Module'],
+        tags: ['Order Module - User'],
         responses: [
             new OA\Response(
                 response: 201,
@@ -75,7 +76,7 @@ class OrderController extends Controller
         path: '/api/orders',
         summary: 'List the authenticated user\'s orders',
         security: [['bearerAuth' => []]],
-        tags: ['User - Order Module'],
+        tags: ['Order Module - User'],
         parameters: [
             new OA\Parameter(name: 'search', in: 'query', required: false, schema: new OA\Schema(type: 'string')),
             new OA\Parameter(name: 'status', in: 'query', required: false, schema: new OA\Schema(
@@ -125,7 +126,7 @@ class OrderController extends Controller
         path: '/api/admin/orders',
         summary: 'List all orders (admin)',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Order Module'],
+        tags: ['Order Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'search', in: 'query', required: false, schema: new OA\Schema(type: 'string')),
             new OA\Parameter(name: 'status', in: 'query', required: false, schema: new OA\Schema(
@@ -174,7 +175,7 @@ class OrderController extends Controller
         path: '/api/orders/{order}',
         summary: 'Get a single order (user)',
         security: [['bearerAuth' => []]],
-        tags: ['User - Order Module'],
+        tags: ['Order Module - User'],
         parameters: [
             new OA\Parameter(name: 'order', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
@@ -197,7 +198,7 @@ class OrderController extends Controller
         path: '/api/admin/orders/{order}',
         summary: 'Get a single order (admin)',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Order Module'],
+        tags: ['Order Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'order', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
@@ -219,13 +220,13 @@ class OrderController extends Controller
     public function show(int $id): JsonResponse
     {
         $userId = null;
-        if (! Auth::user()->isAdmin()) {
+        if (!Auth::user()->isAdmin()) {
             $userId = Auth::id();
         }
 
         $order = $this->orderService->getOrderDetails($id, $userId);
 
-        if (! $order) {
+        if (!$order) {
             return $this->errorResponse('Order not found', 404);
         }
 
@@ -236,7 +237,7 @@ class OrderController extends Controller
         path: '/api/orders/{order}/status',
         summary: 'Update order status (user)',
         security: [['bearerAuth' => []]],
-        tags: ['User - Order Module'],
+        tags: ['Order Module - User'],
         parameters: [
             new OA\Parameter(name: 'order', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
@@ -272,7 +273,7 @@ class OrderController extends Controller
         path: '/api/admin/orders/{order}/status',
         summary: 'Update order status (admin)',
         security: [['bearerAuth' => []]],
-        tags: ['Admin - Order Module'],
+        tags: ['Order Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'order', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],

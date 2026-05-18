@@ -23,13 +23,14 @@ class CartController extends Controller
 
     public function __construct(
         protected CartServiceInterface $cartService
-    ) {}
+    ) {
+    }
 
     #[OA\Get(
         path: '/api/cart',
         summary: 'Get the authenticated user\'s cart',
         security: [['bearerAuth' => []]],
-        tags: ['User - Cart Module'],
+        tags: ['Cart Module - User'],
         responses: [
             new OA\Response(
                 response: 200,
@@ -48,7 +49,7 @@ class CartController extends Controller
     {
         $cart = $this->cartService->getCart(Auth::id());
 
-        if (! $cart) {
+        if (!$cart) {
             return $this->successResponse(null, 'Cart is empty');
         }
 
@@ -59,7 +60,7 @@ class CartController extends Controller
         path: '/api/cart/add',
         summary: 'Add a product to the cart',
         security: [['bearerAuth' => []]],
-        tags: ['User - Cart Module'],
+        tags: ['Cart Module - User'],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: '#/components/schemas/AddToCartRequest')
@@ -90,7 +91,7 @@ class CartController extends Controller
         path: '/api/cart/items/{itemId}',
         summary: 'Update the quantity of a cart item',
         security: [['bearerAuth' => []]],
-        tags: ['User - Cart Module'],
+        tags: ['Cart Module - User'],
         parameters: [
             new OA\Parameter(name: 'itemId', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
@@ -124,7 +125,7 @@ class CartController extends Controller
         path: '/api/cart/items/{itemId}',
         summary: 'Remove a specific item from the cart',
         security: [['bearerAuth' => []]],
-        tags: ['User - Cart Module'],
+        tags: ['Cart Module - User'],
         parameters: [
             new OA\Parameter(name: 'itemId', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
@@ -153,7 +154,7 @@ class CartController extends Controller
         path: '/api/cart/items/count',
         summary: 'Get the total number of items in the cart',
         security: [['bearerAuth' => []]],
-        tags: ['User - Cart Module'],
+        tags: ['Cart Module - User'],
         responses: [
             new OA\Response(
                 response: 200,
@@ -183,7 +184,7 @@ class CartController extends Controller
         path: '/api/cart',
         summary: 'Clear all items from the cart',
         security: [['bearerAuth' => []]],
-        tags: ['User - Cart Module'],
+        tags: ['Cart Module - User'],
         responses: [
             new OA\Response(
                 response: 200,
