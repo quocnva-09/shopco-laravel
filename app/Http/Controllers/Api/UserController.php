@@ -35,7 +35,7 @@ class UserController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Users retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -57,7 +57,7 @@ class UserController extends Controller
         $filterDTO = UserFilterDTO::fromRequest($request);
         $users = $this->userService->getAllUsers($filterDTO);
 
-        return $this->paginatedResponse(UserResource::collection($users), 'Users retrieved successfully');
+        return $this->paginatedResponse(UserResource::collection($users), __('response.user.list_retrieved'));
     }
 
     #[OA\Post(
@@ -71,7 +71,7 @@ class UserController extends Controller
         ),
         responses: [
             new OA\Response(
-                response: 201,
+                response: Response::HTTP_CREATED,
                 description: 'User created successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -88,7 +88,7 @@ class UserController extends Controller
         $dto = UserDTO::fromRequest($request);
         $user = $this->userService->createUser($dto);
 
-        return $this->successResponse(new UserResource($user), 'User created successfully', Response::HTTP_CREATED);
+        return $this->successResponse(new UserResource($user), __('response.user.created'), Response::HTTP_CREATED);
     }
 
     #[OA\Get(
@@ -101,7 +101,7 @@ class UserController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'User retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -117,11 +117,11 @@ class UserController extends Controller
     {
         $user = $this->userService->getUserById($id);
 
-        return $this->successResponse(new UserResource($user), 'User retrieved successfully');
+        return $this->successResponse(new UserResource($user), __('response.user.retrieved'));
     }
 
     #[OA\Put(
-        path: '/api/admin/users/{id}',
+        path: '/api/users/{id}',
         summary: 'Update a user',
         security: [['bearerAuth' => []]],
         tags: ['User Module - Admin'],
@@ -134,7 +134,7 @@ class UserController extends Controller
         ),
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'User updated successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -151,7 +151,7 @@ class UserController extends Controller
         $dto = UserDTO::fromRequest($request);
         $user = $this->userService->updateUser($id, $dto);
 
-        return $this->successResponse(new UserResource($user), 'User updated successfully');
+        return $this->successResponse(new UserResource($user), __('response.user.updated'));
     }
 
     #[OA\Delete(
@@ -164,7 +164,7 @@ class UserController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'User deleted successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -180,7 +180,7 @@ class UserController extends Controller
     {
         $this->userService->deleteUser($id);
 
-        return $this->successResponse(null, 'User deleted successfully');
+        return $this->successResponse(null, __('response.user.deleted'));
     }
 
     #[OA\Get(
@@ -197,7 +197,7 @@ class UserController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Trashed users retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -219,7 +219,7 @@ class UserController extends Controller
         $filterDTO = UserFilterDTO::fromRequest($request);
         $users = $this->userService->getTrashed($filterDTO);
 
-        return $this->paginatedResponse(UserResource::collection($users), 'Trashed users retrieved successfully');
+        return $this->paginatedResponse(UserResource::collection($users), __('response.user.trashed_retrieved'));
     }
 
     #[OA\Patch(
@@ -232,7 +232,7 @@ class UserController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'User restored successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -248,7 +248,7 @@ class UserController extends Controller
     {
         $user = $this->userService->restore($id);
 
-        return $this->successResponse(new UserResource($user), 'User restored successfully');
+        return $this->successResponse(new UserResource($user), __('response.user.restored'));
     }
 
     #[OA\Delete(
@@ -261,7 +261,7 @@ class UserController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'User permanently deleted successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -277,6 +277,6 @@ class UserController extends Controller
     {
         $this->userService->forceDelete($id);
 
-        return $this->successResponse(null, 'User permanently deleted successfully');
+        return $this->successResponse(null, __('response.user.force_deleted'));
     }
 }

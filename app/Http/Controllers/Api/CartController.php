@@ -16,6 +16,7 @@ use App\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OA;
+use Symfony\Component\HttpFoundation\Response;
 
 class CartController extends Controller
 {
@@ -33,7 +34,7 @@ class CartController extends Controller
         tags: ['Cart Module - User'],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Cart retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -50,10 +51,10 @@ class CartController extends Controller
         $cart = $this->cartService->getCart(Auth::id());
 
         if (!$cart) {
-            return $this->successResponse(null, 'Cart is empty');
+            return $this->successResponse(null, __('response.cart.empty'));
         }
 
-        return $this->successResponse(new CartResource($cart), 'Cart retrieved successfully');
+        return $this->successResponse(new CartResource($cart), __('response.cart.retrieved'));
     }
 
     #[OA\Post(
@@ -67,7 +68,7 @@ class CartController extends Controller
         ),
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Item added to cart successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -84,7 +85,7 @@ class CartController extends Controller
         $dto = AddToCartDTO::fromRequest($request);
         $cartItem = $this->cartService->addToCart(Auth::id(), $dto);
 
-        return $this->successResponse(new CartItemResource($cartItem), 'Item added to cart successfully');
+        return $this->successResponse(new CartItemResource($cartItem), __('response.cart.item_added'));
     }
 
     #[OA\Put(
@@ -101,7 +102,7 @@ class CartController extends Controller
         ),
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Cart item updated successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -118,7 +119,7 @@ class CartController extends Controller
         $dto = UpdateCartItemDTO::fromRequest($request);
         $isUpdated = $this->cartService->updateCartItem(Auth::id(), $itemId, $dto);
 
-        return $this->successResponse($isUpdated, 'Cart item updated successfully');
+        return $this->successResponse($isUpdated, __('response.cart.item_updated'));
     }
 
     #[OA\Delete(
@@ -131,7 +132,7 @@ class CartController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Cart item removed successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -147,7 +148,7 @@ class CartController extends Controller
     {
         $isRemoved = $this->cartService->removeCartItem(Auth::id(), $itemId);
 
-        return $this->successResponse($isRemoved, 'Cart item removed successfully');
+        return $this->successResponse($isRemoved, __('response.cart.item_removed'));
     }
 
     #[OA\Get(
@@ -157,7 +158,7 @@ class CartController extends Controller
         tags: ['Cart Module - User'],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Cart items count retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -177,7 +178,7 @@ class CartController extends Controller
     {
         $count = $this->cartService->countCartItemsByUser(Auth::id());
 
-        return $this->successResponse($count, 'Cart items count retrieved successfully');
+        return $this->successResponse($count, __('response.cart.count_retrieved'));
     }
 
     #[OA\Delete(
@@ -187,7 +188,7 @@ class CartController extends Controller
         tags: ['Cart Module - User'],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Cart cleared successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -203,6 +204,6 @@ class CartController extends Controller
     {
         $isCleared = $this->cartService->clearCart(Auth::id());
 
-        return $this->successResponse($isCleared, 'Cart cleared successfully');
+        return $this->successResponse($isCleared, __('response.cart.cleared'));
     }
 }

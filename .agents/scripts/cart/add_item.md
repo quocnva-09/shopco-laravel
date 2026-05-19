@@ -4,7 +4,7 @@ http://localhost:8000/api
 
 ## Endpoint:
 
-/cart/items
+/cart/add
 
 ## Method:
 

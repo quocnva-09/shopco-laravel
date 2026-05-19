@@ -40,11 +40,11 @@ class ProductController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Products retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'integer', example: 200),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Products retrieved successfully'),
                         new OA\Property(
                             property: 'data',
@@ -72,11 +72,11 @@ class ProductController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Products retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'integer', example: 200),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Products retrieved successfully'),
                         new OA\Property(
                             property: 'data',
@@ -94,7 +94,7 @@ class ProductController extends Controller
         $dto = ProductFilterDTO::fromRequest($request);
         $products = $this->productService->getAll($dto);
 
-        return $this->paginatedResponse(ProductResource::collection($products), 'Products retrieved successfully');
+        return $this->paginatedResponse(ProductResource::collection($products), __('response.product.list_retrieved'));
     }
 
     #[OA\Get(
@@ -106,11 +106,11 @@ class ProductController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Product retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'integer', example: 200),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Product retrieved successfully'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/ProductResource'),
                     ]
@@ -122,7 +122,7 @@ class ProductController extends Controller
     {
         $product = $this->productService->findById($id);
 
-        return $this->successResponse(new ProductResource($product), 'Product retrieved successfully');
+        return $this->successResponse(new ProductResource($product), __('response.product.retrieved'));
     }
 
     // -------------------------------------------------------------------------
@@ -141,11 +141,11 @@ class ProductController extends Controller
         tags: ['Product Module - Admin'],
         responses: [
             new OA\Response(
-                response: 201,
+                response: Response::HTTP_CREATED,
                 description: 'Product created successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'integer', example: 201),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_CREATED),
                         new OA\Property(property: 'message', type: 'string', example: 'Product created successfully'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/ProductResource'),
                     ]
@@ -158,7 +158,7 @@ class ProductController extends Controller
         $dto = ProductDTO::fromRequest($request);
         $product = $this->productService->create($dto);
 
-        return $this->successResponse(new ProductResource($product), 'Product created successfully', Response::HTTP_CREATED);
+        return $this->successResponse(new ProductResource($product), __('response.product.created'), Response::HTTP_CREATED);
     }
 
     #[OA\Put(
@@ -175,11 +175,11 @@ class ProductController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Product updated successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'integer', example: 200),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Product updated successfully'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/ProductResource'),
                     ]
@@ -192,7 +192,7 @@ class ProductController extends Controller
         $dto = ProductDTO::fromRequest($request);
         $updatedProduct = $this->productService->update($dto, $id);
 
-        return $this->successResponse(new ProductResource($updatedProduct), 'Product updated successfully');
+        return $this->successResponse(new ProductResource($updatedProduct), __('response.product.updated'));
     }
 
     #[OA\Delete(
@@ -205,11 +205,11 @@ class ProductController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Product deleted successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'integer', example: 200),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Product deleted successfully'),
                         new OA\Property(property: 'data', type: 'object', nullable: true, example: null),
                     ]
@@ -221,7 +221,7 @@ class ProductController extends Controller
     {
         $this->productService->delete($id);
 
-        return $this->successResponse(null, 'Product deleted successfully');
+        return $this->successResponse(null, __('response.product.deleted'));
     }
 
 
@@ -239,11 +239,11 @@ class ProductController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Trashed products retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'integer', example: 200),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Trashed products retrieved successfully'),
                         new OA\Property(
                             property: 'data',
@@ -261,7 +261,7 @@ class ProductController extends Controller
         $dto = ProductFilterDTO::fromRequest($request);
         $products = $this->productService->getTrashed($dto);
 
-        return $this->paginatedResponse(ProductResource::collection($products), 'Trashed products retrieved successfully');
+        return $this->paginatedResponse(ProductResource::collection($products), __('response.product.trashed_retrieved'));
     }
 
     #[OA\Patch(
@@ -274,11 +274,11 @@ class ProductController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Product restored successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'integer', example: 200),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Product restored successfully'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/ProductResource'),
                     ]
@@ -290,7 +290,7 @@ class ProductController extends Controller
     {
         $product = $this->productService->restore($id);
 
-        return $this->successResponse(new ProductResource($product), 'Product restored successfully');
+        return $this->successResponse(new ProductResource($product), __('response.product.restored'));
     }
 
     #[OA\Delete(
@@ -303,11 +303,11 @@ class ProductController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Product permanently deleted successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'integer', example: 200),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Product permanently deleted successfully'),
                         new OA\Property(property: 'data', type: 'object', nullable: true, example: null),
                     ]
@@ -319,6 +319,6 @@ class ProductController extends Controller
     {
         $this->productService->forceDelete($id);
 
-        return $this->successResponse(null, 'Product permanently deleted successfully');
+        return $this->successResponse(null, __('response.product.force_deleted'));
     }
 }

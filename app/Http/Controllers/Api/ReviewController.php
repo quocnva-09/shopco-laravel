@@ -42,11 +42,11 @@ class ReviewController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: "List of reviews",
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: "status", type: "integer", example: 200),
+                        new OA\Property(property: "status", type: "integer", example: Response::HTTP_OK),
                         new OA\Property(property: "message", type: "string", example: "Success"),
                         new OA\Property(
                             property: "data",
@@ -64,7 +64,7 @@ class ReviewController extends Controller
     {
         $reviews = $this->reviewService->getList(ReviewFilterDTO::fromRequest($request));
 
-        return $this->paginatedResponse(ReviewResource::collection($reviews));
+        return $this->paginatedResponse(ReviewResource::collection($reviews), __('response.review.list_retrieved'));
     }
 
     #[OA\Get(
@@ -77,17 +77,17 @@ class ReviewController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: "Review details",
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: "status", type: "integer", example: 200),
+                        new OA\Property(property: "status", type: "integer", example: Response::HTTP_OK),
                         new OA\Property(property: "message", type: "string", example: "Success"),
                         new OA\Property(property: "data", ref: "#/components/schemas/ReviewResource")
                     ]
                 )
             ),
-            new OA\Response(response: 404, description: "Review not found")
+            new OA\Response(response: Response::HTTP_NOT_FOUND, description: "Review not found")
         ]
     )]
     public function show(int $id): JsonResponse
@@ -95,10 +95,10 @@ class ReviewController extends Controller
         $review = $this->reviewService->findById($id);
 
         if (!$review) {
-            return $this->errorResponse('Review not found', Response::HTTP_NOT_FOUND);
+            return $this->errorResponse(__('exception.review_not_found'), Response::HTTP_NOT_FOUND);
         }
 
-        return $this->successResponse(new ReviewResource($review));
+        return $this->successResponse(new ReviewResource($review), __('response.review.retrieved'));
     }
 
     #[OA\Post(
@@ -113,17 +113,17 @@ class ReviewController extends Controller
         ),
         responses: [
             new OA\Response(
-                response: 201,
+                response: Response::HTTP_CREATED,
                 description: "Review created successfully",
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: "status", type: "integer", example: 201),
+                        new OA\Property(property: "status", type: "integer", example: Response::HTTP_CREATED),
                         new OA\Property(property: "message", type: "string", example: "Review created successfully."),
                         new OA\Property(property: "data", ref: "#/components/schemas/ReviewResource")
                     ]
                 )
             ),
-            new OA\Response(response: 403, description: "Not eligible to review this product")
+            new OA\Response(response: Response::HTTP_FORBIDDEN, description: "Not eligible to review this product")
         ]
     )]
     public function store(ReviewRequest $request): JsonResponse
@@ -132,7 +132,7 @@ class ReviewController extends Controller
 
         return $this->successResponse(
             new ReviewResource($review),
-            'Review created successfully.',
+            __('response.review.created'),
             Response::HTTP_CREATED
         );
     }
@@ -151,8 +151,8 @@ class ReviewController extends Controller
             content: new OA\JsonContent(ref: "#/components/schemas/ReviewApproveRequest")
         ),
         responses: [
-            new OA\Response(response: 200, description: "Review status updated successfully"),
-            new OA\Response(response: 404, description: "Review not found")
+            new OA\Response(response: Response::HTTP_OK, description: "Review status updated successfully"),
+            new OA\Response(response: Response::HTTP_NOT_FOUND, description: "Review not found")
         ]
     )]
     public function approve(int $id, ReviewApproveRequest $request): JsonResponse
@@ -160,12 +160,12 @@ class ReviewController extends Controller
         $review = $this->reviewService->findById($id);
 
         if (!$review) {
-            return $this->errorResponse('Review not found', Response::HTTP_NOT_FOUND);
+            return $this->errorResponse(__('exception.review_not_found'), Response::HTTP_NOT_FOUND);
         }
 
         $this->reviewService->approve($review, ReviewApproveDTO::fromRequest($request));
 
-        return $this->successResponse([], 'Review status updated successfully.');
+        return $this->successResponse([], __('response.review.status_updated'));
     }
 
     #[OA\Delete(
@@ -178,8 +178,8 @@ class ReviewController extends Controller
             new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
         ],
         responses: [
-            new OA\Response(response: 200, description: "Review deleted successfully"),
-            new OA\Response(response: 404, description: "Review not found")
+            new OA\Response(response: Response::HTTP_OK, description: "Review deleted successfully"),
+            new OA\Response(response: Response::HTTP_NOT_FOUND, description: "Review not found")
         ]
     )]
     public function destroy(int $id): JsonResponse
@@ -187,12 +187,12 @@ class ReviewController extends Controller
         $review = $this->reviewService->findById($id);
 
         if (!$review) {
-            return $this->errorResponse('Review not found', Response::HTTP_NOT_FOUND);
+            return $this->errorResponse(__('exception.review_not_found'), Response::HTTP_NOT_FOUND);
         }
 
         $this->reviewService->delete($review);
 
-        return $this->successResponse([], 'Review deleted successfully.');
+        return $this->successResponse([], __('response.review.deleted'));
     }
 
     #[OA\Get(
@@ -208,11 +208,11 @@ class ReviewController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: "List of approved product reviews",
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: "status", type: "integer", example: 200),
+                        new OA\Property(property: "status", type: "integer", example: Response::HTTP_OK),
                         new OA\Property(property: "message", type: "string", example: "Success"),
                         new OA\Property(
                             property: "data",
@@ -230,6 +230,6 @@ class ReviewController extends Controller
     {
         $reviews = $this->reviewService->getApprovedByProduct($productId, ReviewFilterDTO::fromRequest($request));
 
-        return $this->paginatedResponse(ReviewResource::collection($reviews));
+        return $this->paginatedResponse(ReviewResource::collection($reviews), __('response.review.list_retrieved'));
     }
 }

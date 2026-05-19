@@ -17,6 +17,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OA;
+use Symfony\Component\HttpFoundation\Response;
 
 class OrderController extends Controller
 {
@@ -34,18 +35,18 @@ class OrderController extends Controller
         tags: ['Order Module - User'],
         responses: [
             new OA\Response(
-                response: 201,
+                response: Response::HTTP_CREATED,
                 description: 'Order created successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'int', example: Response::HTTP_CREATED),
                         new OA\Property(property: 'message', type: 'string', example: 'Order created successfully'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/OrderResource'),
                     ]
                 )
             ),
             new OA\Response(
-                response: 400,
+                response: Response::HTTP_BAD_REQUEST,
                 description: 'Bad request (e.g. empty cart)',
                 content: new OA\JsonContent(
                     properties: [
@@ -64,11 +65,11 @@ class OrderController extends Controller
 
             return $this->successResponse(
                 new OrderResource($order),
-                'Order created successfully',
-                201
+                __('response.order.created'),
+                Response::HTTP_CREATED
             );
         } catch (Exception $e) {
-            return $this->errorResponse($e->getMessage(), 400);
+            return $this->errorResponse($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -92,7 +93,7 @@ class OrderController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Order list retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -118,7 +119,7 @@ class OrderController extends Controller
 
         return $this->paginatedResponse(
             OrderResource::collection($orders),
-            'Order list retrieved successfully'
+            __('response.order.list_retrieved')
         );
     }
 
@@ -142,7 +143,7 @@ class OrderController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Order list retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -167,7 +168,7 @@ class OrderController extends Controller
 
         return $this->paginatedResponse(
             OrderResource::collection($orders),
-            'Order list retrieved successfully'
+            __('response.order.list_retrieved')
         );
     }
 
@@ -181,7 +182,7 @@ class OrderController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Order retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -191,7 +192,7 @@ class OrderController extends Controller
                     ]
                 )
             ),
-            new OA\Response(response: 404, description: 'Order not found'),
+            new OA\Response(response: Response::HTTP_NOT_FOUND, description: 'Order not found'),
         ]
     )]
     #[OA\Get(
@@ -204,7 +205,7 @@ class OrderController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Order retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -214,7 +215,7 @@ class OrderController extends Controller
                     ]
                 )
             ),
-            new OA\Response(response: 404, description: 'Order not found'),
+            new OA\Response(response: Response::HTTP_NOT_FOUND, description: 'Order not found'),
         ]
     )]
     public function show(int $id): JsonResponse
@@ -227,10 +228,10 @@ class OrderController extends Controller
         $order = $this->orderService->getOrderDetails($id, $userId);
 
         if (!$order) {
-            return $this->errorResponse('Order not found', 404);
+            return $this->errorResponse(__('exception.order_not_found'), Response::HTTP_NOT_FOUND);
         }
 
-        return $this->successResponse(new OrderResource($order));
+        return $this->successResponse(new OrderResource($order), __('response.order.retrieved'));
     }
 
     #[OA\Patch(
@@ -247,7 +248,7 @@ class OrderController extends Controller
         ),
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Order status updated successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -258,7 +259,7 @@ class OrderController extends Controller
                 )
             ),
             new OA\Response(
-                response: 400,
+                response: Response::HTTP_BAD_REQUEST,
                 description: 'Invalid status transition',
                 content: new OA\JsonContent(
                     properties: [
@@ -283,7 +284,7 @@ class OrderController extends Controller
         ),
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Order status updated successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -294,7 +295,7 @@ class OrderController extends Controller
                 )
             ),
             new OA\Response(
-                response: 400,
+                response: Response::HTTP_BAD_REQUEST,
                 description: 'Invalid status transition',
                 content: new OA\JsonContent(
                     properties: [
@@ -311,9 +312,9 @@ class OrderController extends Controller
             $dto = UpdateOrderStatusDTO::fromRequest($request);
             $this->orderService->updateOrderStatus($id, $dto);
 
-            return $this->successResponse(null, 'Order status updated successfully');
+            return $this->successResponse(null, __('response.order.status_updated'));
         } catch (Exception $e) {
-            return $this->errorResponse($e->getMessage(), 400);
+            return $this->errorResponse($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
 }

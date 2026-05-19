@@ -1,0 +1,76 @@
+<?php
+
+return [
+    'user' => [
+        'retrieved' => 'User retrieved successfully',
+        'created' => 'User created successfully',
+        'updated' => 'User updated successfully',
+        'deleted' => 'User deleted successfully',
+        'restored' => 'User restored successfully',
+        'force_deleted' => 'User permanently deleted successfully',
+        'list_retrieved' => 'Users retrieved successfully',
+        'trashed_retrieved' => 'Trashed users retrieved successfully',
+    ],
+    'product' => [
+        'retrieved' => 'Product retrieved successfully',
+        'created' => 'Product created successfully',
+        'updated' => 'Product updated successfully',
+        'deleted' => 'Product deleted successfully',
+        'restored' => 'Product restored successfully',
+        'force_deleted' => 'Product permanently deleted successfully',
+        'list_retrieved' => 'Products retrieved successfully',
+        'trashed_retrieved' => 'Trashed products retrieved successfully',
+    ],
+    'category' => [
+        'retrieved' => 'Category retrieved successfully',
+        'created' => 'Category created successfully',
+        'updated' => 'Category updated successfully',
+        'deleted' => 'Category deleted successfully',
+        'restored' => 'Category restored successfully',
+        'force_deleted' => 'Category permanently deleted successfully',
+        'list_retrieved' => 'Categories retrieved successfully',
+        'trashed_retrieved' => 'Trashed categories retrieved successfully',
+    ],
+    'order' => [
+        'created' => 'Order created successfully',
+        'status_updated' => 'Order status updated successfully',
+        'list_retrieved' => 'Orders retrieved successfully',
+        'retrieved' => 'Order retrieved successfully',
+    ],
+    'cart' => [
+        'empty' => 'Cart is empty',
+        'item_added' => 'Item added to cart successfully',
+        'item_updated' => 'Cart item updated successfully',
+        'item_removed' => 'Cart item removed successfully',
+        'retrieved' => 'Cart retrieved successfully',
+        'count_retrieved' => 'Cart items count retrieved successfully',
+        'cleared' => 'Cart cleared successfully',
+    ],
+    'auth' => [
+        'registration_successful' => 'Registration successful',
+        'login_successful' => 'Login successful',
+        'logout_successful' => 'Logout successful',
+        'logout_all_successful' => 'Logged out from all devices successfully',
+        'profile_retrieved' => 'User profile retrieved successfully',
+        'profile_updated' => 'User profile updated successfully',
+        'password_changed' => 'Password changed successfully',
+        'password_reset_otp_sent' => 'Password reset OTP sent to your email',
+        'otp_verified' => 'OTP verified successfully',
+        'password_reset' => 'Password reset successfully',
+    ],
+    'review' => [
+        'list_retrieved' => 'Reviews retrieved successfully',
+        'retrieved' => 'Review retrieved successfully',
+        'status_updated' => 'Review status updated successfully.',
+        'deleted' => 'Review deleted successfully.',
+        'created' => 'Review created successfully.',
+    ],
+    'export' => [
+        'initialized' => 'Export initialized successfully',
+        'list_retrieved' => 'Export histories retrieved successfully',
+        'retrieved' => 'Export history retrieved successfully',
+    ],
+    'upload' => [
+        'success' => 'File uploaded successfully',
+    ]
+];

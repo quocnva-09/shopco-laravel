@@ -37,7 +37,7 @@ class AuthController extends Controller
         ),
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Login successful',
                 content: new OA\JsonContent(
                     properties: [
@@ -55,7 +55,7 @@ class AuthController extends Controller
                     ]
                 )
             ),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthorized')
         ]
     )]
     public function login(LoginRequest $request)
@@ -69,7 +69,7 @@ class AuthController extends Controller
                 'user' => new UserResource($authData['user']),
                 'access_token' => $authData['token'],
                 'token_type' => 'Bearer',
-            ], 'Login successfully', Response::HTTP_OK);
+            ], __('response.auth.login_successful'), Response::HTTP_OK);
         } catch (Exception $exception) {
             return $this->errorResponse($exception->getMessage(), Response::HTTP_UNAUTHORIZED);
         }
@@ -86,7 +86,7 @@ class AuthController extends Controller
         ),
         responses: [
             new OA\Response(
-                response: 201,
+                response: Response::HTTP_CREATED,
                 description: 'Registration successful',
                 content: new OA\JsonContent(
                     properties: [
@@ -104,7 +104,7 @@ class AuthController extends Controller
                     ]
                 )
             ),
-            new OA\Response(response: 422, description: 'Validation Error')
+            new OA\Response(response: Response::HTTP_UNPROCESSABLE_ENTITY, description: 'Validation Error')
         ]
     )]
     public function register(RegisterRequest $request)
@@ -116,7 +116,7 @@ class AuthController extends Controller
             'user' => new UserResource($authData['user']),
             'access_token' => $authData['token'],
             'token_type' => 'Bearer',
-        ], 'Register successfully', Response::HTTP_CREATED);
+        ], __('response.auth.registration_successful'), Response::HTTP_CREATED);
     }
 
     #[OA\Post(
@@ -127,28 +127,28 @@ class AuthController extends Controller
         security: [['bearerAuth' => []]],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Logout successful',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'int', example: '200'),
+                        new OA\Property(property: 'status', type: 'int', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Logout successfully'),
                         new OA\Property(property: 'data', type: 'boolean', example: true)
                     ]
                 )
             ),
-            new OA\Response(response: 401, description: 'Unauthenticated'),
-            new OA\Response(response: 500, description: 'Internal Server Error')
+            new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthenticated'),
+            new OA\Response(response: Response::HTTP_INTERNAL_SERVER_ERROR, description: 'Internal Server Error')
         ]
     )]
     public function logout()
     {
         $isLogout = $this->authService->logout();
         if ($isLogout) {
-            return $this->successResponse($isLogout, 'Logout successfully', Response::HTTP_OK);
+            return $this->successResponse($isLogout, __('response.auth.logout_successful'), Response::HTTP_OK);
         }
 
-        return $this->errorResponse('Logout failed', Response::HTTP_INTERNAL_SERVER_ERROR);
+        return $this->errorResponse(__('exception.logout_failed'), Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     #[OA\Post(
@@ -161,7 +161,7 @@ class AuthController extends Controller
         security: [['bearerAuth' => []]],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'All sessions revoked',
                 content: new OA\JsonContent(
                     properties: [
@@ -175,8 +175,8 @@ class AuthController extends Controller
                     ]
                 )
             ),
-            new OA\Response(response: 401, description: 'Unauthenticated'),
-            new OA\Response(response: 500, description: 'Internal Server Error')
+            new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthenticated'),
+            new OA\Response(response: Response::HTTP_INTERNAL_SERVER_ERROR, description: 'Internal Server Error')
         ]
     )]
     public function logoutAll()
@@ -186,12 +186,12 @@ class AuthController extends Controller
         if ($result) {
             return $this->successResponse(
                 $result,
-                'Logged out from all devices successfully',
+                __('response.auth.logout_all_successful'),
                 Response::HTTP_OK
             );
         }
 
-        return $this->errorResponse('Logout failed', Response::HTTP_INTERNAL_SERVER_ERROR);
+        return $this->errorResponse(__('exception.logout_failed'), Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     #[OA\Get(
@@ -202,7 +202,7 @@ class AuthController extends Controller
         security: [['bearerAuth' => []]],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Success',
                 content: new OA\JsonContent(
                     properties: [
@@ -212,14 +212,14 @@ class AuthController extends Controller
                     ]
                 )
             ),
-            new OA\Response(response: 401, description: 'Unauthenticated')
+            new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthenticated')
         ]
     )]
     public function getMyInfo()
     {
         $user = $this->authService->getMyInfo();
 
-        return $this->successResponse(new UserResource($user), 'My info fetched successfully', Response::HTTP_OK);
+        return $this->successResponse(new UserResource($user), __('response.auth.profile_retrieved'), Response::HTTP_OK);
     }
 
     #[OA\Post(
@@ -234,18 +234,18 @@ class AuthController extends Controller
         ),
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Success',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'The OTP Code has been sent to your email'),
                         new OA\Property(property: 'data', type: 'boolean', example: true)
                     ]
                 )
             ),
-            new OA\Response(response: 400, description: 'Bad Request'),
-            new OA\Response(response: 500, description: 'Internal Server Error')
+            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request'),
+            new OA\Response(response: Response::HTTP_INTERNAL_SERVER_ERROR, description: 'Internal Server Error')
         ]
     )]
     public function forgetPassword(ForgetPasswordRequest $request)
@@ -258,12 +258,12 @@ class AuthController extends Controller
             if ($result) {
                 return $this->successResponse(
                     $result,
-                    'The OTP Code has been sent to your email',
+                    __('response.auth.password_reset_otp_sent'),
                     Response::HTTP_OK
                 );
             }
 
-            return $this->errorResponse('Forget password failed', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse(__('exception.forget_password_failed'), Response::HTTP_INTERNAL_SERVER_ERROR);
         } catch (Exception $exception) {
             return $this->errorResponse($exception->getMessage(), Response::HTTP_BAD_REQUEST);
         }
@@ -281,18 +281,18 @@ class AuthController extends Controller
         ),
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Success',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Verify otp successfully'),
                         new OA\Property(property: 'data', type: 'boolean', example: true)
                     ]
                 )
             ),
-            new OA\Response(response: 400, description: 'Bad Request'),
-            new OA\Response(response: 500, description: 'Internal Server Error')
+            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request'),
+            new OA\Response(response: Response::HTTP_INTERNAL_SERVER_ERROR, description: 'Internal Server Error')
         ]
     )]
     public function verifyOtp(VerifyOtpRequest $request)
@@ -305,12 +305,12 @@ class AuthController extends Controller
             if ($result) {
                 return $this->successResponse(
                     $result,
-                    'Verify otp successfully',
+                    __('response.auth.otp_verified'),
                     Response::HTTP_OK
                 );
             }
 
-            return $this->errorResponse('Verify otp failed', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse(__('exception.verify_otp_failed'), Response::HTTP_INTERNAL_SERVER_ERROR);
         } catch (Exception $exception) {
             return $this->errorResponse($exception->getMessage(), Response::HTTP_BAD_REQUEST);
         }

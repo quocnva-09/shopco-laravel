@@ -36,7 +36,7 @@ class ExportController extends Controller
         ),
         responses: [
             new OA\Response(
-                response: 202,
+                response: Response::HTTP_ACCEPTED,
                 description: 'Export processing started successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -60,7 +60,7 @@ class ExportController extends Controller
 
         return $this->successResponse(
             new ExportResource($exportHistory),
-            'Export processing started successfully.',
+            __('response.export.initialized'),
             Response::HTTP_ACCEPTED
         );
     }
@@ -72,7 +72,7 @@ class ExportController extends Controller
         tags: ['Export Module - Admin'],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Export history retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -93,7 +93,7 @@ class ExportController extends Controller
     {
         $histories = $this->exportService->getUserExportHistories();
 
-        return $this->paginatedResponse(ExportResource::collection($histories));
+        return $this->paginatedResponse(ExportResource::collection($histories), __('response.export.list_retrieved'));
     }
 
     #[OA\Get(
@@ -106,7 +106,7 @@ class ExportController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Export record retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -122,7 +122,7 @@ class ExportController extends Controller
     {
         $exportHistory = $this->exportService->getUserExportHistory($id);
 
-        return $this->successResponse(new ExportResource($exportHistory));
+        return $this->successResponse(new ExportResource($exportHistory), __('response.export.retrieved'));
     }
 
     #[OA\Get(
@@ -135,7 +135,7 @@ class ExportController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'File downloaded successfully',
                 content: new OA\MediaType(
                     mediaType: 'application/octet-stream',
@@ -143,7 +143,7 @@ class ExportController extends Controller
                 )
             ),
             new OA\Response(
-                response: 400,
+                response: Response::HTTP_BAD_REQUEST,
                 description: 'Export not ready or file not found',
                 content: new OA\JsonContent(
                     properties: [

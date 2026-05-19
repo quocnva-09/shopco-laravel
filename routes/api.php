@@ -45,6 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // User routes
     Route::post('users/upload', [\App\Http\Controllers\Api\UploadController::class, 'uploadUserImage']);
+    Route::put('users/{id}', [\App\Http\Controllers\Api\UserController::class, 'update'])->name('users.update');
 });
 
 // Public routes

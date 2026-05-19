@@ -11,7 +11,7 @@ class CartRepository implements CartRepositoryInterface
 {
     public function getCartByUserId(int $userId): ?Cart
     {
-        return Cart::with('cartItems.product')->where('user_id', $userId)->first();
+        return Cart::with('cartItems.product.images')->where('user_id', $userId)->first();
     }
 
     public function createCart(int $userId): Cart

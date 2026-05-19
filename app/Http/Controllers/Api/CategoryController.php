@@ -34,7 +34,7 @@ class CategoryController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Categories retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -56,7 +56,7 @@ class CategoryController extends Controller
         $filter = CategoryFilterDTO::fromRequest($request);
         $categories = $this->categoryService->getAll($filter);
 
-        return $this->paginatedResponse(CategoryResource::collection($categories), 'Categories retrieved successfully');
+        return $this->paginatedResponse(CategoryResource::collection($categories), __('response.category.list_retrieved'));
     }
 
     #[OA\Post(
@@ -70,11 +70,11 @@ class CategoryController extends Controller
         ),
         responses: [
             new OA\Response(
-                response: 201,
+                response: Response::HTTP_CREATED,
                 description: 'Category created successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_CREATED),
                         new OA\Property(property: 'message', type: 'string', example: 'Category created successfully'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/CategoryResource')
                     ]
@@ -87,7 +87,7 @@ class CategoryController extends Controller
         $data = CategoryDTO::fromRequest($request);
         $category = $this->categoryService->create($data);
 
-        return $this->successResponse(new CategoryResource($category), 'Category created successfully', Response::HTTP_CREATED);
+        return $this->successResponse(new CategoryResource($category), __('response.category.created'), Response::HTTP_CREATED);
     }
 
     #[OA\Get(
@@ -100,7 +100,7 @@ class CategoryController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Category retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -116,7 +116,7 @@ class CategoryController extends Controller
     {
         $category = $this->categoryService->findById($id);
 
-        return $this->successResponse(new CategoryResource($category), 'Category retrieved successfully');
+        return $this->successResponse(new CategoryResource($category), __('response.category.retrieved'));
     }
 
     #[OA\Put(
@@ -133,7 +133,7 @@ class CategoryController extends Controller
         ),
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Category updated successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -150,7 +150,7 @@ class CategoryController extends Controller
         $data = CategoryDTO::fromRequest($request);
         $category = $this->categoryService->update($data, $id);
 
-        return $this->successResponse(new CategoryResource($category), 'Category updated successfully');
+        return $this->successResponse(new CategoryResource($category), __('response.category.updated'));
     }
 
     #[OA\Delete(
@@ -163,7 +163,7 @@ class CategoryController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Category deleted successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -179,7 +179,7 @@ class CategoryController extends Controller
     {
         $category = $this->categoryService->delete($id);
 
-        return $this->successResponse(new CategoryResource($category), 'Category deleted successfully');
+        return $this->successResponse(new CategoryResource($category), __('response.category.deleted'));
     }
 
     #[OA\Get(
@@ -196,7 +196,7 @@ class CategoryController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Trashed categories retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -218,7 +218,7 @@ class CategoryController extends Controller
         $filter = CategoryFilterDTO::fromRequest($request);
         $categories = $this->categoryService->getTrashed($filter);
 
-        return $this->paginatedResponse(CategoryResource::collection($categories), 'Trashed categories retrieved successfully');
+        return $this->paginatedResponse(CategoryResource::collection($categories), __('response.category.trashed_retrieved'));
     }
 
     #[OA\Patch(
@@ -231,7 +231,7 @@ class CategoryController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Category restored successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -247,7 +247,7 @@ class CategoryController extends Controller
     {
         $category = $this->categoryService->restore($id);
 
-        return $this->successResponse(new CategoryResource($category), 'Category restored successfully');
+        return $this->successResponse(new CategoryResource($category), __('response.category.restored'));
     }
 
     #[OA\Delete(
@@ -260,7 +260,7 @@ class CategoryController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Category permanently deleted successfully',
                 content: new OA\JsonContent(
                     properties: [
@@ -276,6 +276,6 @@ class CategoryController extends Controller
     {
         $this->categoryService->forceDelete($id);
 
-        return $this->successResponse(null, 'Category permanently deleted successfully');
+        return $this->successResponse(null, __('response.category.force_deleted'));
     }
 }

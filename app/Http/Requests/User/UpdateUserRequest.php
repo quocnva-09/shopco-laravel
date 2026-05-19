@@ -12,7 +12,7 @@ use OpenApi\Attributes as OA;
     schema: "UpdateUserRequest",
     title: "Update User Request",
     description: "User update payload",
-    required: ["name", "email", "role"],
+    required: [],
     properties: [
         new OA\Property(property: "name", type: "string", example: "John Doe", nullable: true),
         new OA\Property(property: "email", type: "string", format: "email", example: "john@example.com", nullable: true),

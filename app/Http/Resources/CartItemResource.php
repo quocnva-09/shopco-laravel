@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Services\FileUploadService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
@@ -46,7 +47,7 @@ use OpenApi\Attributes as OA;
                         properties: [
                             new OA\Property(property: 'id', type: 'integer', example: 1),
                             new OA\Property(
-                                property: 'url',
+                                property: 'img_path',
                                 type: 'string',
                                 example: 'https://example.com/images/shirt.jpg'
                             ),
@@ -78,12 +79,7 @@ class CartItemResource extends JsonResource
                     'name' => $this->product->name,
                     'price' => $this->product->price,
                     'price_discount' => $this->product->price_discount,
-                    'images' => $this->product->images->map(function ($image) {
-                        return [
-                            'id' => $image->id,
-                            'url' => $image->url,
-                        ];
-                    }),
+                    'img_path' => app(FileUploadService::class)->url($this->product->images[0]->img_path) ?? null,
                 ];
             }),
         ];

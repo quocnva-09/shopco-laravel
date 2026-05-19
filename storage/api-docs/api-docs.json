@@ -159,7 +159,7 @@
                                     "properties": {
                                         "status": {
                                             "type": "integer",
-                                            "example": "200"
+                                            "example": 200
                                         },
                                         "message": {
                                             "type": "string",
@@ -304,8 +304,8 @@
                                 "schema": {
                                     "properties": {
                                         "status": {
-                                            "type": "string",
-                                            "example": "success"
+                                            "type": "integer",
+                                            "example": 200
                                         },
                                         "message": {
                                             "type": "string",
@@ -355,8 +355,8 @@
                                 "schema": {
                                     "properties": {
                                         "status": {
-                                            "type": "string",
-                                            "example": "success"
+                                            "type": "integer",
+                                            "example": 200
                                         },
                                         "message": {
                                             "type": "string",
@@ -769,8 +769,8 @@
                                 "schema": {
                                     "properties": {
                                         "status": {
-                                            "type": "string",
-                                            "example": "success"
+                                            "type": "integer",
+                                            "example": 201
                                         },
                                         "message": {
                                             "type": "string",
@@ -1446,8 +1446,8 @@
                                 "schema": {
                                     "properties": {
                                         "status": {
-                                            "type": "string",
-                                            "example": "success"
+                                            "type": "integer",
+                                            "example": 201
                                         },
                                         "message": {
                                             "type": "string",
@@ -3102,12 +3102,63 @@
                     }
                 ]
             },
+            "delete": {
+                "tags": [
+                    "User Module - Admin"
+                ],
+                "summary": "Delete a user",
+                "operationId": "180f0ee009c229ee193669ddf59bb38a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User deleted successfully"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{id}": {
             "put": {
                 "tags": [
                     "User Module - Admin"
                 ],
                 "summary": "Update a user",
-                "operationId": "e2686c6d3f24049d1c98818faa091360",
+                "operationId": "070e37fc9aff78ae73860751bc990ed3",
                 "parameters": [
                     {
                         "name": "id",
@@ -3145,55 +3196,6 @@
                                         },
                                         "data": {
                                             "$ref": "#/components/schemas/UserResource"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "User Module - Admin"
-                ],
-                "summary": "Delete a user",
-                "operationId": "180f0ee009c229ee193669ddf59bb38a",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "User deleted successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "User deleted successfully"
-                                        },
-                                        "data": {
-                                            "type": "object",
-                                            "example": null,
-                                            "nullable": true
                                         }
                                     },
                                     "type": "object"
@@ -3825,11 +3827,7 @@
             "UpdateUserRequest": {
                 "title": "Update User Request",
                 "description": "User update payload",
-                "required": [
-                    "name",
-                    "email",
-                    "role"
-                ],
+                "required": [],
                 "properties": {
                     "name": {
                         "type": "string",
@@ -3886,22 +3884,24 @@
                 "required": [
                     "name",
                     "email",
-                    "role",
                     "password"
                 ],
                 "properties": {
                     "name": {
                         "type": "string",
-                        "example": "John Doe"
+                        "example": "John Doe",
+                        "nullable": false
                     },
                     "email": {
                         "type": "string",
                         "format": "email",
-                        "example": "john@example.com"
+                        "example": "john@example.com",
+                        "nullable": false
                     },
                     "role": {
                         "type": "string",
                         "example": "user",
+                        "nullable": true,
                         "enum": [
                             "admin",
                             "user"
@@ -3910,7 +3910,8 @@
                     "password": {
                         "type": "string",
                         "format": "password",
-                        "example": "password"
+                        "example": "password",
+                        "nullable": false
                     },
                     "profile_image": {
                         "type": "string",
@@ -3998,7 +3999,7 @@
                                             "type": "integer",
                                             "example": 1
                                         },
-                                        "url": {
+                                        "img_path": {
                                             "type": "string",
                                             "example": "https://example.com/images/shirt.jpg"
                                         }

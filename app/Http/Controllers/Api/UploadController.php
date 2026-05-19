@@ -39,11 +39,11 @@ class UploadController extends Controller
         tags: ['Upload Images'],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Image uploaded successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'integer', example: 200),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Uploaded successfully'),
                         new OA\Property(
                             property: 'data',
@@ -65,13 +65,13 @@ class UploadController extends Controller
         $path = $this->fileUploadService->upload($dto->file, $dto->type);
 
         if (!$path) {
-            return $this->errorResponse('Upload failed', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse(__('exception.upload_failed'), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return $this->successResponse([
             'img_path' => $path,
             'image_url' => $this->fileUploadService->url($path),
-        ], 'Uploaded successfully');
+        ], __('response.upload.success'));
     }
 
     #[OA\Post(
@@ -94,11 +94,11 @@ class UploadController extends Controller
         tags: ['Upload Images'],
         responses: [
             new OA\Response(
-                response: 200,
+                response: Response::HTTP_OK,
                 description: 'Image uploaded successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'integer', example: 200),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Uploaded successfully'),
                         new OA\Property(
                             property: 'data',
@@ -120,12 +120,12 @@ class UploadController extends Controller
         $path = $this->fileUploadService->upload($dto->file, $dto->type);
 
         if (!$path) {
-            return $this->errorResponse('Upload failed', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse(__('exception.upload_failed'), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return $this->successResponse([
             'img_path' => $path,
             'image_url' => $this->fileUploadService->url($path),
-        ], 'Uploaded successfully');
+        ], __('response.upload.success'));
     }
 }
