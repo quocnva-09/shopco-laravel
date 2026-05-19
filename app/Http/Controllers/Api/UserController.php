@@ -39,7 +39,7 @@ class UserController extends Controller
                 description: 'Users retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Users retrieved successfully'),
                         new OA\Property(
                             property: 'data',
@@ -75,7 +75,7 @@ class UserController extends Controller
                 description: 'User created successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_CREATED),
                         new OA\Property(property: 'message', type: 'string', example: 'User created successfully'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/UserResource')
                     ]
@@ -105,7 +105,7 @@ class UserController extends Controller
                 description: 'User retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'User retrieved successfully'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/UserResource')
                     ]
@@ -138,7 +138,7 @@ class UserController extends Controller
                 description: 'User updated successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'User updated successfully'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/UserResource')
                     ]
@@ -168,7 +168,7 @@ class UserController extends Controller
                 description: 'User deleted successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'User deleted successfully'),
                         new OA\Property(property: 'data', type: 'object', nullable: true, example: null)
                     ]
@@ -201,7 +201,7 @@ class UserController extends Controller
                 description: 'Trashed users retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Trashed users retrieved successfully'),
                         new OA\Property(
                             property: 'data',
@@ -236,7 +236,7 @@ class UserController extends Controller
                 description: 'User restored successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'User restored successfully'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/UserResource')
                     ]
@@ -265,7 +265,7 @@ class UserController extends Controller
                 description: 'User permanently deleted successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'User permanently deleted successfully'),
                         new OA\Property(property: 'data', type: 'object', nullable: true, example: null)
                     ]

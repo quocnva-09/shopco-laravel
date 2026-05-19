@@ -38,7 +38,7 @@ class CategoryController extends Controller
                 description: 'Categories retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Categories retrieved successfully'),
                         new OA\Property(
                             property: 'data',
@@ -104,7 +104,7 @@ class CategoryController extends Controller
                 description: 'Category retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Category retrieved successfully'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/CategoryResource')
                     ]
@@ -137,7 +137,7 @@ class CategoryController extends Controller
                 description: 'Category updated successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Category updated successfully'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/CategoryResource')
                     ]
@@ -167,7 +167,7 @@ class CategoryController extends Controller
                 description: 'Category deleted successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Category deleted successfully'),
                         new OA\Property(property: 'data', type: 'object', nullable: true, example: null)
                     ]
@@ -200,7 +200,7 @@ class CategoryController extends Controller
                 description: 'Trashed categories retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Trashed categories retrieved successfully'),
                         new OA\Property(
                             property: 'data',
@@ -235,7 +235,7 @@ class CategoryController extends Controller
                 description: 'Category restored successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Category restored successfully'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/CategoryResource')
                     ]
@@ -264,7 +264,7 @@ class CategoryController extends Controller
                 description: 'Category permanently deleted successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Category permanently deleted successfully'),
                         new OA\Property(property: 'data', type: 'object', nullable: true, example: null)
                     ]

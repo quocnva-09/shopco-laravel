@@ -38,7 +38,7 @@ class CartController extends Controller
                 description: 'Cart retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Cart retrieved successfully'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/CartResource'),
                     ]
@@ -72,7 +72,7 @@ class CartController extends Controller
                 description: 'Item added to cart successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Item added to cart successfully'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/CartItemResource'),
                     ]
@@ -106,7 +106,7 @@ class CartController extends Controller
                 description: 'Cart item updated successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Cart item updated successfully'),
                         new OA\Property(property: 'data', type: 'boolean', example: true),
                     ]
@@ -136,7 +136,7 @@ class CartController extends Controller
                 description: 'Cart item removed successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Cart item removed successfully'),
                         new OA\Property(property: 'data', type: 'boolean', example: true),
                     ]
@@ -162,7 +162,7 @@ class CartController extends Controller
                 description: 'Cart items count retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(
                             property: 'message',
                             type: 'string',
@@ -192,7 +192,7 @@ class CartController extends Controller
                 description: 'Cart cleared successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Cart cleared successfully'),
                         new OA\Property(property: 'data', type: 'boolean', example: true),
                     ]

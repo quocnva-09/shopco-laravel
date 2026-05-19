@@ -4,11 +4,11 @@ http://localhost:8000/api
 
 ## Endpoint:
 
-/cart/items/count
+/api/cart
 
 ## Method:
 
-GET
+DELETE
 
 ## Authentication:
 
@@ -16,14 +16,17 @@ Authorization: Bearer {{access_token}}
 
 ## Request:
 
-N/A
+```json
+{}
+```
 
 ## Response:
 
 ```json
 {
-  "status": "success",
-  "message": "Cart items count retrieved successfully",
-  "data": 5
+  "status": 200,
+  "message": "Cart cleared successfully",
+  "data": true
 }
 ```
+

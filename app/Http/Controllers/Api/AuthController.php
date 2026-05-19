@@ -41,7 +41,7 @@ class AuthController extends Controller
                 description: 'Login successful',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Login successfully'),
                         new OA\Property(
                             property: 'data',
@@ -90,7 +90,7 @@ class AuthController extends Controller
                 description: 'Registration successful',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_CREATED),
                         new OA\Property(property: 'message', type: 'string', example: 'Register successfully'),
                         new OA\Property(
                             property: 'data',
@@ -131,7 +131,7 @@ class AuthController extends Controller
                 description: 'Logout successful',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'int', example: Response::HTTP_OK),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Logout successfully'),
                         new OA\Property(property: 'data', type: 'boolean', example: true)
                     ]
@@ -165,7 +165,7 @@ class AuthController extends Controller
                 description: 'All sessions revoked',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(
                             property: 'message',
                             type: 'string',
@@ -206,7 +206,7 @@ class AuthController extends Controller
                 description: 'Success',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'My info fetched successfully'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/UserResource')
                     ]

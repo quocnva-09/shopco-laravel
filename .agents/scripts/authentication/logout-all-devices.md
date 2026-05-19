@@ -4,11 +4,11 @@ http://localhost:8000/api
 
 ## Endpoint:
 
-/cart/items/{itemId}
+/api/logout/all
 
 ## Method:
 
-DELETE
+POST
 
 ## Authentication:
 
@@ -16,14 +16,17 @@ Authorization: Bearer {{access_token}}
 
 ## Request:
 
-N/A
+```json
+{}
+```
 
 ## Response:
 
 ```json
 {
-  "status": "success",
-  "message": "Cart item removed successfully",
+  "status": 200,
+  "message": "Logged out from all devices successfully",
   "data": true
 }
 ```
+

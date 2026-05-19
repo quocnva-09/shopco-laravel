@@ -40,7 +40,7 @@ class ExportController extends Controller
                 description: 'Export processing started successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_ACCEPTED),
                         new OA\Property(
                             property: 'message',
                             type: 'string',
@@ -76,7 +76,7 @@ class ExportController extends Controller
                 description: 'Export history retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'success'),
                         new OA\Property(
                             property: 'data',
@@ -110,7 +110,7 @@ class ExportController extends Controller
                 description: 'Export record retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'success'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/ExportResource'),
                     ]
@@ -147,7 +147,7 @@ class ExportController extends Controller
                 description: 'Export not ready or file not found',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_BAD_REQUEST),
                         new OA\Property(property: 'message', type: 'string', example: 'Export file is not ready yet'),
                     ]
                 )

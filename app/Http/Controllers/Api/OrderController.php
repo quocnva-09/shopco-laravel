@@ -39,7 +39,7 @@ class OrderController extends Controller
                 description: 'Order created successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'int', example: Response::HTTP_CREATED),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_CREATED),
                         new OA\Property(property: 'message', type: 'string', example: 'Order created successfully'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/OrderResource'),
                     ]
@@ -50,7 +50,7 @@ class OrderController extends Controller
                 description: 'Bad request (e.g. empty cart)',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_BAD_REQUEST),
                         new OA\Property(property: 'message', type: 'string', example: 'Cart is empty'),
                     ]
                 )
@@ -97,7 +97,7 @@ class OrderController extends Controller
                 description: 'Order list retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Order list retrieved successfully'),
                         new OA\Property(
                             property: 'data',
@@ -147,7 +147,7 @@ class OrderController extends Controller
                 description: 'Order list retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Order list retrieved successfully'),
                         new OA\Property(
                             property: 'data',
@@ -186,7 +186,7 @@ class OrderController extends Controller
                 description: 'Order retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'success'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/OrderResource'),
                     ]
@@ -209,7 +209,7 @@ class OrderController extends Controller
                 description: 'Order retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'success'),
                         new OA\Property(property: 'data', ref: '#/components/schemas/OrderResource'),
                     ]
@@ -252,7 +252,7 @@ class OrderController extends Controller
                 description: 'Order status updated successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Order status updated successfully'),
                         new OA\Property(property: 'data', type: 'object', nullable: true, example: null),
                     ]
@@ -263,7 +263,7 @@ class OrderController extends Controller
                 description: 'Invalid status transition',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_BAD_REQUEST),
                         new OA\Property(property: 'message', type: 'string', example: 'Invalid status transition'),
                     ]
                 )
@@ -288,7 +288,7 @@ class OrderController extends Controller
                 description: 'Order status updated successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
                         new OA\Property(property: 'message', type: 'string', example: 'Order status updated successfully'),
                         new OA\Property(property: 'data', type: 'object', nullable: true, example: null),
                     ]
@@ -299,7 +299,7 @@ class OrderController extends Controller
                 description: 'Invalid status transition',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_BAD_REQUEST),
                         new OA\Property(property: 'message', type: 'string', example: 'Invalid status transition'),
                     ]
                 )

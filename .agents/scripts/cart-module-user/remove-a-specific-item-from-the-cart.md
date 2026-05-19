@@ -4,7 +4,7 @@ http://localhost:8000/api
 
 ## Endpoint:
 
-/cart
+/api/cart/items/{itemId}
 
 ## Method:
 
@@ -16,14 +16,20 @@ Authorization: Bearer {{access_token}}
 
 ## Request:
 
-N/A
+**Parameters:**
+- `itemId` (path): integer (required)
+
+```json
+{}
+```
 
 ## Response:
 
 ```json
 {
-  "status": "success",
-  "message": "Cart cleared successfully",
+  "status": 200,
+  "message": "Cart item removed successfully",
   "data": true
 }
 ```
+

@@ -4,7 +4,7 @@ http://localhost:8000/api
 
 ## Endpoint:
 
-/cart/add
+/api/cart/add
 
 ## Method:
 
@@ -31,7 +31,7 @@ Authorization: Bearer {{access_token}}
 
 ```json
 {
-  "status": "success",
+  "status": 200,
   "message": "Item added to cart successfully",
   "data": {
     "id": 1,
@@ -50,10 +50,11 @@ Authorization: Bearer {{access_token}}
       "images": [
         {
           "id": 1,
-          "url": "https://example.com/images/shirt.jpg"
+          "img_path": "https://example.com/images/shirt.jpg"
         }
       ]
     }
   }
 }
 ```
+

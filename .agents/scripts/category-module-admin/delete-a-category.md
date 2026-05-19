@@ -4,11 +4,11 @@ http://localhost:8000/api
 
 ## Endpoint:
 
-/cart/items/{itemId}
+/api/admin/categories/{id}
 
 ## Method:
 
-PUT
+DELETE
 
 ## Authentication:
 
@@ -16,18 +16,20 @@ Authorization: Bearer {{access_token}}
 
 ## Request:
 
+**Parameters:**
+- `id` (path): integer (required)
+
 ```json
-{
-  "quantity": 3
-}
+{}
 ```
 
 ## Response:
 
 ```json
 {
-  "status": "success",
-  "message": "Cart item updated successfully",
-  "data": true
+  "status": 200,
+  "message": "Category deleted successfully",
+  "data": null
 }
 ```
+
