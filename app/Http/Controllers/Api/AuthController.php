@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\Services\AuthServiceInterface;
+use App\DTOs\Auth\ForgetPasswordDTO;
 use App\DTOs\Auth\LoginDTO;
 use App\DTOs\Auth\RegisterDTO;
+use App\DTOs\Auth\VerifyOtpDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ForgetPasswordRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\VerifyOtpRequest;
 use App\Http\Resources\UserResource;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
@@ -217,4 +221,114 @@ class AuthController extends Controller
 
         return $this->successResponse(new UserResource($user), 'My info fetched successfully', Response::HTTP_OK);
     }
+
+    #[OA\Post(
+        path: '/api/forget-password',
+        summary: 'Forget Password',
+        description: 'Forget password',
+        tags: ['Authentication'],
+        requestBody: new OA\RequestBody(
+            content: new OA\JsonContent(
+                ref: '#/components/schemas/ForgetPasswordRequest'
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Success',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'message', type: 'string', example: 'The OTP Code has been sent to your email'),
+                        new OA\Property(property: 'data', type: 'boolean', example: true)
+                    ]
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad Request'),
+            new OA\Response(response: 500, description: 'Internal Server Error')
+        ]
+    )]
+    public function forgetPassword(ForgetPasswordRequest $request)
+    {
+        $dto = ForgetPasswordDTO::fromRequest($request);
+
+        try {
+            $result = $this->authService->forgetPassword($dto);
+
+            if ($result) {
+                return $this->successResponse(
+                    $result,
+                    'The OTP Code has been sent to your email',
+                    Response::HTTP_OK
+                );
+            }
+
+            return $this->errorResponse('Forget password failed', Response::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (Exception $exception) {
+            return $this->errorResponse($exception->getMessage(), Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    #[OA\Post(
+        path: '/api/verify-otp',
+        summary: 'Verify OTP',
+        description: 'Verify OTP',
+        tags: ['Authentication'],
+        requestBody: new OA\RequestBody(
+            content: new OA\JsonContent(
+                ref: '#/components/schemas/VerifyOtpRequest'
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Success',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Verify otp successfully'),
+                        new OA\Property(property: 'data', type: 'boolean', example: true)
+                    ]
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad Request'),
+            new OA\Response(response: 500, description: 'Internal Server Error')
+        ]
+    )]
+    public function verifyOtp(VerifyOtpRequest $request)
+    {
+        $dto = VerifyOtpDTO::fromRequest($request);
+
+        try {
+            $result = $this->authService->verifyOtp($dto);
+
+            if ($result) {
+                return $this->successResponse(
+                    $result,
+                    'Verify otp successfully',
+                    Response::HTTP_OK
+                );
+            }
+
+            return $this->errorResponse('Verify otp failed', Response::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (Exception $exception) {
+            return $this->errorResponse($exception->getMessage(), Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    // public function resetPassword(ResetPasswordRequest $request)
+    // {
+    //     $dto = ResetPasswordDTO::fromRequest($request);
+    //     $result = $this->authService->resetPassword($dto);
+
+    //     if ($result) {
+    //         return $this->successResponse(
+    //             $result,
+    //             'Reset password successfully',
+    //             Response::HTTP_OK
+    //         );
+    //     }
+
+    //     return $this->errorResponse('Reset password failed', Response::HTTP_INTERNAL_SERVER_ERROR);
+    // }
 }

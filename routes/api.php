@@ -51,6 +51,9 @@ Route::middleware('auth:sanctum')->group(function () {
 // Authentication Routes
 Route::post('login', [AuthController::class, 'login'])->middleware('throttle:5,1');
 Route::post('register', [AuthController::class, 'register'])->middleware('throttle:3,1');
+Route::post('forget-password', [AuthController::class, 'forgetPassword'])->middleware('throttle:3,1');
+Route::post('verify-otp', [AuthController::class, 'verifyOtp'])->middleware('throttle:3,1');
+// Route::post('reset-password', [AuthController::class, 'resetPassword'])->middleware('throttle:1,1');
 
 // Category routes
 // Route::apiResource('categories', CategoryController::class)->only(['index', 'show']);

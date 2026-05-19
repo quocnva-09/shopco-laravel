@@ -279,6 +279,108 @@
                 ]
             }
         },
+        "/api/forget-password": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Forget Password",
+                "description": "Forget password",
+                "operationId": "bc3b725758dc12e41bc1444dfd2dcaea",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ForgetPasswordRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The OTP Code has been sent to your email"
+                                        },
+                                        "data": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/verify-otp": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Verify OTP",
+                "description": "Verify OTP",
+                "operationId": "c4e4be2444463a153f1ca5669741bc89",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VerifyOtpRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Verify otp successfully"
+                                        },
+                                        "data": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
         "/api/cart": {
             "get": {
                 "tags": [
@@ -3349,6 +3451,21 @@
                 },
                 "type": "object"
             },
+            "ForgetPasswordRequest": {
+                "title": "Forget Password Request",
+                "description": "User forget password request body",
+                "required": [
+                    "email"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "kenjiprovip@gmail.com"
+                    }
+                },
+                "type": "object"
+            },
             "LoginRequest": {
                 "title": "Login Request",
                 "description": "User login request body",
@@ -3402,6 +3519,42 @@
                         "type": "string",
                         "format": "password",
                         "example": "password123"
+                    }
+                },
+                "type": "object"
+            },
+            "VerifyOtpRequest": {
+                "title": "Verify Otp Request",
+                "description": "User verify otp request body",
+                "required": [
+                    "otp",
+                    "type",
+                    "email"
+                ],
+                "properties": {
+                    "otp": {
+                        "type": "string",
+                        "example": "123456"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "forget",
+                        "enum": [
+                            "forget",
+                            "register"
+                        ]
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "kenjiprovip@gmail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "password"
+                    },
+                    "password_confirmation": {
+                        "type": "string",
+                        "example": "password"
                     }
                 },
                 "type": "object"
