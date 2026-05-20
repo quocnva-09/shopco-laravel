@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Services\FileUploadService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
@@ -19,7 +20,8 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'address', type: 'string', example: '123 Main St', nullable: true),
         new OA\Property(property: 'phone', type: 'string', example: '1234567890', nullable: true),
         new OA\Property(property: 'bio', type: 'string', example: 'I am a user', nullable: true),
-        new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2023-01-01 12:00:00'),
+        new OA\Property(property: 'deleted_at', type: 'string', format: 'date-time', example: '2023-01-01 12:00:00', nullable: true),
+        new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2023-01-01 12:00:00', nullable: true),
     ]
 )]
 class UserResource extends JsonResource
@@ -36,11 +38,12 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'role' => $this->role,
-            'profile_image' => $this->profile_image ? app(\App\Services\FileUploadService::class)->url($this->profile_image) : null,
+            'profile_image' => $this->profile_image ? app(FileUploadService::class)->url($this->profile_image) : null,
             'address' => $this->address,
             'phone' => $this->phone,
             'bio' => $this->bio,
-            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'deleted_at' => $this->deleted_at ? $this->deleted_at->format('Y-m-d H:i:s') : null,
+            'created_at' => $this->created_at ? $this->created_at->format('Y-m-d H:i:s') : null,
         ];
     }
 }

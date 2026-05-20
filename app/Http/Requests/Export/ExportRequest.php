@@ -31,7 +31,7 @@ use OpenApi\Attributes as OA;
 )]
 class ExportRequest extends FormRequest
 {
-    public const array EXPORT_FORMATS = ['csv', 'xlsx'];
+    public const EXPORT_FORMATS = ['csv', 'xlsx'];
 
     public function authorize(): bool
     {

@@ -18,8 +18,8 @@ class UserRepository implements UserRepositoryInterface
 
         if ($filter->search) {
             $query->where(function ($q) use ($filter) {
-                $q->where('name', 'like', '%' . $filter->search . '%')
-                  ->orWhere('email', 'like', '%' . $filter->search . '%');
+                $q->where('name', 'like', '%'.$filter->search.'%')
+                    ->orWhere('email', 'like', '%'.$filter->search.'%');
             });
         }
 
@@ -69,12 +69,12 @@ class UserRepository implements UserRepositoryInterface
 
     public function paginateTrashed(UserFilterDTO $filter): LengthAwarePaginator
     {
-        $query = User::onlyTrashed()->select(['id', 'name', 'email', 'role', 'profile_image', 'address', 'phone', 'bio', 'deleted_at']);
+        $query = User::onlyTrashed()->select(['id', 'name', 'email', 'role', 'profile_image', 'address', 'phone', 'bio', 'deleted_at', 'created_at']);
 
         if ($filter->search) {
             $query->where(function ($q) use ($filter) {
-                $q->where('name', 'like', '%' . $filter->search . '%')
-                  ->orWhere('email', 'like', '%' . $filter->search . '%');
+                $q->where('name', 'like', '%'.$filter->search.'%')
+                    ->orWhere('email', 'like', '%'.$filter->search.'%');
             });
         }
 
