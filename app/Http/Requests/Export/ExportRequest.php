@@ -21,12 +21,12 @@ use OpenApi\Attributes as OA;
             example: 'csv'
         ),
         new OA\Property(property: 'search', type: 'string', nullable: true, example: 'shirt'),
-        new OA\Property(
-            property: 'status',
-            type: 'string',
-            nullable: true,
-            enum: ['pending', 'processing', 'completed', 'failed'],
-        ),
+        // new OA\Property(
+        //     property: 'status',
+        //     type: 'string',
+        //     nullable: true,
+        //     enum: ['pending', 'processing', 'completed', 'failed'],
+        // ),
     ]
 )]
 class ExportRequest extends FormRequest
@@ -43,7 +43,7 @@ class ExportRequest extends FormRequest
         return [
             'format' => ['sometimes', Rule::in(self::EXPORT_FORMATS)],
             'search' => ['nullable', 'string'],
-            'status' => ['nullable', Rule::in(ExportStatus::values())],
+            // 'status' => ['nullable', Rule::in(ExportStatus::values())],
         ];
     }
 }

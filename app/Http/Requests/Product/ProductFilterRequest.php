@@ -26,6 +26,10 @@ class ProductFilterRequest extends FormRequest
     {
         return [
             'search' => ['nullable', 'string', 'max:255'],
+            'colors' => ['nullable', 'string', 'max:255'],
+            'sizes' => ['nullable', 'string', 'max:255'],
+            'min_price' => ['nullable', 'integer', 'min:0'],
+            'max_price' => ['nullable', 'integer', 'gte:min_price'],
             'category_id' => ['nullable', 'integer', 'exists:categories,id'],
             'page' => ['nullable', 'integer', 'min:1'],
             'perPage' => ['nullable', 'integer', 'min:1', 'max:100'],

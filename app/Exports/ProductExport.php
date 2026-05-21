@@ -11,9 +11,10 @@ use Maatwebsite\Excel\Concerns\WithCustomChunkSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class ProductExport implements FromQuery, WithHeadings, WithMapping, WithCustomChunkSize
+class ProductExport implements FromQuery, WithCustomChunkSize, WithHeadings, WithMapping
 {
     private int $index = 0;
+
     private array $filters;
 
     public function __construct(array $filters = [])
@@ -30,11 +31,7 @@ class ProductExport implements FromQuery, WithHeadings, WithMapping, WithCustomC
 
         // Example: Apply simple filters if they exist
         if (isset($this->filters['search'])) {
-            $query->where('name', 'like', '%' . $this->filters['search'] . '%');
-        }
-
-        if (isset($this->filters['status'])) {
-            $query->where('status', $this->filters['status']);
+            $query->where('name', 'like', '%'.$this->filters['search'].'%');
         }
 
         // Add sorting to ensure consistent results during chunking
@@ -55,8 +52,7 @@ class ProductExport implements FromQuery, WithHeadings, WithMapping, WithCustomC
     }
 
     /**
-     * @param mixed $row
-     *
+     * @param  mixed  $row
      * @return array<int, mixed>
      */
     public function map($row): array

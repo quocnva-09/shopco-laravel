@@ -27,11 +27,10 @@ Authorization: Bearer {{access_token}}
 
 ```json
 {
-  "application/octet-stream": {
-    "schema": {
-      "type": "string",
-      "format": "binary"
-    }
+  "status": 200,
+  "message": "success",
+  "data": {
+    "download_url": "https://s3.amazonaws.com/bucket/exports/export_123.csv"
   }
 }
 ```

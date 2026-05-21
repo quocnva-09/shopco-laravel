@@ -4,8 +4,9 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ExportController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
-use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\UploadController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
@@ -19,7 +20,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     // Product routes
     Route::prefix('products')->group(function () {
-        Route::post('upload', [\App\Http\Controllers\Api\UploadController::class, 'uploadProductImage']);
+        Route::post('upload', [UploadController::class, 'uploadProductImage']);
         Route::get('trashed', [ProductController::class, 'trashed']);
         Route::patch('{id}/restore', [ProductController::class, 'restore']);
         Route::delete('{id}/force-delete', [ProductController::class, 'forceDelete']);
@@ -43,7 +44,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     // Export routes (admin only)
     Route::prefix('exports')->group(function () {
-        Route::post('/', [ExportController::class, 'store']);
+        Route::post('/products', [ExportController::class, 'exportProduct']);
         Route::get('/', [ExportController::class, 'index']);
         Route::get('/{id}', [ExportController::class, 'show']);
         Route::get('/{id}/download', [ExportController::class, 'download']);

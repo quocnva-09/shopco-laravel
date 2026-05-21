@@ -16,16 +16,7 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $query = Product::with(['category', 'images']);
 
-        if ($filter->search) {
-            $query->where(function ($q) use ($filter) {
-                $q->where('name', 'like', '%' . $filter->search . '%')
-                  ->orWhere('description', 'like', '%' . $filter->search . '%');
-            });
-        }
-
-        if (! empty($filter->categoryId)) {
-            $query->where('category_id', $filter->categoryId);
-        }
+        $this->applyFilters($query, $filter);
 
         if (in_array($filter->sortBy, FilterEnum::PRODUCT_SORT)) {
             $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION)
@@ -70,16 +61,7 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $query = Product::onlyTrashed()->with(['category', 'images']);
 
-        if ($filter->search) {
-            $query->where(function ($q) use ($filter) {
-                $q->where('name', 'like', '%' . $filter->search . '%')
-                  ->orWhere('description', 'like', '%' . $filter->search . '%');
-            });
-        }
-
-        if (! empty($filter->categoryId)) {
-            $query->where('category_id', $filter->categoryId);
-        }
+        $this->applyFilters($query, $filter);
 
         if (in_array($filter->sortBy, FilterEnum::PRODUCT_SORT)) {
             $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION)
@@ -108,5 +90,53 @@ class ProductRepository implements ProductRepositoryInterface
     public function addImage(Product $product, array $imageData): void
     {
         $product->images()->create($imageData);
+    }
+
+    private function applyFilters($query, ProductFilterDTO $filter): void
+    {
+        if ($filter->search) {
+            $query->where(function ($q) use ($filter) {
+                $q->where('name', 'like', '%' . $filter->search . '%')
+                  ->orWhere('description', 'like', '%' . $filter->search . '%');
+            });
+        }
+
+        if (! empty($filter->categoryId)) {
+            $query->where('category_id', $filter->categoryId);
+        }
+
+        if (! empty($filter->colors)) {
+            $rawColors = explode(',', $filter->colors);
+            $colors = array_filter(array_map(function ($color) {
+                return ucfirst(strtolower(trim($color)));
+            }, $rawColors));
+            
+            if (! empty($colors)) {
+                $query->where(function ($q) use ($colors) {
+                    foreach ($colors as $color) {
+                        $q->orWhereJsonContains('colors', $color);
+                    }
+                });
+            }
+        }
+
+        if (! empty($filter->sizes)) {
+            $sizes = array_filter(array_map('trim', explode(',', $filter->sizes)));
+            if (! empty($sizes)) {
+                $query->where(function ($q) use ($sizes) {
+                    foreach ($sizes as $size) {
+                        $q->orWhereJsonContains('sizes', $size);
+                    }
+                });
+            }
+        }
+
+        if ($filter->minPrice !== null) {
+            $query->whereRaw('COALESCE(price_discount, price) >= ?', [$filter->minPrice]);
+        }
+
+        if ($filter->maxPrice !== null) {
+            $query->whereRaw('COALESCE(price_discount, price) <= ?', [$filter->maxPrice]);
+        }
     }
 }

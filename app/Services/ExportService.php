@@ -14,7 +14,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use LogicException;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
+
 
 class ExportService implements ExportServiceInterface
 {
@@ -47,7 +47,7 @@ class ExportService implements ExportServiceInterface
         return $this->exportHistoryRepo->findByIdAndUser($id, (int) Auth::id());
     }
 
-    public function downloadProductExport(int $id): BinaryFileResponse
+    public function getProductExportUrl(int $id): string
     {
         $exportHistory = $this->getUserExportHistory($id);
 
@@ -55,10 +55,13 @@ class ExportService implements ExportServiceInterface
             throw new LogicException('Export is not ready for download.');
         }
 
-        if (!$exportHistory->file_path || !Storage::disk('local')->exists($exportHistory->file_path)) {
+        if (!$exportHistory->file_path || !Storage::disk('s3')->exists($exportHistory->file_path)) {
             throw new LogicException('Export file not found.');
         }
 
-        return response()->download(Storage::disk('local')->path($exportHistory->file_path));
+        return Storage::disk('s3')->temporaryUrl(
+            $exportHistory->file_path,
+            now()->addMinutes(30)
+        );
     }
 }

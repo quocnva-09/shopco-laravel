@@ -13,7 +13,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProcessProductExport implements ShouldQueue
@@ -24,6 +23,7 @@ class ProcessProductExport implements ShouldQueue
     use SerializesModels;
 
     private ExportHistory $exportHistory;
+
     private array $filters;
 
     /**
@@ -43,11 +43,11 @@ class ProcessProductExport implements ShouldQueue
         $this->exportHistory->transitionTo(ExportStatus::PROCESSING);
 
         try {
-            $fileName = 'export_' . time() . '_' . uniqid() . '.' . $this->exportHistory->format;
-            $filePath = 'exports/' . $fileName;
+            $fileName = 'export_'.time().'_'.uniqid().'.'.$this->exportHistory->format;
+            $filePath = 'exports/'.$fileName;
 
             // Generate and store the file
-            Excel::store(new ProductExport($this->filters), $filePath, 'local');
+            Excel::store(new ProductExport($this->filters), $filePath, 's3');
 
             $this->exportHistory->transitionTo(ExportStatus::COMPLETED, [
                 'file_path' => $filePath,

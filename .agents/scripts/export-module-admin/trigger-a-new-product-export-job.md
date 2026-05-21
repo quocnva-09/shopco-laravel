@@ -4,7 +4,7 @@ http://localhost:8000/api
 
 ## Endpoint:
 
-/api/admin/exports
+/api/admin/exports/products
 
 ## Method:
 

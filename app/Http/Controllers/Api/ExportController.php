@@ -26,7 +26,7 @@ class ExportController extends Controller
     }
 
     #[OA\Post(
-        path: '/api/admin/exports',
+        path: '/api/admin/exports/products',
         summary: 'Trigger a new product export job',
         security: [['bearerAuth' => []]],
         tags: ['Export Module - Admin'],
@@ -52,7 +52,7 @@ class ExportController extends Controller
             ),
         ]
     )]
-    public function store(ExportRequest $request): JsonResponse
+    public function exportProduct(ExportRequest $request): JsonResponse
     {
         $dto = ExportDTO::fromRequest($request->validated());
 
@@ -127,7 +127,7 @@ class ExportController extends Controller
 
     #[OA\Get(
         path: '/api/admin/exports/{id}/download',
-        summary: 'Download a completed export file',
+        summary: 'Get the S3 download URL for a completed export',
         security: [['bearerAuth' => []]],
         tags: ['Export Module - Admin'],
         parameters: [
@@ -136,10 +136,19 @@ class ExportController extends Controller
         responses: [
             new OA\Response(
                 response: Response::HTTP_OK,
-                description: 'File downloaded successfully',
-                content: new OA\MediaType(
-                    mediaType: 'application/octet-stream',
-                    schema: new OA\Schema(type: 'string', format: 'binary')
+                description: 'Download URL retrieved successfully',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'integer', example: Response::HTTP_OK),
+                        new OA\Property(property: 'message', type: 'string', example: 'success'),
+                        new OA\Property(
+                            property: 'data',
+                            type: 'object',
+                            properties: [
+                                new OA\Property(property: 'download_url', type: 'string', format: 'uri'),
+                            ]
+                        ),
+                    ]
                 )
             ),
             new OA\Response(
@@ -154,10 +163,12 @@ class ExportController extends Controller
             ),
         ]
     )]
-    public function download(int $id): Response
+    public function download(int $id): JsonResponse
     {
         try {
-            return $this->exportService->downloadProductExport($id);
+            $url = $this->exportService->getProductExportUrl($id);
+
+            return $this->successResponse(['download_url' => $url], __('response.export.retrieved'));
         } catch (\LogicException $e) {
             return $this->errorResponse($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }

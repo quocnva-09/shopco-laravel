@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Services\FileUploadService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
@@ -31,7 +32,7 @@ use OpenApi\Attributes as OA;
             property: 'file_path',
             type: 'string',
             nullable: true,
-            example: 'exports/products_2024-01-15.csv'
+            example: 'https://s3.amazonaws.com/bucket/exports/products_2024-01-15.csv'
         ),
         new OA\Property(
             property: 'error_message',
@@ -62,7 +63,7 @@ class ExportResource extends JsonResource
             'type' => $this->type,
             'format' => $this->format,
             'status' => $this->status,
-            'file_path' => $this->file_path,
+            'file_path' => $this->file_path ? app(FileUploadService::class)->url($this->file_path) : null,
             'error_message' => $this->error_message,
             'created_at' => $this->created_at ? $this->created_at->toIso8601String() : null,
         ];
