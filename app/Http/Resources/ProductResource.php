@@ -22,16 +22,20 @@ use OpenApi\Attributes as OA;
         new OA\Property(
             property: 'sizes',
             type: 'array',
-            items: new OA\Items(type: 'string'),
             nullable: true,
-            example: ['S', 'M', 'L']
+            items: new OA\Items(properties: [
+                new OA\Property(property: 'size', type: 'string', example: 'S'),
+                new OA\Property(property: 'label', type: 'string', example: 'Small'),
+            ], type: 'object')
         ),
         new OA\Property(
             property: 'colors',
             type: 'array',
-            items: new OA\Items(type: 'string'),
             nullable: true,
-            example: ['Red', 'Blue', 'Black']
+            items: new OA\Items(properties: [
+                new OA\Property(property: 'color', type: 'string', example: 'Red'),
+                new OA\Property(property: 'hex', type: 'string', example: '#ff0000'),
+            ], type: 'object')
         ),
         new OA\Property(property: 'is_active', type: 'boolean', example: true),
         new OA\Property(property: 'rating_avg', type: 'number', format: 'float', nullable: true, example: 4.5),
@@ -72,8 +76,22 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'price_discount' => $this->price_discount,
-            'sizes' => $this->sizes,
-            'colors' => $this->colors,
+            'sizes' => $this->whenLoaded('sizes', function () {
+                return $this->sizes->map(function ($size) {
+                    return [
+                        'size' => $size->name,
+                        'label' => $size->label,
+                    ];
+                });
+            }),
+            'colors' => $this->whenLoaded('colors', function () {
+                return $this->colors->map(function ($color) {
+                    return [
+                        'color' => $color->name,
+                        'hex' => $color->hex_code,
+                    ];
+                });
+            }),
             'is_active' => (bool)$this->is_active,
             $this->mergeWhen(array_key_exists('approved_reviews_avg_rating', $this->getAttributes()), [
                 'rating_avg' => $this->approved_reviews_avg_rating !== null ? round((float) $this->approved_reviews_avg_rating, 1) : 0,

@@ -14,7 +14,7 @@ class ProductRepository implements ProductRepositoryInterface
 {
     public function paginateAll(ProductFilterDTO $filter): LengthAwarePaginator
     {
-        $query = Product::with(['category', 'images'])
+        $query = Product::with(['category', 'images', 'colors', 'sizes'])
             ->withAvg('approvedReviews', 'rating')
             ->withCount('approvedReviews');
 
@@ -41,7 +41,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function findById(int $id): Product
     {
-        return Product::with(['category', 'images'])
+        return Product::with(['category', 'images', 'colors', 'sizes'])
             ->withAvg('approvedReviews', 'rating')
             ->withCount('approvedReviews')
             ->findOrFail($id);
@@ -49,7 +49,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function findTrashedById(int $id): Product
     {
-        return Product::onlyTrashed()->with(['category', 'images'])
+        return Product::onlyTrashed()->with(['category', 'images', 'colors', 'sizes'])
             ->withAvg('approvedReviews', 'rating')
             ->withCount('approvedReviews')
             ->findOrFail($id);
@@ -57,12 +57,31 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function create(array $data): Product
     {
-        return Product::create($data);
+        $colorIds = $data['color_ids'] ?? [];
+        $sizeIds = $data['size_ids'] ?? [];
+        unset($data['color_ids'], $data['size_ids']);
+
+        $product = Product::create($data);
+        $product->colors()->sync($colorIds);
+        $product->sizes()->sync($sizeIds);
+
+        return $product;
     }
 
     public function update(Product $product, array $data): Product
     {
+        $colorIds = $data['color_ids'] ?? null;
+        $sizeIds = $data['size_ids'] ?? null;
+        unset($data['color_ids'], $data['size_ids']);
+
         $product->update($data);
+
+        if ($colorIds !== null) {
+            $product->colors()->sync($colorIds);
+        }
+        if ($sizeIds !== null) {
+            $product->sizes()->sync($sizeIds);
+        }
 
         return $product;
     }
@@ -74,7 +93,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function paginateTrashed(ProductFilterDTO $filter): LengthAwarePaginator
     {
-        $query = Product::onlyTrashed()->with(['category', 'images'])
+        $query = Product::onlyTrashed()->with(['category', 'images', 'colors', 'sizes'])
             ->withAvg('approvedReviews', 'rating')
             ->withCount('approvedReviews');
 
@@ -103,7 +122,7 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $product->restore();
 
-        return $product->loadMissing(['category', 'images'])
+        return $product->loadMissing(['category', 'images', 'colors', 'sizes'])
             ->loadAvg('approvedReviews', 'rating')
             ->loadCount('approvedReviews');
     }
@@ -134,25 +153,24 @@ class ProductRepository implements ProductRepositoryInterface
         if (! empty($filter->colors)) {
             $rawColors = explode(',', $filter->colors);
             $colors = array_filter(array_map(function ($color) {
-                return ucfirst(strtolower(trim($color)));
+                return strtolower(trim($color));
             }, $rawColors));
             
             if (! empty($colors)) {
-                $query->where(function ($q) use ($colors) {
-                    foreach ($colors as $color) {
-                        $q->orWhereJsonContains('colors', $color);
-                    }
+                $query->whereHas('colors', function ($q) use ($colors) {
+                    $q->whereIn('name', $colors);
                 });
             }
         }
 
         if (! empty($filter->sizes)) {
-            $sizes = array_filter(array_map('trim', explode(',', $filter->sizes)));
+            $sizes = array_filter(array_map(function ($size) {
+                return strtoupper(trim($size));
+            }, explode(',', $filter->sizes)));
+            
             if (! empty($sizes)) {
-                $query->where(function ($q) use ($sizes) {
-                    foreach ($sizes as $size) {
-                        $q->orWhereJsonContains('sizes', $size);
-                    }
+                $query->whereHas('sizes', function ($q) use ($sizes) {
+                    $q->whereIn('name', $sizes);
                 });
             }
         }

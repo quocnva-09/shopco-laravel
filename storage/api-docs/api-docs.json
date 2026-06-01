@@ -3843,19 +3843,19 @@
                         },
                         "nullable": true
                     },
-                    "sizes": {
+                    "size_ids": {
                         "type": "array",
                         "items": {
-                            "type": "string",
-                            "example": "M"
+                            "type": "integer",
+                            "example": 1
                         },
                         "nullable": true
                     },
-                    "colors": {
+                    "color_ids": {
                         "type": "array",
                         "items": {
-                            "type": "string",
-                            "example": "Red"
+                            "type": "integer",
+                            "example": 1
                         },
                         "nullable": true
                     },
@@ -4420,25 +4420,35 @@
                     "sizes": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "properties": {
+                                "size": {
+                                    "type": "string",
+                                    "example": "S"
+                                },
+                                "label": {
+                                    "type": "string",
+                                    "example": "Small"
+                                }
+                            },
+                            "type": "object"
                         },
-                        "example": [
-                            "S",
-                            "M",
-                            "L"
-                        ],
                         "nullable": true
                     },
                     "colors": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "properties": {
+                                "color": {
+                                    "type": "string",
+                                    "example": "Red"
+                                },
+                                "hex": {
+                                    "type": "string",
+                                    "example": "#ff0000"
+                                }
+                            },
+                            "type": "object"
                         },
-                        "example": [
-                            "Red",
-                            "Blue",
-                            "Black"
-                        ],
                         "nullable": true
                     },
                     "is_active": {

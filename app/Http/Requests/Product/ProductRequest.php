@@ -25,8 +25,8 @@ use OpenApi\Attributes as OA;
             nullable: true,
             items: new OA\Items(type: 'string', example: 'products/xyz.jpg')
         ),
-        new OA\Property(property: 'sizes', type: 'array', nullable: true, items: new OA\Items(type: 'string', example: 'M')),
-        new OA\Property(property: 'colors', type: 'array', nullable: true, items: new OA\Items(type: 'string', example: 'Red')),
+        new OA\Property(property: 'size_ids', type: 'array', nullable: true, items: new OA\Items(type: 'integer', example: 1)),
+        new OA\Property(property: 'color_ids', type: 'array', nullable: true, items: new OA\Items(type: 'integer', example: 1)),
         new OA\Property(property: 'is_active', type: 'boolean', nullable: true, example: true),
     ]
 )]
@@ -56,10 +56,10 @@ class ProductRequest extends FormRequest
             'category_id' => 'required|integer|exists:categories,id',
             'images' => 'nullable|array',
             'images.*' => 'string',
-            'sizes' => 'nullable|array',
-            'sizes.*' => 'string',
-            'colors' => 'nullable|array',
-            'colors.*' => 'string',
+            'size_ids' => 'nullable|array',
+            'size_ids.*' => 'integer|exists:sizes,id',
+            'color_ids' => 'nullable|array',
+            'color_ids.*' => 'integer|exists:colors,id',
             'is_active' => 'nullable|boolean',
         ];
 
