@@ -25,7 +25,7 @@ readonly class CategoryFilterDTO
         return new self(
             search: $validated['search'] ?? null,
             page: $validated['page'] ?? 1,
-            perPage: $validated['perPage'] ?? 15,
+            perPage: $validated['per_page'] ?? 15,
             sortBy: $validated['sort_by'] ?? FilterEnum::CATEGORY_SORT[0],
             sortDir: $validated['sort_dir'] ?? FilterEnum::DIRECTION[0],
         );
@@ -36,7 +36,7 @@ readonly class CategoryFilterDTO
         return [
             'search' => $this->search,
             'page' => $this->page,
-            'perPage' => $this->perPage,
+            'per_page' => $this->perPage,
             'sort_by' => $this->sortBy,
             'sort_dir' => $this->sortDir,
         ];

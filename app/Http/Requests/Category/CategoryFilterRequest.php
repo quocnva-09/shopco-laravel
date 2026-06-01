@@ -27,7 +27,7 @@ class CategoryFilterRequest extends FormRequest
         return [
             'search' => ['nullable', 'string', 'max:255'],
             'page' => ['nullable', 'integer', 'min:1'],
-            'perPage' => ['nullable', 'integer', 'min:1', 'max:100'],
+            'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
             'sort_by' => ['nullable', 'string', Rule::in(FilterEnum::CATEGORY_SORT)],
             'sort_dir' => ['nullable', 'string', Rule::in(FilterEnum::DIRECTION)],
         ];

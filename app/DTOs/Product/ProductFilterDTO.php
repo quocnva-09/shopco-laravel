@@ -35,7 +35,7 @@ readonly class ProductFilterDTO
             minPrice: isset($validated['min_price']) ? (int) $validated['min_price'] : null,
             maxPrice: isset($validated['max_price']) ? (int) $validated['max_price'] : null,
             page: $validated['page'] ?? 1,
-            perPage: $validated['perPage'] ?? 15,
+            perPage: $validated['per_page'] ?? 15,
             sortBy: $validated['sort_by'] ?? FilterEnum::PRODUCT_SORT[0],
             sortDir: $validated['sort_dir'] ?? FilterEnum::DIRECTION[0],
         );
@@ -54,7 +54,7 @@ readonly class ProductFilterDTO
             'min_price' => $this->minPrice,
             'max_price' => $this->maxPrice,
             'page' => $this->page,
-            'perPage' => $this->perPage,
+            'per_page' => $this->perPage,
             'sort_by' => $this->sortBy,
             'sort_dir' => $this->sortDir,
         ];

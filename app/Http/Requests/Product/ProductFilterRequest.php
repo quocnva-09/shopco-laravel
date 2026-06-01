@@ -32,7 +32,7 @@ class ProductFilterRequest extends FormRequest
             'max_price' => ['nullable', 'integer', 'gte:min_price'],
             'category_id' => ['nullable', 'integer', 'exists:categories,id'],
             'page' => ['nullable', 'integer', 'min:1'],
-            'perPage' => ['nullable', 'integer', 'min:1', 'max:100'],
+            'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
             'sort_by' => ['nullable', 'string', Rule::in(FilterEnum::PRODUCT_SORT)],
             'sort_dir' => ['nullable', 'string', Rule::in(FilterEnum::DIRECTION)],
         ];
