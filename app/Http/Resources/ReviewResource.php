@@ -19,6 +19,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: "rating", type: "integer", example: 5),
         new OA\Property(property: "comment", type: "string", example: "Great product!"),
         new OA\Property(property: "is_approved", type: "boolean", example: true),
+        new OA\Property(property: "is_verified", type: "boolean", example: true),
         new OA\Property(property: "created_at", type: "string", format: "date-time"),
         new OA\Property(property: "updated_at", type: "string", format: "date-time"),
     ]
@@ -36,6 +37,7 @@ class ReviewResource extends JsonResource
             'rating' => $this->rating,
             'comment' => $this->comment,
             'is_approved' => (bool) $this->is_approved,
+            'is_verified' => $this->user?->email_verified_at !== null,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];

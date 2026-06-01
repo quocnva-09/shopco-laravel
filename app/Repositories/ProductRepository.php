@@ -14,14 +14,23 @@ class ProductRepository implements ProductRepositoryInterface
 {
     public function paginateAll(ProductFilterDTO $filter): LengthAwarePaginator
     {
-        $query = Product::with(['category', 'images']);
+        $query = Product::with(['category', 'images'])
+            ->withAvg('approvedReviews', 'rating')
+            ->withCount('approvedReviews');
 
         $this->applyFilters($query, $filter);
 
-        if (in_array($filter->sortBy, FilterEnum::PRODUCT_SORT)) {
-            $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION)
-                ? $filter->sortDir
-                : 'desc';
+        $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION)
+            ? $filter->sortDir
+            : 'desc';
+
+        if ($filter->sortBy === 'selling') {
+            $query->withSum(['orderItems as sold_count' => function ($q) {
+                $q->join('orders', 'orders.id', '=', 'order_items.order_id')
+                  ->where('orders.status', \App\Enums\OrderStatus::PAID->value);
+            }], 'quantity')
+            ->orderBy('sold_count', $direction);
+        } elseif (in_array($filter->sortBy, FilterEnum::PRODUCT_SORT)) {
             $query->orderBy($filter->sortBy, $direction);
         } else {
             $query->orderBy('created_at', 'desc');
@@ -32,12 +41,18 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function findById(int $id): Product
     {
-        return Product::with(['category', 'images'])->findOrFail($id);
+        return Product::with(['category', 'images'])
+            ->withAvg('approvedReviews', 'rating')
+            ->withCount('approvedReviews')
+            ->findOrFail($id);
     }
 
     public function findTrashedById(int $id): Product
     {
-        return Product::onlyTrashed()->with(['category', 'images'])->findOrFail($id);
+        return Product::onlyTrashed()->with(['category', 'images'])
+            ->withAvg('approvedReviews', 'rating')
+            ->withCount('approvedReviews')
+            ->findOrFail($id);
     }
 
     public function create(array $data): Product
@@ -59,14 +74,23 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function paginateTrashed(ProductFilterDTO $filter): LengthAwarePaginator
     {
-        $query = Product::onlyTrashed()->with(['category', 'images']);
+        $query = Product::onlyTrashed()->with(['category', 'images'])
+            ->withAvg('approvedReviews', 'rating')
+            ->withCount('approvedReviews');
 
         $this->applyFilters($query, $filter);
 
-        if (in_array($filter->sortBy, FilterEnum::PRODUCT_SORT)) {
-            $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION)
-                ? $filter->sortDir
-                : 'desc';
+        $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION)
+            ? $filter->sortDir
+            : 'desc';
+
+        if ($filter->sortBy === 'selling') {
+            $query->withSum(['orderItems as sold_count' => function ($q) {
+                $q->join('orders', 'orders.id', '=', 'order_items.order_id')
+                  ->where('orders.status', \App\Enums\OrderStatus::PAID->value);
+            }], 'quantity')
+            ->orderBy('sold_count', $direction);
+        } elseif (in_array($filter->sortBy, FilterEnum::PRODUCT_SORT)) {
             $query->orderBy($filter->sortBy, $direction);
         } else {
             $query->orderBy('deleted_at', 'desc');
@@ -79,7 +103,9 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $product->restore();
 
-        return $product->loadMissing(['category', 'images']);
+        return $product->loadMissing(['category', 'images'])
+            ->loadAvg('approvedReviews', 'rating')
+            ->loadCount('approvedReviews');
     }
 
     public function forceDelete(Product $product): void

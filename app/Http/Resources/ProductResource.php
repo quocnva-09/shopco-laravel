@@ -34,6 +34,9 @@ use OpenApi\Attributes as OA;
             example: ['Red', 'Blue', 'Black']
         ),
         new OA\Property(property: 'is_active', type: 'boolean', example: true),
+        new OA\Property(property: 'rating_avg', type: 'number', format: 'float', nullable: true, example: 4.5),
+        new OA\Property(property: 'reviews_count', type: 'integer', nullable: true, example: 10),
+        new OA\Property(property: 'sold_count', type: 'integer', nullable: true, example: 50),
         new OA\Property(
             property: 'category',
             type: 'object',
@@ -72,6 +75,13 @@ class ProductResource extends JsonResource
             'sizes' => $this->sizes,
             'colors' => $this->colors,
             'is_active' => (bool)$this->is_active,
+            $this->mergeWhen(array_key_exists('approved_reviews_avg_rating', $this->getAttributes()), [
+                'rating_avg' => $this->approved_reviews_avg_rating !== null ? round((float) $this->approved_reviews_avg_rating, 1) : 0,
+                'reviews_count' => (int) $this->approved_reviews_count,
+            ]),
+            $this->mergeWhen(array_key_exists('sold_count', $this->getAttributes()), [
+                'sold_count' => (int) $this->sold_count,
+            ]),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
             'category' => $this->whenLoaded('category', function () {

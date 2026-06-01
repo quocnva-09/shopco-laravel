@@ -13,6 +13,7 @@ enum FilterEnum
         'price',
         'created_at',
         'name',
+        'selling',
     ];
 
     public const USER_SORT = [

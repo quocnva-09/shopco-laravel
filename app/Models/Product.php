@@ -45,6 +45,11 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function approvedReviews()
+    {
+        return $this->hasMany(Review::class)->where('is_approved', true);
+    }
+
     public static function booted()
     {
         static::forceDeleting(function ($product) {
