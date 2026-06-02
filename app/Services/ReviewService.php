@@ -27,11 +27,6 @@ class ReviewService implements ReviewServiceInterface
         return $this->repository->getList($filterDTO);
     }
 
-    public function getApprovedByProduct(int $productId, ReviewFilterDTO $filterDTO): LengthAwarePaginator
-    {
-        return $this->repository->getApprovedByProduct($productId, $filterDTO);
-    }
-
     public function findById(int $id): ?Review
     {
         return $this->repository->findById($id);

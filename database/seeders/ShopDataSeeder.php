@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Color;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\Size;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
@@ -18,8 +20,8 @@ class ShopDataSeeder extends Seeder
     {
         Schema::disableForeignKeyConstraints();
 
-        // 2. Xóa sạch dữ liệu cũ (Xóa luôn cả Product Image)
-        $this->command->info('Cleanning data Category, Product and ProductImage...');
+        // 2. Xóa sạch dữ liệu cũ
+        $this->command->info('Cleaning data Category, Product, ProductImage and pivot tables...');
         ProductImage::truncate();
         Product::truncate();
         Category::truncate();
@@ -64,6 +66,30 @@ class ShopDataSeeder extends Seeder
                         'is_active' => $productData['is_active'] ?? true,
                     ]
                 );
+
+                // Sync Colors
+                if (!empty($productData['colors'])) {
+                    $colorIds = [];
+                    foreach ($productData['colors'] as $colorName) {
+                        $color = Color::where('name', strtolower($colorName))->first();
+                        if ($color) {
+                            $colorIds[] = $color->id;
+                        }
+                    }
+                    $product->colors()->sync($colorIds);
+                }
+
+                // Sync Sizes
+                if (!empty($productData['sizes'])) {
+                    $sizeIds = [];
+                    foreach ($productData['sizes'] as $sizeName) {
+                        $size = Size::where('name', strtoupper($sizeName))->first();
+                        if ($size) {
+                            $sizeIds[] = $size->id;
+                        }
+                    }
+                    $product->sizes()->sync($sizeIds);
+                }
 
                 // Loading Images
                 if (!empty($productData['images'])) {

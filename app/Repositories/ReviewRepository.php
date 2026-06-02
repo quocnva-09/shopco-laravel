@@ -15,28 +15,20 @@ class ReviewRepository implements ReviewRepositoryInterface
     {
         $query = Review::query()->with(['user', 'product']);
 
+        if ($filterDTO->productId !== null) {
+            $query->where('product_id', $filterDTO->productId);
+        }
+
         if ($filterDTO->keyword) {
             $query->where('comment', 'like', '%' . $filterDTO->keyword . '%');
         }
 
-        if ($filterDTO->sortBy && $filterDTO->sortDirection) {
-            $query->orderBy($filterDTO->sortBy, $filterDTO->sortDirection);
-        } else {
-            $query->orderBy('created_at', 'desc');
+        if ($filterDTO->isApproved !== null) {
+            $query->where('is_approved', $filterDTO->isApproved);
         }
 
-        return $query->paginate($filterDTO->limit);
-    }
-
-    public function getApprovedByProduct(int $productId, ReviewFilterDTO $filterDTO): LengthAwarePaginator
-    {
-        $query = Review::query()
-            ->with(['user'])
-            ->where('product_id', $productId)
-            ->where('is_approved', true);
-
-        if ($filterDTO->sortBy && $filterDTO->sortDirection) {
-            $query->orderBy($filterDTO->sortBy, $filterDTO->sortDirection);
+        if ($filterDTO->sortBy && $filterDTO->sortDir) {
+            $query->orderBy($filterDTO->sortBy, $filterDTO->sortDir);
         } else {
             $query->orderBy('created_at', 'desc');
         }

@@ -35,10 +35,12 @@ class ReviewController extends Controller
         summary: "Get a list of all reviews",
         tags: ["Review Module"],
         parameters: [
+            new OA\Parameter(name: "product_id", in: "query", required: false, description: "Filter by product ID", schema: new OA\Schema(type: "integer")),
             new OA\Parameter(name: "keyword", in: "query", required: false, schema: new OA\Schema(type: "string")),
             new OA\Parameter(name: "sort_by", in: "query", required: false, schema: new OA\Schema(type: "string", enum: ["id", "created_at", "rating"])),
-            new OA\Parameter(name: "sort_direction", in: "query", required: false, schema: new OA\Schema(type: "string", enum: ["asc", "desc"])),
+            new OA\Parameter(name: "sort_dir", in: "query", required: false, schema: new OA\Schema(type: "string", enum: ["asc", "desc"])),
             new OA\Parameter(name: "limit", in: "query", required: false, schema: new OA\Schema(type: "integer")),
+            new OA\Parameter(name: "is_approved", in: "query", required: false, schema: new OA\Schema(type: "boolean")),
         ],
         responses: [
             new OA\Response(
@@ -195,41 +197,4 @@ class ReviewController extends Controller
         return $this->successResponse([], __('response.review.deleted'));
     }
 
-    #[OA\Get(
-        path: "/api/products/{productId}/reviews",
-        operationId: "getProductReviews",
-        summary: "Get approved reviews for a specific product",
-        tags: ["Review Module"],
-        parameters: [
-            new OA\Parameter(name: "productId", in: "path", required: true, schema: new OA\Schema(type: "integer")),
-            new OA\Parameter(name: "sort_by", in: "query", required: false, schema: new OA\Schema(type: "string", enum: ["id", "created_at", "rating"])),
-            new OA\Parameter(name: "sort_direction", in: "query", required: false, schema: new OA\Schema(type: "string", enum: ["asc", "desc"])),
-            new OA\Parameter(name: "limit", in: "query", required: false, schema: new OA\Schema(type: "integer")),
-        ],
-        responses: [
-            new OA\Response(
-                response: Response::HTTP_OK,
-                description: "List of approved product reviews",
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(property: "status", type: "integer", example: Response::HTTP_OK),
-                        new OA\Property(property: "message", type: "string", example: "Success"),
-                        new OA\Property(
-                            property: "data",
-                            type: "array",
-                            items: new OA\Items(ref: "#/components/schemas/ReviewResource")
-                        ),
-                        new OA\Property(property: "meta", type: "object"),
-                        new OA\Property(property: "links", type: "object")
-                    ]
-                )
-            )
-        ]
-    )]
-    public function getByProduct(int $productId, ReviewFilterRequest $request): JsonResponse
-    {
-        $reviews = $this->reviewService->getApprovedByProduct($productId, ReviewFilterDTO::fromRequest($request));
-
-        return $this->paginatedResponse(ReviewResource::collection($reviews), __('response.review.list_retrieved'));
-    }
 }

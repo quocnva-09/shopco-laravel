@@ -14,8 +14,6 @@ interface ReviewServiceInterface
 {
     public function getList(ReviewFilterDTO $filterDTO): LengthAwarePaginator;
 
-    public function getApprovedByProduct(int $productId, ReviewFilterDTO $filterDTO): LengthAwarePaginator;
-
     public function findById(int $id): ?Review;
 
     public function create(ReviewDTO $dto): Review;
