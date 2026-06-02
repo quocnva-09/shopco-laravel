@@ -24,7 +24,7 @@ class OrderSeeder extends Seeder
 
         $users = User::where('role', '!=', 'admin')->get();
 
-        $products = Product::where('is_active', true)->get();
+        $products = Product::where('is_active', true)->with(['sizes', 'colors'])->get();
 
         if ($products->isEmpty()) {
             $this->command->error('No products found in DB. Please run ShopDataSeeder first!');
@@ -52,8 +52,12 @@ class OrderSeeder extends Seeder
                     $totalMoney = $price * $quantity;
                     $orderTotalAmount += $totalMoney;
 
-                    $selectedSize = !empty($product->sizes) ? $product->sizes[array_rand($product->sizes)] : null;
-                    $selectedColor = !empty($product->colors) ? $product->colors[array_rand($product->colors)] : null;
+                    $selectedSize = $product->sizes->isNotEmpty()
+                        ? $product->sizes->random()->name
+                        : null;
+                    $selectedColor = $product->colors->isNotEmpty()
+                        ? $product->colors->random()->name
+                        : null;
 
                     OrderItem::create([
                         'order_id' => $order->id,

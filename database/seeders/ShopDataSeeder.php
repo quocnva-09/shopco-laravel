@@ -20,9 +20,11 @@ class ShopDataSeeder extends Seeder
     {
         Schema::disableForeignKeyConstraints();
 
-        // 2. Xóa sạch dữ liệu cũ
-        $this->command->info('Cleaning data Category, Product, ProductImage and pivot tables...');
+        // 2. Xóa sạch dữ liệu cũ (bao gồm pivot tables)
+        $this->command->info('Cleaning Category, Product, ProductImage and pivot tables...');
         ProductImage::truncate();
+        \DB::table('color_product')->truncate();
+        \DB::table('product_size')->truncate();
         Product::truncate();
         Category::truncate();
 
