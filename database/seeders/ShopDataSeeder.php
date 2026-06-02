@@ -61,8 +61,6 @@ class ShopDataSeeder extends Seeder
                         'price' => $productData['price'],
                         'price_discount' => $productData['price_discount'] ?? null,
                         'description' => $productData['description'] ?? null,
-                        'sizes' => $productData['sizes'] ?? [],
-                        'colors' => $productData['colors'] ?? [],
                         'is_active' => $productData['is_active'] ?? true,
                     ]
                 );
