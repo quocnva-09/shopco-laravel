@@ -4,6 +4,8 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ExportController;
+use App\Http\Controllers\Api\GuestOrderController;
+use App\Http\Controllers\Api\GuestReviewController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ReviewController;
@@ -69,6 +71,12 @@ Route::get('products/{id}', [ProductController::class, 'show']);
 // Review routes
 Route::get('reviews', [ReviewController::class, 'index']);
 Route::get('reviews/{id}', [ReviewController::class, 'show']);
+
+// Guest routes (public, throttled chống spam)
+Route::prefix('guest')->middleware('throttle:30,1')->group(function () {
+    Route::post('orders/checkout', [GuestOrderController::class, 'checkout']);
+    Route::post('reviews', [GuestReviewController::class, 'store']);
+});
 
 
 Route::get('ping', function () {

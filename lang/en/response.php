@@ -32,10 +32,11 @@ return [
         'trashed_retrieved' => 'Trashed categories retrieved successfully',
     ],
     'order' => [
-        'created' => 'Order created successfully',
+        'created'        => 'Order created successfully',
+        'guest_checkout' => 'Order placed successfully',
         'status_updated' => 'Order status updated successfully',
         'list_retrieved' => 'Orders retrieved successfully',
-        'retrieved' => 'Order retrieved successfully',
+        'retrieved'      => 'Order retrieved successfully',
     ],
     'cart' => [
         'empty' => 'Cart is empty',
@@ -60,10 +61,11 @@ return [
     ],
     'review' => [
         'list_retrieved' => 'Reviews retrieved successfully',
-        'retrieved' => 'Review retrieved successfully',
+        'retrieved'      => 'Review retrieved successfully',
         'status_updated' => 'Review status updated successfully.',
-        'deleted' => 'Review deleted successfully.',
-        'created' => 'Review created successfully.',
+        'deleted'        => 'Review deleted successfully.',
+        'created'        => 'Review created successfully.',
+        'guest_created'  => 'Review submitted successfully.',
     ],
     'export' => [
         'initialized' => 'Export initialized successfully',

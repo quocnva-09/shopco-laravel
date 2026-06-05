@@ -1,0 +1,120 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Services;
+
+use App\Contracts\Services\GuestOrderServiceInterface;
+use App\DTOs\Order\GuestCheckoutDTO;
+use App\Enums\OrderStatus;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Product;
+use App\Models\ProductVariant;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+
+class GuestOrderService implements GuestOrderServiceInterface
+{
+    public function checkout(GuestCheckoutDTO $dto): Order
+    {
+        // 1. Load tất cả products cần thiết một lần (tránh N+1)
+        $productIds = array_column($dto->items, 'product_id');
+        $productMap = Product::whereIn('id', $productIds)
+            ->get()
+            ->keyBy('id');
+
+        $orderItemsData = [];
+        $subtotal       = 0.0;
+        $now            = now();
+
+        foreach ($dto->items as $item) {
+            $productId = (int) $item['product_id'];
+
+            // Guard: sản phẩm phải tồn tại trong DB
+            if (! $productMap->has($productId)) {
+                throw new UnprocessableEntityHttpException(
+                    __('exception.guest_checkout_product_not_found', ['id' => $productId])
+                );
+            }
+
+            $product = $productMap->get($productId);
+
+            // Bảo mật: Backend tính giá từ DB, ignore hoàn toàn giá FE gửi lên
+            $price      = (float) ($product->price_discount ?? $product->price);
+            $quantity   = (int) $item['quantity'];
+            $totalMoney = $price * $quantity;
+            $subtotal  += $totalMoney;
+
+            // Resolve product_variant_id (Mode 1 hoặc Mode 2)
+            $variantId   = $this->resolveVariantId($productId, $item);
+            $variantName = null;
+
+            if ($variantId !== null) {
+                $variant     = ProductVariant::with(['color', 'size'])->find($variantId);
+                $variantName = $variant?->variant_name;
+            }
+
+            $orderItemsData[] = [
+                'product_id'           => $productId,
+                'product_variant_id'   => $variantId,
+                'product_name'         => $product->name,
+                'product_variant_name' => $variantName,
+                'quantity'             => $quantity,
+                'price'                => $price,
+                'totalMoney'           => $totalMoney,
+                'created_at'           => $now,
+                'updated_at'           => $now,
+            ];
+        }
+
+        // Tính tổng đơn hàng: subtotal + delivery_fee - discount
+        $totalAmount = $subtotal + $dto->deliveryFee - $dto->discount;
+
+        return DB::transaction(function () use ($dto, $totalAmount, $orderItemsData) {
+            $order = Order::create([
+                'user_id'      => null,
+                'guest_name'   => $dto->guestName,
+                'guest_phone'  => $dto->guestPhone,
+                'guest_email'  => $dto->guestEmail,
+                'guest_address' => $dto->guestAddress,
+                'status'       => OrderStatus::PENDING,
+                'totalAmount'  => $totalAmount,
+                'delivery_fee' => $dto->deliveryFee,
+                'discount'     => $dto->discount,
+            ]);
+
+            $items = array_map(
+                fn(array $item): array => array_merge($item, ['order_id' => $order->id]),
+                $orderItemsData
+            );
+
+            OrderItem::insert($items);
+
+            return $order->load('orderItems');
+        });
+    }
+
+    /**
+     * Resolve product_variant_id theo 2 chế độ:
+     *   Mode 1 — product_variant_id gửi trực tiếp
+     *   Mode 2 — color_id + size_id → lookup ProductVariant
+     */
+    private function resolveVariantId(int $productId, array $item): ?int
+    {
+        if (! empty($item['product_variant_id'])) {
+            return (int) $item['product_variant_id'];
+        }
+
+        if (! empty($item['color_id']) || ! empty($item['size_id'])) {
+            $variant = ProductVariant::where('product_id', $productId)
+                ->where('color_id', $item['color_id'] ?? null)
+                ->where('size_id', $item['size_id'] ?? null)
+                ->first();
+
+            return $variant?->id;
+        }
+
+        return null;
+    }
+}

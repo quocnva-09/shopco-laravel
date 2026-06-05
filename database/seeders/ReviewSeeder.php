@@ -23,14 +23,22 @@ class ReviewSeeder extends Seeder
             'Giao hàng nhanh, đóng gói cẩn thận. Mặc rất vừa vặn.',
             'Đúng như mô tả, màu sắc đẹp, chất vải êm ái.',
             'Đáng đồng tiền bát gạo, sẽ tiếp tục ủng hộ shop.',
-            'Form dáng cực chuẩn, shop tư vấn nhiệt tình.'
+            'Form dáng cực chuẩn, shop tư vấn nhiệt tình',
+            "As a UI/UX enthusiast, I value simplicity and functionality. This t-shirt not only represents those principles but also feels great to wear. It's evident that the designer poured their creativity into making this t-shirt stand out.",
+            "I absolutely love this t-shirt! The design is unique and the fabric feels so comfortable. As a fellow designer, I appreciate the attention to detail. It's become my favorite go-to shirt.",
+            "This t-shirt is a must-have for anyone who appreciates good design. The minimalistic yet stylish pattern caught my eye, and the fit is perfect. I can see the designer's touch in every aspect of this shirt.",
+            "I'm not just wearing a t-shirt; I'm wearing a piece of design philosophy. The intricate details and thoughtful layout of the design make this shirt a conversation starter."
         ];
 
         $badComments = [
             'Hơi thất vọng về chất liệu, không như mình nghĩ.',
             'Giao hàng hơi chậm, hộp bị móp méo.',
             'Kích thước bị lệch một chút so với bảng size.',
-            'Tạm ổn trong tầm giá, nhưng cần cải thiện đường may.'
+            'Tạm ổn trong tầm giá, nhưng cần cải thiện đường may.',
+            "The print quality is not as vibrant as it appears in the photos. It looks faded after just one wash.",
+            "I was expecting a more premium fabric for the price. This feels quite cheap and isn't very comfortable.",
+            "The color in the picture was misleading. In reality, it's a much duller shade.",
+            "Itchy tag on the neck ruined the experience."
         ];
 
         // 1. TẠO REVIEW THẬT TỪ NGƯỜI ĐÃ MUA HÀNG (Đơn hàng Paid)

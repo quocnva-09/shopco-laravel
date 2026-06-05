@@ -9,8 +9,14 @@ class Order extends Model
 {
     protected $fillable = [
         'user_id',
+        'guest_name',
+        'guest_email',
+        'guest_phone',
+        'guest_address',
         'status',
         'totalAmount',
+        'delivery_fee',
+        'discount',
     ];
 
     protected $casts = [

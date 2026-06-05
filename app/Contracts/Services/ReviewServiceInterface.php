@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Contracts\Services;
 
+use App\DTOs\Review\GuestReviewDTO;
 use App\DTOs\Review\ReviewApproveDTO;
 use App\DTOs\Review\ReviewDTO;
 use App\DTOs\Review\ReviewFilterDTO;
@@ -17,6 +18,8 @@ interface ReviewServiceInterface
     public function findById(int $id): ?Review;
 
     public function create(ReviewDTO $dto): Review;
+
+    public function createGuestReview(GuestReviewDTO $dto): Review;
 
     public function approve(Review $review, ReviewApproveDTO $dto): bool;
 

@@ -6,14 +6,19 @@ namespace App\Services;
 
 use App\Contracts\Repositories\ReviewRepositoryInterface;
 use App\Contracts\Services\ReviewServiceInterface;
+use App\DTOs\Review\GuestReviewDTO;
 use App\DTOs\Review\ReviewApproveDTO;
 use App\DTOs\Review\ReviewDTO;
 use App\DTOs\Review\ReviewFilterDTO;
 use App\Enums\OrderStatus;
+use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Review;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class ReviewService implements ReviewServiceInterface
 {
@@ -44,10 +49,58 @@ class ReviewService implements ReviewServiceInterface
             ->exists();
 
         if (!$hasPaidOrder) {
-            throw new AccessDeniedHttpException('You can only review products you have purchased and paid for.');
+            throw new AccessDeniedHttpException(__('exception.review_unpurchased_product'));
         }
 
         return $this->repository->create($dto->toArray());
+    }
+
+    public function createGuestReview(GuestReviewDTO $dto): Review
+    {
+        // Guard 1: Order phải tồn tại
+        $order = Order::with('orderItems')->find($dto->orderId);
+        if ($order === null) {
+            throw new NotFoundHttpException(__('exception.order_not_found'));
+        }
+
+        // Guard 2: Order phải ở trạng thái PAID
+        if ($order->status !== OrderStatus::PAID) {
+            throw new AccessDeniedHttpException(
+                __('exception.guest_review_order_not_paid')
+            );
+        }
+
+        // Guard 3: Order chưa được review (anti-spam)
+        $alreadyReviewed = Review::whereHas('orderItem', function ($q) use ($dto): void {
+            $q->where('order_id', $dto->orderId);
+        })->exists();
+
+        if ($alreadyReviewed) {
+            throw new ConflictHttpException(
+                __('exception.guest_review_order_already_reviewed')
+            );
+        }
+
+        // Guard 4: Product phải thuộc order
+        $orderItem = $order->orderItems
+            ->where('product_id', $dto->productId)
+            ->first();
+
+        if ($orderItem === null) {
+            throw new UnprocessableEntityHttpException(
+                __('exception.guest_review_product_not_in_order')
+            );
+        }
+
+        // Option A: resolve order_item_id từ order_id + product_id
+        return $this->repository->create([
+            'order_item_id' => $orderItem->id,
+            'product_id'    => $dto->productId,
+            'user_id'       => null,
+            'rating'        => $dto->rating,
+            'comment'       => $dto->comment,
+            'is_approved'   => false,
+        ]);
     }
 
     public function approve(Review $review, ReviewApproveDTO $dto): bool
