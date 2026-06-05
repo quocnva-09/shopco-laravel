@@ -20,10 +20,6 @@ class OrderRepository implements OrderRepositoryInterface
 
         $now = now();
         $items = array_map(function (array $item) use ($order, $now): array {
-            if (isset($item['options']) && is_array($item['options'])) {
-                $item['options'] = json_encode($item['options']);
-            }
-            
             return array_merge($item, [
                 'order_id'   => $order->id,
                 'created_at' => $now,

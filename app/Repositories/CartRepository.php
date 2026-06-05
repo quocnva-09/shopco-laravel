@@ -6,12 +6,15 @@ use App\Contracts\Repositories\CartRepositoryInterface;
 use App\Models\Cart;
 use App\Models\CartItem;
 
-
 class CartRepository implements CartRepositoryInterface
 {
     public function getCartByUserId(int $userId): ?Cart
     {
-        return Cart::with('cartItems.product.images')->where('user_id', $userId)->first();
+        return Cart::with([
+            'cartItems.product.images',
+            'cartItems.productVariant.color',
+            'cartItems.productVariant.size',
+        ])->where('user_id', $userId)->first();
     }
 
     public function createCart(int $userId): Cart
@@ -19,33 +22,25 @@ class CartRepository implements CartRepositoryInterface
         return Cart::create(['user_id' => $userId]);
     }
 
-    public function getCartItem(int $cartId, int $productId, ?array $options = null): ?CartItem
+    public function getCartItem(int $cartId, int $productId, ?int $productVariantId = null): ?CartItem
     {
-        $query = CartItem::where('cart_id', $cartId)
-            ->where('product_id', $productId);
-
-        if (empty($options)) {
-            $query->whereNull('options');
-        } else {
-            // Sort options to ensure consistent JSON encoding
-            ksort($options);
-            $query->where('options', json_encode($options));
-        }
-
-        return $query->first();
+        return CartItem::where('cart_id', $cartId)
+            ->where('product_id', $productId)
+            ->where('product_variant_id', $productVariantId)
+            ->first();
     }
 
-    public function addCartItem(int $cartId, int $productId, int $quantity, ?array $options = null): CartItem
-    {
-        if (is_array($options)) {
-            ksort($options);
-        }
-
+    public function addCartItem(
+        int $cartId,
+        int $productId,
+        int $quantity,
+        ?int $productVariantId = null
+    ): CartItem {
         return CartItem::create([
-            'cart_id' => $cartId,
-            'product_id' => $productId,
-            'quantity' => $quantity,
-            'options' => $options,
+            'cart_id'            => $cartId,
+            'product_id'         => $productId,
+            'product_variant_id' => $productVariantId,
+            'quantity'           => $quantity,
         ]);
     }
 

@@ -6,21 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class CartItem extends Model
 {
-    //
     protected $fillable = [
         'cart_id',
         'product_id',
+        'product_variant_id',
         'quantity',
-        'options',
-    ];
-
-    protected $casts = [
-        'options' => 'array',
     ];
 
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function productVariant()
+    {
+        return $this->belongsTo(ProductVariant::class);
     }
 
     public function cart()

@@ -20,21 +20,29 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'price', type: 'number', format: 'float', example: 150000),
         new OA\Property(property: 'price_discount', type: 'number', format: 'float', nullable: true, example: 120000),
         new OA\Property(
-            property: 'sizes',
+            property: 'variants',
             type: 'array',
             nullable: true,
             items: new OA\Items(properties: [
-                new OA\Property(property: 'size', type: 'string', example: 'S'),
-                new OA\Property(property: 'label', type: 'string', example: 'Small'),
-            ], type: 'object')
-        ),
-        new OA\Property(
-            property: 'colors',
-            type: 'array',
-            nullable: true,
-            items: new OA\Items(properties: [
-                new OA\Property(property: 'color', type: 'string', example: 'Red'),
-                new OA\Property(property: 'hex', type: 'string', example: '#ff0000'),
+                new OA\Property(property: 'id', type: 'integer', example: 1),
+                new OA\Property(
+                    property: 'color',
+                    type: 'object',
+                    nullable: true,
+                    properties: [
+                        new OA\Property(property: 'name', type: 'string', example: 'Red'),
+                        new OA\Property(property: 'hex_code', type: 'string', example: '#ff0000'),
+                    ]
+                ),
+                new OA\Property(
+                    property: 'size',
+                    type: 'object',
+                    nullable: true,
+                    properties: [
+                        new OA\Property(property: 'name', type: 'string', example: 'M'),
+                        new OA\Property(property: 'label', type: 'string', example: 'Medium'),
+                    ]
+                ),
             ], type: 'object')
         ),
         new OA\Property(property: 'is_active', type: 'boolean', example: true),
@@ -76,19 +84,18 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'price_discount' => $this->price_discount,
-            'sizes' => $this->whenLoaded('sizes', function () {
-                return $this->sizes->map(function ($size) {
+            'variants' => $this->whenLoaded('variants', function () {
+                return $this->variants->map(function ($variant) {
                     return [
-                        'size' => $size->name,
-                        'label' => $size->label,
-                    ];
-                });
-            }),
-            'colors' => $this->whenLoaded('colors', function () {
-                return $this->colors->map(function ($color) {
-                    return [
-                        'color' => $color->name,
-                        'hex' => $color->hex_code,
+                        'id'    => $variant->id,
+                        'color' => $variant->color ? [
+                            'name'     => $variant->color->name,
+                            'hex_code' => $variant->color->hex_code,
+                        ] : null,
+                        'size'  => $variant->size ? [
+                            'name'  => $variant->size->name,
+                            'label' => $variant->size->label,
+                        ] : null,
                     ];
                 });
             }),

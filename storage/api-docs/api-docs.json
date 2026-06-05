@@ -3618,7 +3618,7 @@
             },
             "AddToCartRequest": {
                 "title": "Add To Cart Request",
-                "description": "Payload to add a product to the authenticated user's cart",
+                "description": "Payload to add a product to the authenticated user's cart. Use product_variant_id (Mode 1) OR color_id/size_id (Mode 2).",
                 "required": [
                     "product_id",
                     "quantity"
@@ -3633,18 +3633,22 @@
                         "example": 2,
                         "minimum": 1
                     },
-                    "options": {
-                        "properties": {
-                            "sizes": {
-                                "type": "string",
-                                "example": "M"
-                            },
-                            "colors": {
-                                "type": "string",
-                                "example": "Red"
-                            }
-                        },
-                        "type": "object",
+                    "product_variant_id": {
+                        "description": "Mode 1: pass the variant ID directly",
+                        "type": "integer",
+                        "example": 3,
+                        "nullable": true
+                    },
+                    "color_id": {
+                        "description": "Mode 2: color ID, server resolves to variant",
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "size_id": {
+                        "description": "Mode 2: size ID, server resolves to variant",
+                        "type": "integer",
+                        "example": 2,
                         "nullable": true
                     }
                 },
@@ -3774,19 +3778,24 @@
                         },
                         "nullable": true
                     },
-                    "size_ids": {
+                    "variants": {
+                        "description": "List of color+size combinations for this product",
                         "type": "array",
                         "items": {
-                            "type": "integer",
-                            "example": 1
-                        },
-                        "nullable": true
-                    },
-                    "color_ids": {
-                        "type": "array",
-                        "items": {
-                            "type": "integer",
-                            "example": 1
+                            "required": [],
+                            "properties": {
+                                "color_id": {
+                                    "type": "integer",
+                                    "example": 1,
+                                    "nullable": true
+                                },
+                                "size_id": {
+                                    "type": "integer",
+                                    "example": 2,
+                                    "nullable": true
+                                }
+                            },
+                            "type": "object"
                         },
                         "nullable": true
                     },
@@ -4001,19 +4010,40 @@
                         "type": "integer",
                         "example": 7
                     },
+                    "product_variant_id": {
+                        "type": "integer",
+                        "example": 2,
+                        "nullable": true
+                    },
                     "quantity": {
                         "type": "integer",
                         "example": 2
                     },
-                    "options": {
+                    "variant": {
                         "properties": {
-                            "sizes": {
-                                "type": "string",
-                                "example": "M"
+                            "id": {
+                                "type": "integer",
+                                "example": 2
                             },
-                            "colors": {
+                            "color": {
                                 "type": "string",
-                                "example": "Red"
+                                "example": "Red",
+                                "nullable": true
+                            },
+                            "color_hex": {
+                                "type": "string",
+                                "example": "#ff0000",
+                                "nullable": true
+                            },
+                            "size": {
+                                "type": "string",
+                                "example": "M",
+                                "nullable": true
+                            },
+                            "size_label": {
+                                "type": "string",
+                                "example": "Medium",
+                                "nullable": true
                             }
                         },
                         "type": "object",
@@ -4040,21 +4070,10 @@
                                 "example": 120000,
                                 "nullable": true
                             },
-                            "images": {
-                                "type": "array",
-                                "items": {
-                                    "properties": {
-                                        "id": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "img_path": {
-                                            "type": "string",
-                                            "example": "https://example.com/images/shirt.jpg"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
+                            "img_path": {
+                                "type": "string",
+                                "example": "https://example.com/images/shirt.jpg",
+                                "nullable": true
                             }
                         },
                         "type": "object",
@@ -4185,6 +4204,21 @@
                         "type": "integer",
                         "example": 1
                     },
+                    "product_variant_id": {
+                        "type": "integer",
+                        "example": 2,
+                        "nullable": true
+                    },
+                    "product_name": {
+                        "type": "string",
+                        "example": "Classic T-Shirt",
+                        "nullable": true
+                    },
+                    "product_variant_name": {
+                        "type": "string",
+                        "example": "Red / M",
+                        "nullable": true
+                    },
                     "quantity": {
                         "type": "integer",
                         "example": 2
@@ -4198,20 +4232,6 @@
                         "type": "number",
                         "format": "float",
                         "example": 300000
-                    },
-                    "options": {
-                        "properties": {
-                            "sizes": {
-                                "type": "string",
-                                "example": "M"
-                            },
-                            "colors": {
-                                "type": "string",
-                                "example": "Red"
-                            }
-                        },
-                        "type": "object",
-                        "nullable": true
                     },
                     "product": {
                         "properties": {
@@ -4352,34 +4372,41 @@
                         "example": 120000,
                         "nullable": true
                     },
-                    "sizes": {
+                    "variants": {
                         "type": "array",
                         "items": {
                             "properties": {
-                                "size": {
-                                    "type": "string",
-                                    "example": "S"
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1
                                 },
-                                "label": {
-                                    "type": "string",
-                                    "example": "Small"
-                                }
-                            },
-                            "type": "object"
-                        },
-                        "nullable": true
-                    },
-                    "colors": {
-                        "type": "array",
-                        "items": {
-                            "properties": {
                                 "color": {
-                                    "type": "string",
-                                    "example": "Red"
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Red"
+                                        },
+                                        "hex_code": {
+                                            "type": "string",
+                                            "example": "#ff0000"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "nullable": true
                                 },
-                                "hex": {
-                                    "type": "string",
-                                    "example": "#ff0000"
+                                "size": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "M"
+                                        },
+                                        "label": {
+                                            "type": "string",
+                                            "example": "Medium"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "nullable": true
                                 }
                             },
                             "type": "object"

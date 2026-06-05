@@ -8,8 +8,8 @@ class Color extends Model
 {
     protected $fillable = ['name', 'hex_code'];
 
-    public function products()
+    public function variants()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->hasMany(ProductVariant::class);
     }
 }

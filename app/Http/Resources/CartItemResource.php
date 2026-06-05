@@ -15,14 +15,18 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'id', type: 'integer', example: 1),
         new OA\Property(property: 'cart_id', type: 'integer', example: 3),
         new OA\Property(property: 'product_id', type: 'integer', example: 7),
+        new OA\Property(property: 'product_variant_id', type: 'integer', nullable: true, example: 2),
         new OA\Property(property: 'quantity', type: 'integer', example: 2),
         new OA\Property(
-            property: 'options',
+            property: 'variant',
             type: 'object',
             nullable: true,
             properties: [
-                new OA\Property(property: 'sizes', type: 'string', example: 'M'),
-                new OA\Property(property: 'colors', type: 'string', example: 'Red'),
+                new OA\Property(property: 'id', type: 'integer', example: 2),
+                new OA\Property(property: 'color', type: 'string', nullable: true, example: 'Red'),
+                new OA\Property(property: 'color_hex', type: 'string', nullable: true, example: '#ff0000'),
+                new OA\Property(property: 'size', type: 'string', nullable: true, example: 'M'),
+                new OA\Property(property: 'size_label', type: 'string', nullable: true, example: 'Medium'),
             ]
         ),
         new OA\Property(
@@ -40,20 +44,7 @@ use OpenApi\Attributes as OA;
                     nullable: true,
                     example: 120000
                 ),
-                new OA\Property(
-                    property: 'images',
-                    type: 'array',
-                    items: new OA\Items(
-                        properties: [
-                            new OA\Property(property: 'id', type: 'integer', example: 1),
-                            new OA\Property(
-                                property: 'img_path',
-                                type: 'string',
-                                example: 'https://example.com/images/shirt.jpg'
-                            ),
-                        ]
-                    )
-                ),
+                new OA\Property(property: 'img_path', type: 'string', nullable: true, example: 'https://example.com/images/shirt.jpg'),
             ]
         ),
     ]
@@ -68,18 +59,31 @@ class CartItemResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'cart_id' => $this->cart_id,
-            'product_id' => $this->product_id,
-            'quantity' => $this->quantity,
-            'options' => $this->options,
+            'id'                 => $this->id,
+            'cart_id'            => $this->cart_id,
+            'product_id'         => $this->product_id,
+            'product_variant_id' => $this->product_variant_id,
+            'quantity'           => $this->quantity,
+            'variant'            => $this->whenLoaded('productVariant', function () {
+                if (! $this->productVariant) {
+                    return null;
+                }
+
+                return [
+                    'id'         => $this->productVariant->id,
+                    'color'      => $this->productVariant->color?->name,
+                    'color_hex'  => $this->productVariant->color?->hex_code,
+                    'size'       => $this->productVariant->size?->name,
+                    'size_label' => $this->productVariant->size?->label,
+                ];
+            }),
             'product' => $this->whenLoaded('product', function () {
                 return [
-                    'id' => $this->product->id,
-                    'name' => $this->product->name,
-                    'price' => $this->product->price,
+                    'id'             => $this->product->id,
+                    'name'           => $this->product->name,
+                    'price'          => $this->product->price,
                     'price_discount' => $this->product->price_discount,
-                    'img_path' => app(FileUploadService::class)->url($this->product->images[0]->img_path) ?? null,
+                    'img_path'       => app(FileUploadService::class)->url($this->product->images[0]->img_path) ?? null,
                 ];
             }),
         ];

@@ -10,6 +10,7 @@ use App\DTOs\Cart\AddToCartDTO;
 use App\DTOs\Cart\UpdateCartItemDTO;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\ProductVariant;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CartService implements CartServiceInterface
@@ -31,7 +32,9 @@ class CartService implements CartServiceInterface
             $cart = $this->cartRepository->createCart($userId);
         }
 
-        $existingItem = $this->cartRepository->getCartItem($cart->id, $dto->product_id, $dto->options);
+        $variantId = $this->resolveVariantId($dto);
+
+        $existingItem = $this->cartRepository->getCartItem($cart->id, $dto->product_id, $variantId);
 
         if ($existingItem) {
             $newQuantity = $existingItem->quantity + $dto->quantity;
@@ -41,12 +44,11 @@ class CartService implements CartServiceInterface
             return $existingItem;
         }
 
-        return $this->cartRepository->addCartItem($cart->id, $dto->product_id, $dto->quantity, $dto->options);
+        return $this->cartRepository->addCartItem($cart->id, $dto->product_id, $dto->quantity, $variantId);
     }
 
     public function updateCartItem(int $userId, int $itemId, UpdateCartItemDTO $dto): bool
     {
-
         $belongsToUser = $this->cartRepository->verifyItemBelongsToUser($itemId, $userId);
 
         if (! $belongsToUser) {
@@ -81,5 +83,28 @@ class CartService implements CartServiceInterface
     public function clearCart(int $userId): bool
     {
         return $this->cartRepository->deleteCartByUserId($userId);
+    }
+
+    /**
+     * Resolve product_variant_id từ DTO:
+     *   - Mode 1: product_variant_id được gửi trực tiếp → dùng luôn.
+     *   - Mode 2: color_id + size_id được gửi → lookup ProductVariant theo product_id.
+     */
+    private function resolveVariantId(AddToCartDTO $dto): ?int
+    {
+        if ($dto->product_variant_id !== null) {
+            return $dto->product_variant_id;
+        }
+
+        if ($dto->color_id !== null || $dto->size_id !== null) {
+            $variant = ProductVariant::where('product_id', $dto->product_id)
+                ->where('color_id', $dto->color_id)
+                ->where('size_id', $dto->size_id)
+                ->first();
+
+            return $variant?->id;
+        }
+
+        return null;
     }
 }
