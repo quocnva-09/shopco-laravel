@@ -97,6 +97,8 @@ class ReviewService implements ReviewServiceInterface
             'order_item_id' => $orderItem->id,
             'product_id'    => $dto->productId,
             'user_id'       => null,
+            'guest_name'    => $dto->guestName,
+            'guest_email'   => $dto->guestEmail,
             'rating'        => $dto->rating,
             'comment'       => $dto->comment,
             'is_approved'   => false,

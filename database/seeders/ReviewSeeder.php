@@ -1,15 +1,52 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
-use App\Models\Review;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Review;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 
 class ReviewSeeder extends Seeder
 {
+    private const MIN_REVIEWS_PER_PRODUCT = 10;
+
+    /** Bình luận tốt */
+    private array $goodComments = [
+        'Sản phẩm tuyệt vời, chất lượng vượt mong đợi!',
+        'Giao hàng nhanh, đóng gói cẩn thận. Mặc rất vừa vặn.',
+        'Đúng như mô tả, màu sắc đẹp, chất vải êm ái.',
+        'Đáng đồng tiền bát gạo, sẽ tiếp tục ủng hộ shop.',
+        'Form dáng cực chuẩn, shop tư vấn nhiệt tình.',
+        "As a UI/UX enthusiast, I value simplicity and functionality. This t-shirt not only represents those principles but also feels great to wear.",
+        "I absolutely love this t-shirt! The design is unique and the fabric feels so comfortable.",
+        "This t-shirt is a must-have for anyone who appreciates good design. The fit is perfect.",
+        "I'm not just wearing a t-shirt; I'm wearing a piece of design philosophy.",
+    ];
+
+    /** Bình luận tiêu cực */
+    private array $badComments = [
+        'Hơi thất vọng về chất liệu, không như mình nghĩ.',
+        'Giao hàng hơi chậm, hộp bị móp méo.',
+        'Kích thước bị lệch một chút so với bảng size.',
+        'Tạm ổn trong tầm giá, nhưng cần cải thiện đường may.',
+        "The print quality is not as vibrant as it appears in the photos. It looks faded after one wash.",
+        "I was expecting a more premium fabric for the price. This feels quite cheap.",
+        "The color in the picture was misleading. In reality, it's a much duller shade.",
+        "Itchy tag on the neck ruined the experience.",
+    ];
+
+    /** Tên khách mẫu cho guest review */
+    private array $guestNames = [
+        'Nguyen Van A', 'Tran Thi B', 'Le Van C', 'Pham Thi D',
+        'Hoang Van E', 'Do Thi F', 'Bui Van G', 'Vo Thi H',
+        'Ngo Van I', 'Dang Thi K', 'Ly Van L', 'Mai Thi M',
+    ];
+
     public function run(): void
     {
         Schema::disableForeignKeyConstraints();
@@ -17,80 +54,87 @@ class ReviewSeeder extends Seeder
         Review::truncate();
         Schema::enableForeignKeyConstraints();
 
-        // Mảng chứa các câu bình luận mẫu cho sinh động
-        $goodComments = [
-            'Sản phẩm tuyệt vời, chất lượng vượt mong đợi!',
-            'Giao hàng nhanh, đóng gói cẩn thận. Mặc rất vừa vặn.',
-            'Đúng như mô tả, màu sắc đẹp, chất vải êm ái.',
-            'Đáng đồng tiền bát gạo, sẽ tiếp tục ủng hộ shop.',
-            'Form dáng cực chuẩn, shop tư vấn nhiệt tình',
-            "As a UI/UX enthusiast, I value simplicity and functionality. This t-shirt not only represents those principles but also feels great to wear. It's evident that the designer poured their creativity into making this t-shirt stand out.",
-            "I absolutely love this t-shirt! The design is unique and the fabric feels so comfortable. As a fellow designer, I appreciate the attention to detail. It's become my favorite go-to shirt.",
-            "This t-shirt is a must-have for anyone who appreciates good design. The minimalistic yet stylish pattern caught my eye, and the fit is perfect. I can see the designer's touch in every aspect of this shirt.",
-            "I'm not just wearing a t-shirt; I'm wearing a piece of design philosophy. The intricate details and thoughtful layout of the design make this shirt a conversation starter."
-        ];
+        // ── Phase 1: Review từ người đã mua hàng (60% order items) ──────────
+        $this->command->info('Phase 1: Creating reviews from real customers...');
 
-        $badComments = [
-            'Hơi thất vọng về chất liệu, không như mình nghĩ.',
-            'Giao hàng hơi chậm, hộp bị móp méo.',
-            'Kích thước bị lệch một chút so với bảng size.',
-            'Tạm ổn trong tầm giá, nhưng cần cải thiện đường may.',
-            "The print quality is not as vibrant as it appears in the photos. It looks faded after just one wash.",
-            "I was expecting a more premium fabric for the price. This feels quite cheap and isn't very comfortable.",
-            "The color in the picture was misleading. In reality, it's a much duller shade.",
-            "Itchy tag on the neck ruined the experience."
-        ];
-
-        // 1. TẠO REVIEW THẬT TỪ NGƯỜI ĐÃ MUA HÀNG (Đơn hàng Paid)
-        $orderItems = OrderItem::with('order')->whereHas('order', function ($query) {
-            $query->where('status', 'paid');
-        })->get();
-
-        $this->command->info('Creating reviews from real customers...');
+        $orderItems = OrderItem::with('order')
+            ->whereHas('order', fn($q) => $q->where('status', 'paid'))
+            ->get();
 
         foreach ($orderItems as $item) {
             if (rand(1, 100) <= 60) {
-                $rating = rand(3, 5);
-                $comment = $rating >= 4
-                    ? $goodComments[array_rand($goodComments)]
-                    : $badComments[array_rand($badComments)];
+                $rating  = rand(3, 5);
+                $comment = $this->pickComment($rating);
+
+                // Review được viết 1-14 ngày sau khi nhận hàng
+                $orderDate    = Carbon::parse($item->created_at);
+                $reviewedAt   = $orderDate->copy()->addDays(rand(1, 14));
 
                 Review::create([
-                    'product_id' => $item->product_id,
-                    'user_id' => $item->order->user_id,
+                    'product_id'    => $item->product_id,
+                    'user_id'       => $item->order->user_id,
                     'order_item_id' => $item->id,
-                    'rating' => $rating,
-                    'comment' => (rand(1, 10) > 2) ? $comment : null,
-                    'is_approved' => (rand(1, 10) > 1),
+                    'rating'        => $rating,
+                    'comment'       => (rand(1, 10) > 1) ? $comment : null,
+                    'is_approved'   => (rand(1, 10) > 1),
+                    'created_at'    => $reviewedAt,
+                    'updated_at'    => $reviewedAt,
                 ]);
             }
         }
 
-        // 2. TẠO REVIEW ẨN DANH (Mô phỏng User/Order đã bị xóa)
-        $this->command->info('Creating anonymous reviews (orphaned customers)...');
+        // ── Phase 2: Đảm bảo mỗi product có ít nhất MIN_REVIEWS_PER_PRODUCT ─
+        $this->command->info(
+            'Phase 2: Guaranteeing ' . self::MIN_REVIEWS_PER_PRODUCT . ' reviews per product...'
+        );
 
-        $randomProducts = Product::inRandomOrder()->limit(15)->get();
+        $products = Product::all();
 
-        foreach ($randomProducts as $product) {
-            $anonymousReviewCount = rand(1, 3);
+        foreach ($products as $product) {
+            $existing = Review::where('product_id', $product->id)->count();
+            $needed   = self::MIN_REVIEWS_PER_PRODUCT - $existing;
 
-            for ($i = 0; $i < $anonymousReviewCount; $i++) {
-                $rating = rand(1, 5);
-                $comment = $rating >= 4
-                    ? 'Mình mua từ năm ngoái, nay mới nhớ vào đánh giá. Áo dùng vẫn rất tốt, chưa bị phai màu.'
-                    : 'Sản phẩm mua đợt sale trước, chất lượng hơi tệ nên mình vứt rồi.';
-
-                Review::create([
-                    'product_id' => $product->id,
-                    'user_id' => null,
-                    'order_item_id' => null,
-                    'rating' => $rating,
-                    'comment' => $comment,
-                    'is_approved' => true,
-                ]);
+            for ($i = 0; $i < $needed; $i++) {
+                $this->createGuestReview($product->id);
             }
         }
 
-        $this->command->info('Review seeding completed!');
+        $this->command->info(
+            'Review seeding done! '
+            . Review::count() . ' reviews created.'
+        );
+    }
+
+    private function createGuestReview(int $productId): void
+    {
+        $guestName  = $this->guestNames[array_rand($this->guestNames)];
+        $guestEmail = strtolower(
+            str_replace(' ', '.', $guestName) . rand(10, 99) . '@example.com'
+        );
+        $rating  = rand(1, 5);
+        $comment = $this->pickComment($rating);
+
+        // Guest review rải ngẫu nhiên trong 30-180 ngày trước
+        $reviewedAt = Carbon::now()->subDays(rand(30, 180));
+
+        Review::create([
+            'product_id'    => $productId,
+            'user_id'       => null,
+            'order_item_id' => null,
+            'guest_name'    => $guestName,
+            'guest_email'   => $guestEmail,
+            'rating'        => $rating,
+            'comment'       => $comment,
+            'is_approved'   => true,
+            'created_at'    => $reviewedAt,
+            'updated_at'    => $reviewedAt,
+        ]);
+    }
+
+    private function pickComment(int $rating): string
+    {
+        return $rating >= 4
+            ? $this->goodComments[array_rand($this->goodComments)]
+            : $this->badComments[array_rand($this->badComments)];
     }
 }
