@@ -1,98 +1,104 @@
 version: "3.8"
 
 services:
-  web:
-    image: nginx:alpine
-    container_name: shopco_nginx
-    restart: always
-    ports:
-      - "8000:80" 
-    volumes:
-      - .:/var/www/html
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - app
-    networks:
-      - shopco-network
+    web:
+        image: nginx:alpine
+        container_name: shopco_nginx
+        restart: always
+        ports:
+            - "8000:80"
+        volumes:
+            - .:/var/www/html
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - app
+        networks:
+            - shopco-network
 
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: shopco_app
-    restart: always
-    volumes:
-      - .:/var/www/html
-      - vendor_data:/var/www/html/vendor
-      - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
-    depends_on:
-      - shopco_db
-      - shopco_redis
-    networks:
-      - shopco-network
-  
-  worker:
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    container_name: shopco_worker
-    restart: always
-    command: ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
-    volumes:
-      - .:/var/www/html 
-    depends_on:
-      - shopco_db
-      - shopco_redis
-    networks:
-      - shopco-network
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: shopco_app
+        restart: always
+        user: "${UID:-1000}:${GID:-1000}"
+        volumes:
+            - .:/var/www/html
+            - vendor_data:/var/www/html/vendor
+            - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+        depends_on:
+            - shopco_db
+            - shopco_redis
+        networks:
+            - shopco-network
 
-  shopco_db:
-    image: mysql:8.0.45-debian
-    container_name: shopco_db
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-      MYSQL_DATABASE: '${DB_DATABASE}'
-    command: --skip-name-resolve
-    ports:
-      - "3307:3306" 
-    volumes:
-      - shopco-db-data:/var/lib/mysql
-      - vendor_data:/var/www/html/vendor
-    networks:
-      - shopco-network
+    worker:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: shopco_worker
+        restart: always
+        command:
+            [
+                "/usr/bin/supervisord",
+                "-n",
+                "-c",
+                "/etc/supervisor/conf.d/supervisord.conf",
+            ]
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - shopco_db
+            - shopco_redis
+        networks:
+            - shopco-network
 
-  shopco-phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: shopco-phpmyadmin
-    restart: always
-    ports:
-      - "8081:80" 
-    environment:
-      PMA_HOST: '${DB_HOST}'
-      PMA_PORT: '${DB_PORT}'
-      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-    depends_on:
-      - shopco_db
-    networks:
-      - shopco-network
+    shopco_db:
+        image: mysql:8.0.45-debian
+        container_name: shopco_db
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+            MYSQL_DATABASE: "${DB_DATABASE}"
+        command: --skip-name-resolve
+        ports:
+            - "3307:3306"
+        volumes:
+            - shopco-db-data:/var/lib/mysql
+        networks:
+            - shopco-network
 
-  shopco_redis:
-    image: redis:7-alpine
-    container_name: shopco_redis
-    restart: unless-stopped
-    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
-    volumes:
-      - redis_data:/data
-    ports:
-      - "6379:6379"
-    networks:
-      - shopco-network
+    shopco-phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: shopco-phpmyadmin
+        restart: always
+        ports:
+            - "8081:80"
+        environment:
+            PMA_HOST: "${DB_HOST}"
+            PMA_PORT: "${DB_PORT}"
+            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+        depends_on:
+            - shopco_db
+        networks:
+            - shopco-network
+
+    shopco_redis:
+        image: redis:7-alpine
+        container_name: shopco_redis
+        restart: unless-stopped
+        command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+        volumes:
+            - redis_data:/data
+        ports:
+            - "6379:6379"
+        networks:
+            - shopco-network
 
 volumes:
-  shopco-db-data:
-  redis_data:
-  vendor_data:
+    shopco-db-data:
+    redis_data:
+    vendor_data:
 
 networks:
-  shopco-network:
+    shopco-network:

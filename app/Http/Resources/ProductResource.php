@@ -30,6 +30,7 @@ use OpenApi\Attributes as OA;
                     type: 'object',
                     nullable: true,
                     properties: [
+                        new OA\Property(property: 'id', type: 'integer', example: 1),
                         new OA\Property(property: 'name', type: 'string', example: 'Red'),
                         new OA\Property(property: 'hex_code', type: 'string', example: '#ff0000'),
                     ]
@@ -39,6 +40,7 @@ use OpenApi\Attributes as OA;
                     type: 'object',
                     nullable: true,
                     properties: [
+                        new OA\Property(property: 'id', type: 'integer', example: 1),
                         new OA\Property(property: 'name', type: 'string', example: 'M'),
                         new OA\Property(property: 'label', type: 'string', example: 'Medium'),
                     ]
@@ -89,10 +91,12 @@ class ProductResource extends JsonResource
                     return [
                         'id'    => $variant->id,
                         'color' => $variant->color ? [
+                            'id'       => $variant->color->id,
                             'name'     => $variant->color->name,
                             'hex_code' => $variant->color->hex_code,
                         ] : null,
                         'size'  => $variant->size ? [
+                            'id'    => $variant->size->id,
                             'name'  => $variant->size->name,
                             'label' => $variant->size->label,
                         ] : null,
