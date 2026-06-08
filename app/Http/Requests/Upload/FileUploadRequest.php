@@ -31,10 +31,10 @@ class FileUploadRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'image.required' => 'Hình ảnh là bắt buộc.',
-            'image.image' => 'File phải là hình ảnh.',
-            'image.mimes' => 'File phải có định dạng jpeg, png, jpg, hoặc webp.',
-            'image.max' => 'File không được vượt quá 5MB.',
+            'image.required' => 'An image is required.',
+            'image.image'    => 'The file must be an image.',
+            'image.mimes'    => 'The file must be of type: jpeg, png, jpg, or webp.',
+            'image.max'      => 'The file may not be larger than 5MB.',
         ];
     }
 }

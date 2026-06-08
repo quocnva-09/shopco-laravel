@@ -56,7 +56,7 @@ class GlobalExceptionHandler
             return $handler->errorResponse($exception->getMessage() ?: 'Resource Not Found', Response::HTTP_NOT_FOUND);
         });
 
-        // bắt exception tổng
+        // Catch-all handler for any unhandled exceptions
         $exceptions->render(function (Exception $exception) use ($handler) {
             return $handler->errorResponse($exception->getMessage() ?: 'Internal Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
         });

@@ -15,10 +15,10 @@ readonly class AddToCartDTO
     ) {}
 
     /**
-     * Khởi tạo DTO từ Form Request.
-     * Hỗ trợ 2 chế độ:
-     *   - Mode 1: client gửi product_variant_id trực tiếp
-     *   - Mode 2: client gửi color_id, size_id → CartService sẽ resolve sang product_variant_id
+     * Initialise the DTO from a Form Request.
+     * Supports two modes:
+     *   - Mode 1: client sends product_variant_id directly
+     *   - Mode 2: client sends color_id, size_id → CartService resolves to product_variant_id
      */
     public static function fromRequest(FormRequest $request): self
     {

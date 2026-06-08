@@ -27,7 +27,7 @@ class ProductService implements ProductServiceInterface
     {
         $cacheKey = 'products_list' . $filter->toCacheKey();
 
-        // Sử dụng serialize/unserialize thủ công để vượt qua lỗi của igbinary trong Redis
+        // Use manual serialize/unserialize to bypass igbinary serialization issues in Redis
         $cachedDataString = CacheHelper::rememberWithTags(
             [CacheConstants::PRODUCT_TAGS->value],
             $cacheKey,

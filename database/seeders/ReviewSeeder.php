@@ -15,32 +15,32 @@ class ReviewSeeder extends Seeder
 {
     private const MIN_REVIEWS_PER_PRODUCT = 10;
 
-    /** Bình luận tốt */
+    /** Positive review samples */
     private array $goodComments = [
-        'Sản phẩm tuyệt vời, chất lượng vượt mong đợi!',
-        'Giao hàng nhanh, đóng gói cẩn thận. Mặc rất vừa vặn.',
-        'Đúng như mô tả, màu sắc đẹp, chất vải êm ái.',
-        'Đáng đồng tiền bát gạo, sẽ tiếp tục ủng hộ shop.',
-        'Form dáng cực chuẩn, shop tư vấn nhiệt tình.',
+        'Amazing product, quality exceeded expectations!',
+        'Fast delivery, careful packaging. Fits perfectly.',
+        'Exactly as described, beautiful color, soft fabric.',
+        'Worth every penny, will definitely buy again.',
+        'Perfect fit, the shop gave great advice.',
         "As a UI/UX enthusiast, I value simplicity and functionality. This t-shirt not only represents those principles but also feels great to wear.",
         "I absolutely love this t-shirt! The design is unique and the fabric feels so comfortable.",
         "This t-shirt is a must-have for anyone who appreciates good design. The fit is perfect.",
         "I'm not just wearing a t-shirt; I'm wearing a piece of design philosophy.",
     ];
 
-    /** Bình luận tiêu cực */
+    /** Negative review samples */
     private array $badComments = [
-        'Hơi thất vọng về chất liệu, không như mình nghĩ.',
-        'Giao hàng hơi chậm, hộp bị móp méo.',
-        'Kích thước bị lệch một chút so với bảng size.',
-        'Tạm ổn trong tầm giá, nhưng cần cải thiện đường may.',
+        'Slightly disappointed with the material, not what I expected.',
+        'Delivery was a bit slow, the box arrived dented.',
+        'Size runs slightly off from the size chart.',
+        'OK for the price, but stitching needs improvement.',
         "The print quality is not as vibrant as it appears in the photos. It looks faded after one wash.",
         "I was expecting a more premium fabric for the price. This feels quite cheap.",
         "The color in the picture was misleading. In reality, it's a much duller shade.",
         "Itchy tag on the neck ruined the experience.",
     ];
 
-    /** Tên khách mẫu cho guest review */
+    /** Sample guest names for guest reviews */
     private array $guestNames = [
         'Nguyen Van A', 'Tran Thi B', 'Le Van C', 'Pham Thi D',
         'Hoang Van E', 'Do Thi F', 'Bui Van G', 'Vo Thi H',
@@ -54,7 +54,7 @@ class ReviewSeeder extends Seeder
         Review::truncate();
         Schema::enableForeignKeyConstraints();
 
-        // ── Phase 1: Review từ người đã mua hàng (60% order items) ──────────
+        // ── Phase 1: Reviews from verified buyers (60% of order items) ──────
         $this->command->info('Phase 1: Creating reviews from real customers...');
 
         $orderItems = OrderItem::with('order')
@@ -66,7 +66,7 @@ class ReviewSeeder extends Seeder
                 $rating  = rand(3, 5);
                 $comment = $this->pickComment($rating);
 
-                // Review được viết 1-14 ngày sau khi nhận hàng
+                // Review written 1-14 days after receiving the order
                 $orderDate    = Carbon::parse($item->created_at);
                 $reviewedAt   = $orderDate->copy()->addDays(rand(1, 14));
 
@@ -83,7 +83,7 @@ class ReviewSeeder extends Seeder
             }
         }
 
-        // ── Phase 2: Đảm bảo mỗi product có ít nhất MIN_REVIEWS_PER_PRODUCT ─
+        // ── Phase 2: Guarantee each product has at least MIN_REVIEWS_PER_PRODUCT ─
         $this->command->info(
             'Phase 2: Guaranteeing ' . self::MIN_REVIEWS_PER_PRODUCT . ' reviews per product...'
         );
@@ -114,7 +114,7 @@ class ReviewSeeder extends Seeder
         $rating  = rand(1, 5);
         $comment = $this->pickComment($rating);
 
-        // Guest review rải ngẫu nhiên trong 30-180 ngày trước
+        // Guest reviews are scattered randomly over the past 30-180 days
         $reviewedAt = Carbon::now()->subDays(rand(30, 180));
 
         Review::create([

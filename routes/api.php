@@ -72,7 +72,7 @@ Route::get('products/{id}', [ProductController::class, 'show']);
 Route::get('reviews', [ReviewController::class, 'index']);
 Route::get('reviews/{id}', [ReviewController::class, 'show']);
 
-// Guest routes (public, throttled chống spam)
+// Guest routes (public, throttled to prevent spam)
 Route::prefix('guest')->middleware('throttle:30,1')->group(function () {
     Route::post('orders/checkout', [GuestOrderController::class, 'checkout']);
     Route::post('reviews', [GuestReviewController::class, 'store']);

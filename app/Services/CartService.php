@@ -86,9 +86,9 @@ class CartService implements CartServiceInterface
     }
 
     /**
-     * Resolve product_variant_id từ DTO:
-     *   - Mode 1: product_variant_id được gửi trực tiếp → dùng luôn.
-     *   - Mode 2: color_id + size_id được gửi → lookup ProductVariant theo product_id.
+     * Resolve product_variant_id from the DTO:
+     *   - Mode 1: product_variant_id is sent directly → use as-is.
+     *   - Mode 2: color_id + size_id are sent → lookup ProductVariant by product_id.
      */
     private function resolveVariantId(AddToCartDTO $dto): ?int
     {

@@ -15,8 +15,8 @@ use OpenApi\Attributes as OA;
     properties: [
         new OA\Property(property: 'name', type: 'string', example: 'Classic T-Shirt'),
         new OA\Property(property: 'slug', type: 'string', nullable: true, example: 'classic-t-shirt'),
-        new OA\Property(property: 'price', type: 'number', format: 'float', example: 150000),
-        new OA\Property(property: 'price_discount', type: 'number', format: 'float', nullable: true, example: 120000),
+        new OA\Property(property: 'price', type: 'number', format: 'float', example: 150),
+        new OA\Property(property: 'price_discount', type: 'number', format: 'float', nullable: true, example: 40),
         new OA\Property(property: 'description', type: 'string', nullable: true, example: 'A comfortable everyday t-shirt'),
         new OA\Property(property: 'category_id', type: 'integer', example: 2),
         new OA\Property(
@@ -63,7 +63,7 @@ class ProductRequest extends FormRequest
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:products,slug,' . $productId,
             'price' => 'required|numeric|min:0',
-            'price_discount' => 'nullable|numeric|min:0|lte:price',
+            'price_discount' => 'nullable|numeric|min:0|max:99',
             'description' => 'nullable|string',
             'category_id' => 'required|integer|exists:categories,id',
             'images' => 'nullable|array',

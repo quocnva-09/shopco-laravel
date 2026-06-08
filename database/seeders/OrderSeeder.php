@@ -37,7 +37,7 @@ class OrderSeeder extends Seeder
             return;
         }
 
-        // ── Phase 1: Tạo lịch sử mua hàng chuẩn cho từng user ──────────────
+        // ── Phase 1: Build standard purchase history for each user ──────────────
         $this->command->info(
             'Phase 1: Creating ' . self::STANDARD_ORDERS_PER_USER . ' orders per user...'
         );
@@ -48,7 +48,7 @@ class OrderSeeder extends Seeder
                     ? OrderStatus::PAID
                     : OrderStatus::PENDING;
 
-                // Order củ dần theo thường lệ: order 1 lâu nhất, order 5 gần nhất
+                // Orders age naturally: order 1 is the oldest, order 5 is the most recent
                 $daysAgo = rand(
                     (self::STANDARD_ORDERS_PER_USER - $i) * 10 + 5,
                     (self::STANDARD_ORDERS_PER_USER - $i) * 10 + 30
@@ -63,7 +63,7 @@ class OrderSeeder extends Seeder
             }
         }
 
-        // ── Phase 2: Đảm bảo mỗi product có ít nhất MIN_ORDERS_PER_PRODUCT ─
+        // ── Phase 2: Guarantee each product has at least MIN_ORDERS_PER_PRODUCT ─
         $this->command->info(
             'Phase 2: Guaranteeing ' . self::MIN_ORDERS_PER_PRODUCT . ' orders per product...'
         );
@@ -91,7 +91,7 @@ class OrderSeeder extends Seeder
     }
 
     /**
-     * Tạo một Order + OrderItems cho danh sách products cho trước.
+     * Create an Order + OrderItems for a given list of products.
      *
      * @param int         $userId
      * @param OrderStatus $status
@@ -120,7 +120,7 @@ class OrderSeeder extends Seeder
 
         foreach ($productList as $product) {
             $quantity    = rand(1, 3);
-            $price       = (float) ($product->price_discount ?? $product->price);
+            $price       = $product->final_price;
             $totalMoney  = $price * $quantity;
             $total      += $totalMoney;
 

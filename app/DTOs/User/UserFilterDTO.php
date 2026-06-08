@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace App\DTOs\User;
 
@@ -16,7 +16,7 @@ readonly class UserFilterDTO
     ) {}
 
     /**
-     * Khởi tạo DTO từ Form Request
+     * Initialise the DTO from a Form Request
      */
     public static function fromRequest(FormRequest $request): self
     {

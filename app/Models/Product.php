@@ -51,6 +51,14 @@ class Product extends Model
         return $this->hasMany(Review::class)->where('is_approved', true);
     }
 
+    public function getFinalPriceAttribute()
+    {
+        if ($this->price_discount) {
+            return round($this->price * (1 - $this->price_discount / 100), 2);
+        }
+        return $this->price;
+    }
+
     public static function booted()
     {
         static::forceDeleting(function ($product) {

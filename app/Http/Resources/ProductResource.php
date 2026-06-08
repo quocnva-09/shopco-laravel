@@ -18,7 +18,8 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'slug', type: 'string', example: 'classic-t-shirt'),
         new OA\Property(property: 'description', type: 'string', nullable: true, example: 'A comfortable everyday t-shirt'),
         new OA\Property(property: 'price', type: 'number', format: 'float', example: 150000),
-        new OA\Property(property: 'price_discount', type: 'number', format: 'float', nullable: true, example: 120000),
+        new OA\Property(property: 'price_discount', type: 'number', format: 'float', nullable: true, description: 'Discount percentage (0–99)', example: 20),
+        new OA\Property(property: 'final_price', type: 'number', format: 'float', description: 'Actual selling price after discount applied', example: 120000),
         new OA\Property(
             property: 'variants',
             type: 'array',
@@ -86,6 +87,7 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'price_discount' => $this->price_discount,
+            'final_price' => $this->final_price,
             'variants' => $this->whenLoaded('variants', function () {
                 return $this->variants->map(function ($variant) {
                     return [

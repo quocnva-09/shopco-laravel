@@ -8,7 +8,7 @@ use OpenApi\Attributes as OA;
 #[OA\Info(
     version: "1.0.0",
     title: "SHOP.CO API Documentation",
-    description: "Tài liệu tích hợp API cho hệ thống E-commerce"
+    description: "API integration documentation for the E-commerce system"
 )]
 #[OA\Server(
     url: L5_SWAGGER_CONST_HOST,
@@ -20,13 +20,13 @@ use OpenApi\Attributes as OA;
 )]
 #[OA\Server(
     url: "http://localhost:8000/api",
-    description: "Local Server (Dự phòng)"
+    description: "Local Server (Fallback)"
 )]
 #[OA\SecurityScheme(
     securityScheme: "bearerAuth",
     type: "http",
     scheme: "bearer",
-    description: "Nhập Sanctum Personal Access Token của bạn vào đây"
+    description: "Enter your Sanctum Personal Access Token here"
 )]
 abstract class Controller
 {
@@ -37,7 +37,7 @@ abstract class Controller
 #[OA\Schema(
     schema: "PaginatedMeta",
     title: "Pagination Meta",
-    description: "Các thông số toán học để vẽ giao diện phân trang",
+    description: "Numeric parameters used to render pagination UI",
     properties: [
         new OA\Property(property: "current_page", type: "integer", example: 1),
         new OA\Property(property: "last_page", type: "integer", example: 10),
@@ -47,12 +47,12 @@ abstract class Controller
 )]
 class PaginatedMetaSchema
 {
-} // Class ảo
+} // Virtual class (OA schema placeholder)
 
 #[OA\Schema(
     schema: "PaginatedLinks",
     title: "Pagination Links",
-    description: "Các đường dẫn có sẵn hỗ trợ tính năng Cuộn vô tận (Infinite Scroll)",
+    description: "Available links supporting Infinite Scroll",
     properties: [
         new OA\Property(property: "first", type: "string", example: "http://localhost:8000/api/{resource}?page=1"),
         new OA\Property(property: "last", type: "string", example: "http://localhost:8000/api/{resource}?page=10"),
@@ -62,4 +62,4 @@ class PaginatedMetaSchema
 )]
 class PaginatedLinksSchema
 {
-} // Class ảo
+} // Virtual class (OA schema placeholder)

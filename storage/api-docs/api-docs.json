@@ -3956,12 +3956,12 @@
                     "price": {
                         "type": "number",
                         "format": "float",
-                        "example": 150000
+                        "example": 150
                     },
                     "price_discount": {
                         "type": "number",
                         "format": "float",
-                        "example": 120000,
+                        "example": 40,
                         "nullable": true
                     },
                     "description": {
@@ -4307,13 +4307,20 @@
                             "price": {
                                 "type": "number",
                                 "format": "float",
-                                "example": 150000
+                                "example": 150
                             },
                             "price_discount": {
+                                "description": "Discount percentage (0–99)",
                                 "type": "number",
                                 "format": "float",
-                                "example": 120000,
+                                "example": 20,
                                 "nullable": true
+                            },
+                            "final_price": {
+                                "description": "Actual selling price after discount applied",
+                                "type": "number",
+                                "format": "float",
+                                "example": 120000
                             },
                             "img_path": {
                                 "type": "string",
@@ -4643,10 +4650,17 @@
                         "example": 150000
                     },
                     "price_discount": {
+                        "description": "Discount percentage (0–99)",
                         "type": "number",
                         "format": "float",
-                        "example": 120000,
+                        "example": 20,
                         "nullable": true
+                    },
+                    "final_price": {
+                        "description": "Actual selling price after discount applied",
+                        "type": "number",
+                        "format": "float",
+                        "example": 120000
                     },
                     "variants": {
                         "type": "array",

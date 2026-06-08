@@ -18,7 +18,7 @@ class GuestOrderService implements GuestOrderServiceInterface
 {
     public function checkout(GuestCheckoutDTO $dto): Order
     {
-        // 1. Load tất cả products cần thiết một lần (tránh N+1)
+        // 1. Load all required products at once (avoid N+1 queries)
         $productIds = array_column($dto->items, 'product_id');
         $productMap = Product::whereIn('id', $productIds)
             ->get()
@@ -31,7 +31,7 @@ class GuestOrderService implements GuestOrderServiceInterface
         foreach ($dto->items as $item) {
             $productId = (int) $item['product_id'];
 
-            // Guard: sản phẩm phải tồn tại trong DB
+            // Guard: product must exist in the database
             if (! $productMap->has($productId)) {
                 throw new UnprocessableEntityHttpException(
                     __('exception.guest_checkout_product_not_found', ['id' => $productId])
@@ -40,13 +40,12 @@ class GuestOrderService implements GuestOrderServiceInterface
 
             $product = $productMap->get($productId);
 
-            // Bảo mật: Backend tính giá từ DB, ignore hoàn toàn giá FE gửi lên
-            $price      = (float) ($product->price_discount ?? $product->price);
+            $price = $product->final_price;
             $quantity   = (int) $item['quantity'];
             $totalMoney = $price * $quantity;
             $subtotal  += $totalMoney;
 
-            // Resolve product_variant_id (Mode 1 hoặc Mode 2)
+            // Resolve product_variant_id (Mode 1 or Mode 2)
             $variantId   = $this->resolveVariantId($productId, $item);
             $variantName = null;
 
@@ -68,7 +67,7 @@ class GuestOrderService implements GuestOrderServiceInterface
             ];
         }
 
-        // Tính tổng đơn hàng: subtotal + delivery_fee - discount
+        // Compute order total: subtotal + delivery_fee - discount
         $totalAmount = $subtotal + $dto->deliveryFee - $dto->discount;
 
         return DB::transaction(function () use ($dto, $totalAmount, $orderItemsData) {
@@ -96,8 +95,8 @@ class GuestOrderService implements GuestOrderServiceInterface
     }
 
     /**
-     * Resolve product_variant_id theo 2 chế độ:
-     *   Mode 1 — product_variant_id gửi trực tiếp
+     * Resolve product_variant_id in two modes:
+     *   Mode 1 — product_variant_id sent directly
      *   Mode 2 — color_id + size_id → lookup ProductVariant
      */
     private function resolveVariantId(int $productId, array $item): ?int

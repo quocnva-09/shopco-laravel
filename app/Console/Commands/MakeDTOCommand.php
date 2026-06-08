@@ -8,52 +8,52 @@ use Illuminate\Support\Facades\File;
 class MakeDTOCommand extends Command
 {
     /**
-     * Tên lệnh gõ trong terminal
+     * Command signature used in the terminal
      */
     protected $signature = 'make:dto {name}';
 
     /**
-     * Mô tả lệnh
+     * Command description
      */
     protected $description = 'Create a new Data Transfer Object (DTO)';
 
     /**
-     * Thực thi lệnh
+     * Execute the command
      */
     public function handle()
     {
         $name = $this->argument('name');
 
-        // Định nghĩa đường dẫn chuẩn: app/DTOs/TênFile.php
+        // Define the standard file path: app/DTOs/FileName.php
         $path = app_path("DTOs/{$name}.php");
 
-        // 1. Kiểm tra file đã tồn tại chưa
+        // 1. Check if the file already exists
         if (File::exists($path)) {
-            $this->error("DTO {$name} đã tồn tại!");
+            $this->error("DTO {$name} already exists!");
 
             return Command::FAILURE;
         }
 
-        // 2. Đọc file stub mẫu
+        // 2. Read the stub template file
         $stubPath = base_path('stubs/dto.stub');
         if (! File::exists($stubPath)) {
-            $this->error('Không tìm thấy khuôn đúc tại stubs/dto.stub!');
+            $this->error('Stub file not found at stubs/dto.stub!');
 
             return Command::FAILURE;
         }
 
         $content = File::get($stubPath);
 
-        // 3. Thay thế biến {{ class }} thành tên DTO người dùng nhập
+        // 3. Replace the {{ class }} placeholder with the user-provided DTO name
         $content = str_replace('{{ class }}', $name, $content);
 
-        // 4. Tạo thư mục DTOs nếu nó chưa tồn tại
+        // 4. Create the DTOs directory if it does not exist
         File::ensureDirectoryExists(app_path('DTOs'));
 
-        // 5. Ghi file và thông báo
+        // 5. Write the file and report
         File::put($path, $content);
 
-        $this->info("Tạo thành công: app/DTOs/{$name}.php");
+        $this->info("Created successfully: app/DTOs/{$name}.php");
 
         return Command::SUCCESS;
     }

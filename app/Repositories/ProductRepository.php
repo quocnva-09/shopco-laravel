@@ -171,21 +171,23 @@ class ProductRepository implements ProductRepositoryInterface
         }
 
         if ($filter->minPrice !== null) {
-            $query->whereRaw('COALESCE(price_discount, price) >= ?', [$filter->minPrice]);
+            // price_discount is a discount percentage (0-99); final price = price * (1 - discount/100)
+            $query->whereRaw('price * (1 - COALESCE(price_discount, 0) / 100) >= ?', [$filter->minPrice]);
         }
 
         if ($filter->maxPrice !== null) {
-            $query->whereRaw('COALESCE(price_discount, price) <= ?', [$filter->maxPrice]);
+            // price_discount is a discount percentage (0-99); final price = price * (1 - discount/100)
+            $query->whereRaw('price * (1 - COALESCE(price_discount, 0) / 100) <= ?', [$filter->maxPrice]);
         }
     }
 
     /**
-     * Sync ProductVariant records cho một product theo danh sách [{color_id, size_id}].
-     * Tạo mới các variant chưa tồn tại, xóa các variant không còn trong danh sách.
+     * Sync ProductVariant records for a product from a [{color_id, size_id}] list.
+     * Creates variants that do not yet exist and deletes variants no longer in the list.
      */
     private function syncVariants(Product $product, array $variants): void
     {
-        // Build danh sách (color_id|size_id) cần giữ lại
+        // Build the list of (color_id|size_id) pairs to keep
         $incoming = collect($variants)->map(function (array $v): array {
             return [
                 'color_id' => $v['color_id'] ?? null,
@@ -193,7 +195,7 @@ class ProductRepository implements ProductRepositoryInterface
             ];
         });
 
-        // Xóa các variant không còn trong danh sách mới
+        // Remove variants that are no longer in the incoming list
         $product->variants()->get()->each(function (ProductVariant $existing) use ($incoming): void {
             $stillNeeded = $incoming->contains(function (array $v) use ($existing): bool {
                 return (int) $v['color_id'] === (int) $existing->color_id
@@ -205,7 +207,7 @@ class ProductRepository implements ProductRepositoryInterface
             }
         });
 
-        // Tạo mới các variant chưa tồn tại
+        // Create variants that do not yet exist
         foreach ($incoming as $v) {
             $product->variants()->firstOrCreate([
                 'color_id' => $v['color_id'],

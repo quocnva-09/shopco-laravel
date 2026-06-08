@@ -56,15 +56,15 @@ class CategoryRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Tên danh mục bắt buộc.',
-            'name.min' => 'Tên danh mục phải có ít nhất 3 ký tự.',
-            'name.max' => 'Tên danh mục không được vượt quá 100 ký tự.',
-            'name.unique' => 'Tên danh mục đã tồn tại.',
-            'slug.required' => 'Slug danh mục bắt buộc.',
-            'slug.max' => 'Slug danh mục không được vượt quá 100 ký tự.',
-            'slug.alpha_dash' => 'Slug danh mục chỉ được chứa chữ cái, số, gạch ngang và gạch dưới.',
-            'slug.unique' => 'Slug danh mục đã tồn tại.',
-            'description.string' => 'Mô tả danh mục phải là chuỗi.',
+            'name.required'     => 'The category name is required.',
+            'name.min'          => 'The category name must be at least 3 characters.',
+            'name.max'          => 'The category name may not exceed 100 characters.',
+            'name.unique'       => 'The category name already exists.',
+            'slug.required'     => 'The category slug is required.',
+            'slug.max'          => 'The category slug may not exceed 100 characters.',
+            'slug.alpha_dash'   => 'The category slug may only contain letters, numbers, dashes, and underscores.',
+            'slug.unique'       => 'The category slug already exists.',
+            'description.string' => 'The category description must be a string.',
         ];
     }
 }

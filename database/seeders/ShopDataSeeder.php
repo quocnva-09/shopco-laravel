@@ -42,7 +42,7 @@ class ShopDataSeeder extends Seeder
         $json = File::get($jsonPath);
         $data = json_decode($json, true);
 
-        // Pre-load color/size maps để tránh N+1 khi lookup
+        // Pre-load color/size maps to avoid N+1 queries during lookup
         $colorMap = Color::all()->keyBy(fn($c) => strtolower($c->name));
         $sizeMap  = Size::all()->keyBy(fn($s) => strtoupper($s->name));
 
@@ -58,7 +58,7 @@ class ShopDataSeeder extends Seeder
             );
 
             foreach ($categoryData['products'] as $productData) {
-                // Mỗi product ra mắt ngẫu nhiên trong khoảng 3-12 tháng trước
+                // Each product launched at a random date 3-12 months ago
                 $productCreatedAt = Carbon::now()->subDays(rand(90, 365));
 
                 $product = Product::updateOrCreate(
@@ -75,7 +75,7 @@ class ShopDataSeeder extends Seeder
                     ]
                 );
 
-                // Sync ProductVariants từ mảng [{color, size}]
+                // Sync ProductVariants from [{color, size}] array
                 if (! empty($productData['variants'])) {
                     foreach ($productData['variants'] as $variantData) {
                         $color = isset($variantData['color'])

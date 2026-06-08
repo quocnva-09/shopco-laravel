@@ -8,39 +8,39 @@ use Illuminate\Support\Facades\File;
 class MakeServiceCommand extends Command
 {
     /**
-     * Tên lệnh bạn sẽ gõ trong terminal.
-     * {name} là tham số truyền vào (VD: ProductService)
+     * Command signature used in the terminal.
+     * {name} is the input argument (e.g. ProductService)
      */
     protected $signature = 'make:service {name}';
 
     /**
-     * Mô tả của lệnh (hiển thị khi gõ php artisan list)
+     * Command description (shown when running php artisan list)
      */
     protected $description = 'Create a new Service class';
 
     /**
-     * Thực thi lệnh
+     * Execute the command
      */
     public function handle()
     {
-        // 1. Lấy tên Service người dùng nhập vào
+        // 1. Get the Service name from the argument
         $name = $this->argument('name');
 
-        // 2. Định nghĩa đường dẫn file
+        // 2. Define the file path
         $path = app_path("Services/{$name}.php");
 
-        // 3. Kiểm tra xem file đã tồn tại chưa để tránh ghi đè mất code cũ
+        // 3. Check if the file already exists to avoid overwriting existing code
         if (File::exists($path)) {
-            $this->error("Service {$name} đã tồn tại!");
+            $this->error("Service {$name} already exists!");
 
             return Command::FAILURE;
         }
 
-        // 4. Tạo thư mục app/Services nếu nó chưa có
+        // 4. Create the app/Services directory if it does not exist
         File::ensureDirectoryExists(app_path('Services'));
 
-        // 5. Nội dung mẫu (Template) của file Service
-        // Tự động suy ra tên Contract (VD: ProductService -> ProductContract)
+        // 5. Template content for the Service file
+        // Automatically infer the Contract name (e.g. ProductService -> ProductServiceInterface)
         $contractName = str_replace('Service', 'ServiceInterface', $name);
 
         $content = <<<EOT
@@ -53,15 +53,15 @@ use App\Contracts\\{$contractName};
 class {$name} implements {$contractName}
 {
     /**
-     * Khởi tạo class
+     * Class constructor
      */
     public function __construct()
     {
-        // Inject repository hoặc các dependency khác vào đây
+        // Inject repositories or other dependencies here
     }
 
     /**
-     * Lấy danh sách dữ liệu (hỗ trợ phân trang & lọc)
+     * Retrieve a paginated and filtered list
      */
     public function getAll(array \$filters = [], int \$perPage = 15)
     {
@@ -69,7 +69,7 @@ class {$name} implements {$contractName}
     }
 
     /**
-     * Lấy chi tiết một bản ghi theo ID
+     * Retrieve a single record by ID
      */
     public function findById(int \$id)
     {
@@ -77,7 +77,7 @@ class {$name} implements {$contractName}
     }
 
     /**
-     * Tạo mới dữ liệu từ DTO
+     * Create a new record from a DTO
      */
     public function create(object \$dto)
     {
@@ -85,7 +85,7 @@ class {$name} implements {$contractName}
     }
 
     /**
-     * Cập nhật dữ liệu từ DTO
+     * Update a record from a DTO
      */
     public function update(\$model, object \$dto)
     {
@@ -93,7 +93,7 @@ class {$name} implements {$contractName}
     }
 
     /**
-     * Xóa bản ghi
+     * Delete a record
      */
     public function delete(int \$id)
     {
@@ -102,9 +102,9 @@ class {$name} implements {$contractName}
 }
 EOT;
 
-        // 6. Ghi file và thông báo thành công
+        // 6. Write the file and report success
         File::put($path, $content);
-        $this->info("Tạo thành công: app/Services/{$name}.php");
+        $this->info("Created successfully: app/Services/{$name}.php");
 
         return Command::SUCCESS;
     }

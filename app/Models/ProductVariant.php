@@ -28,7 +28,7 @@ class ProductVariant extends Model
     }
 
     /**
-     * Trả về tên variant dạng "Red / M" dùng để snapshot vào order_item.
+     * Returns the variant name in "Red / M" format, used to snapshot into order_item.
      */
     public function getVariantNameAttribute(): string
     {

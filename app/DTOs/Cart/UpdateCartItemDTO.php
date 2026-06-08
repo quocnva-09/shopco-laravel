@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 declare(strict_types=1);
 
@@ -13,7 +13,7 @@ readonly class UpdateCartItemDTO
     ) {}
 
     /**
-     * Khởi tạo DTO từ Form Request
+     * Initialise the DTO from a Form Request
      */
     public static function fromRequest(FormRequest $request): self
     {

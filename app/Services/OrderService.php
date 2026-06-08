@@ -38,7 +38,7 @@ class OrderService implements OrderServiceInterface
             $orderItemsData = [];
             $totalAmount = 0.0;
 
-            // Load product (id, name, price) và productVariant với color/size để snapshot
+            // Eagerly load product (id, name, price) and productVariant with color/size for snapshotting
             $cart->load([
                 'cartItems.product:id,name,price',
                 'cartItems.productVariant.color',

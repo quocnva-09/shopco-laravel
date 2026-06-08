@@ -57,20 +57,20 @@ class ReviewService implements ReviewServiceInterface
 
     public function createGuestReview(GuestReviewDTO $dto): Review
     {
-        // Guard 1: Order phải tồn tại
+        // Guard 1: Order must exist
         $order = Order::with('orderItems')->find($dto->orderId);
         if ($order === null) {
             throw new NotFoundHttpException(__('exception.order_not_found'));
         }
 
-        // Guard 2: Order phải ở trạng thái PAID
+        // Guard 2: Order must be in PAID status
         if ($order->status !== OrderStatus::PAID) {
             throw new AccessDeniedHttpException(
                 __('exception.guest_review_order_not_paid')
             );
         }
 
-        // Guard 3: Order chưa được review (anti-spam)
+        // Guard 3: Order has not been reviewed yet (anti-spam)
         $alreadyReviewed = Review::whereHas('orderItem', function ($q) use ($dto): void {
             $q->where('order_id', $dto->orderId);
         })->exists();
@@ -81,7 +81,7 @@ class ReviewService implements ReviewServiceInterface
             );
         }
 
-        // Guard 4: Product phải thuộc order
+        // Guard 4: Product must belong to the order
         $orderItem = $order->orderItems
             ->where('product_id', $dto->productId)
             ->first();
@@ -92,7 +92,7 @@ class ReviewService implements ReviewServiceInterface
             );
         }
 
-        // Option A: resolve order_item_id từ order_id + product_id
+        // Resolve order_item_id from order_id + product_id
         return $this->repository->create([
             'order_item_id' => $orderItem->id,
             'product_id'    => $dto->productId,

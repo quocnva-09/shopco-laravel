@@ -36,12 +36,20 @@ use OpenApi\Attributes as OA;
             properties: [
                 new OA\Property(property: 'id', type: 'integer', example: 7),
                 new OA\Property(property: 'name', type: 'string', example: 'Classic T-Shirt'),
-                new OA\Property(property: 'price', type: 'number', format: 'float', example: 150000),
+                new OA\Property(property: 'price', type: 'number', format: 'float', example: 150),
                 new OA\Property(
                     property: 'price_discount',
                     type: 'number',
                     format: 'float',
                     nullable: true,
+                    description: 'Discount percentage (0–99)',
+                    example: 20
+                ),
+                new OA\Property(
+                    property: 'final_price',
+                    type: 'number',
+                    format: 'float',
+                    description: 'Actual selling price after discount applied',
                     example: 120000
                 ),
                 new OA\Property(property: 'img_path', type: 'string', nullable: true, example: 'https://example.com/images/shirt.jpg'),
@@ -83,6 +91,7 @@ class CartItemResource extends JsonResource
                     'name'           => $this->product->name,
                     'price'          => $this->product->price,
                     'price_discount' => $this->product->price_discount,
+                    'final_price' => $this->product->final_price,
                     'img_path'       => app(FileUploadService::class)->url($this->product->images[0]->img_path) ?? null,
                 ];
             }),
