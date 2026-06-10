@@ -4,10 +4,10 @@
 Thank you for your purchase! Here are the items you ordered:
 
 @component('mail::table')
-| # | Tên sản phẩm | Số lượng | Đơn giá | Thành tiền |
-|:-:|:-------------|:--------:|----------:|----------:|
+| # | Product name | Quantity | Unit price | Subtotal |
+|:-:|:-------------|:--------:|:----------:|---------:|
 @foreach($order->orderItems as $item)
-    | {{ $loop->iteration }} | {{ $item->product->name }} | {{ $item->quantity }} | ${{ number_format($item->price, 2) }} |
+    | {{ $loop->iteration }} | {{ $item->product_name }} | {{ $item->quantity }} | ${{ number_format($item->price, 2) }} |
     ${{ number_format($item->totalMoney, 2) }} |
 @endforeach
 @endcomponent

@@ -16,6 +16,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: "sort_dir", type: "string", enum: ["asc", "desc"], nullable: true),
         new OA\Property(property: "limit", type: "integer", nullable: true, example: 15),
         new OA\Property(property: "is_approved", type: "boolean", nullable: true),
+        new OA\Property(property: "rating", type: "integer", nullable: true, minimum: 1, maximum: 5, example: 4),
     ]
 )]
 class ReviewFilterRequest extends FormRequest
@@ -43,6 +44,7 @@ class ReviewFilterRequest extends FormRequest
             'sort_dir' => ['nullable', 'string', 'in:asc,desc'],
             'limit' => ['nullable', 'integer', 'min:1', 'max:100'],
             'is_approved' => ['nullable', 'boolean'],
+            'rating' => ['nullable', 'integer', 'min:1', 'max:5'],
         ];
     }
 }

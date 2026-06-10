@@ -13,6 +13,8 @@ use App\Models\Product;
 use App\Models\ProductVariant;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderCreated;
 
 class GuestOrderService implements GuestOrderServiceInterface
 {
@@ -70,7 +72,7 @@ class GuestOrderService implements GuestOrderServiceInterface
         // Compute order total: subtotal + delivery_fee - discount
         $totalAmount = $subtotal + $dto->deliveryFee - $dto->discount;
 
-        return DB::transaction(function () use ($dto, $totalAmount, $orderItemsData) {
+        $order = DB::transaction(function () use ($dto, $totalAmount, $orderItemsData) {
             $order = Order::create([
                 'user_id'      => null,
                 'guest_name'   => $dto->guestName,
@@ -92,6 +94,10 @@ class GuestOrderService implements GuestOrderServiceInterface
 
             return $order->load('orderItems');
         });
+
+        Mail::to($order->guest_email)->later(now()->addSeconds(30), new OrderCreated($order));
+
+        return $order;
     }
 
     /**

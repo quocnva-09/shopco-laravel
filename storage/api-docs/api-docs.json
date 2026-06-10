@@ -4094,6 +4094,13 @@
                     "is_approved": {
                         "type": "boolean",
                         "nullable": true
+                    },
+                    "rating": {
+                        "type": "integer",
+                        "example": 4,
+                        "nullable": true,
+                        "maximum": 5,
+                        "minimum": 1
                     }
                 },
                 "type": "object"

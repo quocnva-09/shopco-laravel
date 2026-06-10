@@ -27,6 +27,10 @@ class ReviewRepository implements ReviewRepositoryInterface
             $query->where('is_approved', $filterDTO->isApproved);
         }
 
+        if ($filterDTO->rating !== null) {
+            $query->where('rating', $filterDTO->rating);
+        }
+
         if ($filterDTO->sortBy && $filterDTO->sortDir) {
             $query->orderBy($filterDTO->sortBy, $filterDTO->sortDir);
         } else {

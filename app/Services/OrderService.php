@@ -11,6 +11,7 @@ use App\Contracts\Services\UserServiceInterface;
 use App\DTOs\Order\OrderFilterDTO;
 use App\DTOs\Order\UpdateOrderStatusDTO;
 use App\Mail\OrderCreated;
+use App\Mail\OrderStatusUpdated;
 use App\Models\Order;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -97,6 +98,16 @@ class OrderService implements OrderServiceInterface
     {
         $order = Order::findOrFail($orderId);
 
-        return $this->orderRepository->updateStatus($order, $dto->status);
+        $updated = $this->orderRepository->updateStatus($order, $dto->status);
+
+        if ($updated) {
+            $order->refresh();
+            $email = $order->user ? $order->user->email : $order->guest_email;
+            if ($email) {
+                Mail::to($email)->later(now()->addSeconds(30), new OrderStatusUpdated($order));
+            }
+        }
+
+        return $updated;
     }
 }

@@ -11,10 +11,13 @@ use App\DTOs\Review\ReviewApproveDTO;
 use App\DTOs\Review\ReviewDTO;
 use App\DTOs\Review\ReviewFilterDTO;
 use App\Enums\OrderStatus;
+use App\Mail\ReviewApproved;
+use App\Mail\ReviewCreated;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Review;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -52,7 +55,11 @@ class ReviewService implements ReviewServiceInterface
             throw new AccessDeniedHttpException(__('exception.review_unpurchased_product'));
         }
 
-        return $this->repository->create($dto->toArray());
+        $review = $this->repository->create($dto->toArray());
+
+        Mail::to($review->user->email)->later(now()->addSeconds(30), new ReviewCreated($review));
+
+        return $review;
     }
 
     public function createGuestReview(GuestReviewDTO $dto): Review
@@ -93,7 +100,7 @@ class ReviewService implements ReviewServiceInterface
         }
 
         // Resolve order_item_id from order_id + product_id
-        return $this->repository->create([
+        $review = $this->repository->create([
             'order_item_id' => $orderItem->id,
             'product_id'    => $dto->productId,
             'user_id'       => null,
@@ -103,11 +110,26 @@ class ReviewService implements ReviewServiceInterface
             'comment'       => $dto->comment,
             'is_approved'   => false,
         ]);
+
+        Mail::to($dto->guestEmail)->later(now()->addSeconds(30), new ReviewCreated($review));
+
+        return $review;
     }
 
     public function approve(Review $review, ReviewApproveDTO $dto): bool
     {
-        return $this->repository->update($review, ['is_approved' => $dto->isApproved]);
+        $updated = $this->repository->update($review, ['is_approved' => $dto->isApproved]);
+
+        if ($updated) {
+            $review->refresh();
+            $email = $review->user?->email ?? $review->guest_email;
+
+            if ($email) {
+                Mail::to($email)->later(now()->addSeconds(30), new ReviewApproved($review));
+            }
+        }
+
+        return $updated;
     }
 
     public function delete(Review $review): bool
