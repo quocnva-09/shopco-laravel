@@ -76,8 +76,8 @@ class GuestCheckoutRequest extends FormRequest
             'items.*.quantity'            => ['required', 'integer', 'min:1'],
             'delivery_fee'                => ['nullable', 'numeric', 'min:0'],
             'discount'                    => ['nullable', 'numeric', 'min:0'],
-            'guest_name'                  => ['nullable', 'string', 'max:255'],
-            'guest_phone'                 => ['nullable', 'string', 'max:20'],
+            'guest_name'                  => ['nullable', 'string', 'max:50'],
+            'guest_phone'                 => ['nullable', 'string', 'max:10'],
             'guest_email'                 => ['nullable', 'email', 'max:255'],
             'guest_address'               => ['nullable', 'string', 'max:500'],
         ];

@@ -37,8 +37,8 @@ class GuestReviewRequest extends FormRequest
             'order_id'    => ['required', 'integer', 'exists:orders,id'],
             'product_id'  => ['required', 'integer', 'exists:products,id'],
             'rating'      => ['required', 'integer', 'between:1,5'],
-            'comment'     => ['nullable', 'string', 'max:1000'],
-            'guest_name'  => ['nullable', 'string', 'max:255'],
+            'comment'     => ['nullable', 'string', 'max:500'],
+            'guest_name'  => ['nullable', 'string', 'max:50'],
             'guest_email' => ['nullable', 'email', 'max:255'],
         ];
     }
