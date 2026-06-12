@@ -14,10 +14,16 @@ use App\Models\ProductVariant;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\OrderCreated;
+use Illuminate\Support\Facades\Cache;
+use App\Mail\GuestOrderOtpMail;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class GuestOrderService implements GuestOrderServiceInterface
 {
+    public const OTP_LENGTH = 6;
+    public const OTP_TTL = 300; // 5 minutes
+    public const OTP_CACHE_KEY_PREFIX = 'order_otp_';
+
     public function checkout(GuestCheckoutDTO $dto): Order
     {
         // 1. Load all required products at once (avoid N+1 queries)
@@ -79,7 +85,7 @@ class GuestOrderService implements GuestOrderServiceInterface
                 'guest_phone'  => $dto->guestPhone,
                 'guest_email'  => $dto->guestEmail,
                 'guest_address' => $dto->guestAddress,
-                'status'       => OrderStatus::PENDING,
+                'status'       => OrderStatus::NOT_VERIFY,
                 'totalAmount'  => $totalAmount,
                 'delivery_fee' => $dto->deliveryFee,
                 'discount'     => $dto->discount,
@@ -95,7 +101,11 @@ class GuestOrderService implements GuestOrderServiceInterface
             return $order->load('orderItems');
         });
 
-        Mail::to($order->guest_email)->later(now()->addSeconds(30), new OrderCreated($order));
+        $otp = str_pad((string) random_int(0, (int) (10 ** self::OTP_LENGTH - 1)), self::OTP_LENGTH, '0', STR_PAD_LEFT);
+        
+        Cache::put(self::OTP_CACHE_KEY_PREFIX . $order->id, $otp, self::OTP_TTL);
+
+        Mail::to($order->guest_email)->later(now()->addSeconds(30), new GuestOrderOtpMail($order, $otp));
 
         return $order;
     }
@@ -121,5 +131,45 @@ class GuestOrderService implements GuestOrderServiceInterface
         }
 
         return null;
+    }
+
+    public function verifyOtp(int $orderId, string $otp): bool
+    {
+        $cacheKey = self::OTP_CACHE_KEY_PREFIX . $orderId;
+        $cachedOtp = Cache::get($cacheKey);
+
+        if (! $cachedOtp || (string) $cachedOtp !== $otp) {
+            throw new BadRequestHttpException('Invalid or expired OTP.');
+        }
+
+        $order = Order::findOrFail($orderId);
+
+        if ($order->status !== OrderStatus::NOT_VERIFY) {
+            throw new BadRequestHttpException('Order is already verified or cancelled.');
+        }
+
+        $order->status = OrderStatus::PENDING;
+        $order->save();
+
+        Cache::forget($cacheKey);
+
+        return true;
+    }
+
+    public function resendOtp(int $orderId): bool
+    {
+        $order = Order::findOrFail($orderId);
+
+        if ($order->status !== OrderStatus::NOT_VERIFY) {
+            throw new BadRequestHttpException('Order is already verified or cancelled.');
+        }
+
+        $otp = str_pad((string) random_int(0, (int) (10 ** self::OTP_LENGTH - 1)), self::OTP_LENGTH, '0', STR_PAD_LEFT);
+        
+        Cache::put(self::OTP_CACHE_KEY_PREFIX . $order->id, $otp, self::OTP_TTL);
+
+        Mail::to($order->guest_email)->later(now()->addSeconds(5), new GuestOrderOtpMail($order, $otp));
+
+        return true;
     }
 }

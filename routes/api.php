@@ -75,6 +75,8 @@ Route::get('reviews/{id}', [ReviewController::class, 'show']);
 // Guest routes (public, throttled to prevent spam)
 Route::prefix('guest')->middleware('throttle:30,1')->group(function () {
     Route::post('orders/checkout', [GuestOrderController::class, 'checkout']);
+    Route::post('orders/{order_id}/verify-otp', [GuestOrderController::class, 'verifyOtp'])->middleware('throttle:5,1');
+    Route::post('orders/{order_id}/resend-otp', [GuestOrderController::class, 'resendOtp'])->middleware('throttle:3,1');
     Route::post('reviews', [GuestReviewController::class, 'store']);
 });
 

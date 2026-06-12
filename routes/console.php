@@ -11,3 +11,4 @@ Artisan::command('inspire', function () {
 
 Schedule::command('model:prune', ['--model' => [ExportHistory::class]])->daily();
 Schedule::command('app:cleanup-orphan-images')->daily();
+Schedule::command('app:cleanup-unverified-orders')->hourly();
