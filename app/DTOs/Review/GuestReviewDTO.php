@@ -11,7 +11,7 @@ readonly class GuestReviewDTO
     public function __construct(
         public int $orderId,
         public int $productId,
-        public int $rating,
+        public float $rating,
         public ?string $comment,
         public ?string $guestName,
         public ?string $guestEmail,
@@ -24,7 +24,7 @@ readonly class GuestReviewDTO
         return new self(
             orderId: (int) $validated['order_id'],
             productId: (int) $validated['product_id'],
-            rating: (int) $validated['rating'],
+            rating: (float) $validated['rating'],
             comment: $validated['comment'] ?? null,
             guestName: $validated['guest_name'] ?? null,
             guestEmail: $validated['guest_email'] ?? null,

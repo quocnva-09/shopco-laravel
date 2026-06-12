@@ -15,7 +15,7 @@ use OpenApi\Attributes as OA;
     properties: [
         new OA\Property(property: 'order_id', type: 'integer', example: 5),
         new OA\Property(property: 'product_id', type: 'integer', example: 7),
-        new OA\Property(property: 'rating', type: 'integer', minimum: 1, maximum: 5, example: 5),
+        new OA\Property(property: 'rating', type: 'number', format: 'float', minimum: 1, maximum: 5, example: 4.5),
         new OA\Property(property: 'comment', type: 'string', nullable: true, example: 'Great product!'),
         new OA\Property(property: 'guest_name', type: 'string', nullable: true, example: 'Nguyen Van A'),
         new OA\Property(property: 'guest_email', type: 'string', format: 'email', nullable: true, example: 'guest@example.com'),
@@ -36,10 +36,10 @@ class GuestReviewRequest extends FormRequest
         return [
             'order_id'    => ['required', 'integer', 'exists:orders,id'],
             'product_id'  => ['required', 'integer', 'exists:products,id'],
-            'rating'      => ['required', 'integer', 'between:1,5'],
+            'rating'      => ['required', 'numeric', 'between:1,5'],
             'comment'     => ['nullable', 'string', 'max:500'],
             'guest_name'  => ['nullable', 'string', 'max:50'],
-            'guest_email' => ['nullable', 'email', 'max:255'],
+            'guest_email' => ['nullable', 'email', 'max:255', 'dns', 'rfc'],
         ];
     }
 }

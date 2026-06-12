@@ -15,7 +15,7 @@ class ReviewFilterDTO
         public readonly ?string $sortDir = null,
         public readonly int $limit = 15,
         public readonly ?bool $isApproved = null,
-        public readonly ?int $rating = null
+        public readonly ?float $rating = null
     ) {
     }
 
@@ -30,7 +30,7 @@ class ReviewFilterDTO
             sortDir: $validated['sort_dir'] ?? null,
             limit: isset($validated['limit']) ? (int) $validated['limit'] : 15,
             isApproved: isset($validated['is_approved']) ? (bool) $validated['is_approved'] : null,
-            rating: isset($validated['rating']) ? (int) $validated['rating'] : null
+            rating: isset($validated['rating']) ? (float) $validated['rating'] : null
         );
     }
 

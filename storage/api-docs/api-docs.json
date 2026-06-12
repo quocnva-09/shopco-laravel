@@ -4028,8 +4028,9 @@
                         "example": 7
                     },
                     "rating": {
-                        "type": "integer",
-                        "example": 5,
+                        "type": "number",
+                        "format": "float",
+                        "example": 4.5,
                         "maximum": 5,
                         "minimum": 1
                     },
@@ -4096,8 +4097,9 @@
                         "nullable": true
                     },
                     "rating": {
-                        "type": "integer",
-                        "example": 4,
+                        "type": "number",
+                        "format": "float",
+                        "example": 4.5,
                         "nullable": true,
                         "maximum": 5,
                         "minimum": 1
@@ -4122,8 +4124,9 @@
                         "example": 10
                     },
                     "rating": {
-                        "type": "integer",
-                        "example": 5,
+                        "type": "number",
+                        "format": "float",
+                        "example": 4.5,
                         "maximum": 5,
                         "minimum": 1
                     },

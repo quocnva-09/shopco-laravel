@@ -12,7 +12,7 @@ class ReviewDTO
         public readonly int $userId,
         public readonly int $productId,
         public readonly int $orderItemId,
-        public readonly int $rating,
+        public readonly float $rating,
         public readonly string $comment,
         public readonly bool $isApproved = false
     ) {
@@ -26,7 +26,7 @@ class ReviewDTO
             userId: auth()->id(),
             productId: (int) $validated['product_id'],
             orderItemId: (int) $validated['order_item_id'],
-            rating: (int) $validated['rating'],
+            rating: (float) $validated['rating'],
             comment: $validated['comment'],
             isApproved: false
         );
