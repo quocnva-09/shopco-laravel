@@ -77,6 +77,16 @@ class ReviewService implements ReviewServiceInterface
             );
         }
 
+        // Guard 2.5: Guest email must match the email on the order
+        $orderEmail = strtolower(trim((string) $order->guest_email));
+        $inputEmail = strtolower(trim((string) $dto->guestEmail));
+
+        if (!hash_equals($orderEmail, $inputEmail)) {
+            throw new AccessDeniedHttpException(
+                __('exception.guest_review_email_mismatch')
+            );
+        }
+
         // Guard 3: Order has not been reviewed yet (anti-spam)
         $alreadyReviewed = Review::whereHas('orderItem', function ($q) use ($dto): void {
             $q->where('order_id', $dto->orderId);

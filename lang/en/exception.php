@@ -36,7 +36,8 @@ return [
     'guest_checkout_product_not_found' => 'Product ID :id does not exist.',
 
     // Guest Review
-    'guest_review_order_not_paid' => 'Reviews are only allowed for paid orders.',
+    'guest_review_order_not_paid'       => 'Reviews are only allowed for paid orders.',
+    'guest_review_email_mismatch'       => 'The email address does not match the one used to place this order.',
     'guest_review_order_already_reviewed' => 'This order has already been reviewed.',
     'guest_review_product_not_in_order' => 'This product does not belong to the specified order.',
 ];
