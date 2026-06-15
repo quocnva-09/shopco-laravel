@@ -39,7 +39,7 @@ class GuestReviewRequest extends FormRequest
             'rating'      => ['required', 'numeric', 'between:1,5'],
             'comment'     => ['nullable', 'string', 'max:500'],
             'guest_name'  => ['nullable', 'string', 'max:50'],
-            'guest_email' => ['nullable', 'email', 'max:255', 'dns', 'rfc'],
+            'guest_email' => ['nullable', 'email:rfc,dns', 'max:255'],
         ];
     }
 }
