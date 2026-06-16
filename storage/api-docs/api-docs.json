@@ -1458,6 +1458,33 @@
                 }
             }
         },
+        "/api/guest/orders/{order_id}/resend-otp": {
+            "post": {
+                "tags": [
+                    "Guest Module"
+                ],
+                "summary": "Resend guest order OTP",
+                "operationId": "be7556b433f392a3c38da329ef6374f0",
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OTP resent successfully"
+                    },
+                    "400": {
+                        "description": "Order already verified or error occurred"
+                    }
+                }
+            }
+        },
         "/api/guest/reviews": {
             "post": {
                 "tags": [

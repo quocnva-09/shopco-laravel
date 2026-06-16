@@ -17,27 +17,27 @@ class ReviewSeeder extends Seeder
 
     /** Positive review samples */
     private array $goodComments = [
-        'Amazing product, quality exceeded expectations!',
-        'Fast delivery, careful packaging. Fits perfectly.',
-        'Exactly as described, beautiful color, soft fabric.',
-        'Worth every penny, will definitely buy again.',
-        'Perfect fit, the shop gave great advice.',
+        'Amazing product, quality exceeded expectations! Amazing product, quality exceeded expectations!',
+        'Fast delivery, careful packaging. Fits perfectly. careful packaging. Fits perfectly.',
+        'Exactly as described, beautiful color, soft fabric. beautiful color, soft fabric. beautiful color, soft fabric.',
+        'Worth every penny, will definitely buy again. every penny, will definitely buy again. every penny, will definitely buy again.',
+        'Perfect fit, the shop gave great advice. the shop gave great advice. the shop gave great advice.',
         "As a UI/UX enthusiast, I value simplicity and functionality. This t-shirt not only represents those principles but also feels great to wear.",
         "I absolutely love this t-shirt! The design is unique and the fabric feels so comfortable.",
-        "This t-shirt is a must-have for anyone who appreciates good design. The fit is perfect.",
-        "I'm not just wearing a t-shirt; I'm wearing a piece of design philosophy.",
+        "This t-shirt is a must-have for anyone who appreciates good design. The fit is perfect. The fit is perfect. The fit is perfect.",
+        "I'm not just wearing a t-shirt; I'm wearing a piece of design phi losophy.",
     ];
 
     /** Negative review samples */
     private array $badComments = [
-        'Slightly disappointed with the material, not what I expected.',
-        'Delivery was a bit slow, the box arrived dented.',
-        'Size runs slightly off from the size chart.',
-        'OK for the price, but stitching needs improvement.',
-        "The print quality is not as vibrant as it appears in the photos. It looks faded after one wash.",
-        "I was expecting a more premium fabric for the price. This feels quite cheap.",
-        "The color in the picture was misleading. In reality, it's a much duller shade.",
-        "Itchy tag on the neck ruined the experience.",
+        'Slightly disappointed with the material, not what I expected. disappointed with the material, not what I expected. disappointed with the material, not what I expected.',
+        'Delivery was a bit slow, the box arrived dented. the box arrived dented. the box arrived dented.',
+        'Size runs slightly off from the size chart. the size chart. the size chart.',
+        'OK for the price, but stitching needs improvement. stitching needs improvement. stitching needs improvement.',
+        "The print quality is not as vibrant as it appears in the photos. It looks faded after one wash. It looks faded after one wash. It looks faded after one wash.",
+        "I was expecting a more premium fabric for the price. This feels quite cheap. This feels quite cheap. This feels quite cheap.",
+        "The color in the picture was misleading. In reality, it's a much duller shade. a much duller shade. a much duller shade.",
+        "Itchy tag on the neck ruined the experience. ruined the experience. ruined the experience.",
     ];
 
     /** Sample guest names for guest reviews */
@@ -75,8 +75,8 @@ class ReviewSeeder extends Seeder
                     'user_id'       => $item->order->user_id,
                     'order_item_id' => $item->id,
                     'rating'        => $rating,
-                    'comment'       => (rand(1, 10) > 1) ? $comment : null,
-                    'is_approved'   => (rand(1, 10) > 1),
+                    'comment'       => (rand(1, 10) > 0) ? $comment : null,
+                    'is_approved'   => (rand(1, 10) > 0),
                     'created_at'    => $reviewedAt,
                     'updated_at'    => $reviewedAt,
                 ]);
