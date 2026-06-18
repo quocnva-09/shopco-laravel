@@ -58,7 +58,7 @@ class ReviewSeeder extends Seeder
         $this->command->info('Phase 1: Creating reviews from real customers...');
 
         $orderItems = OrderItem::with('order')
-            ->whereHas('order', fn($q) => $q->where('status', 'paid'))
+            ->whereHas('order', fn($q) => $q->where('status', 'completed'))
             ->get();
 
         foreach ($orderItems as $item) {
