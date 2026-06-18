@@ -50,6 +50,10 @@
                             "color": "Black",
                             "size": "XL"
                         }
+                    ],
+                    "styles": [
+                        "formal",
+                        "gym"
                     ]
                 },
                 {
@@ -80,6 +84,10 @@
                             "color": "Gray",
                             "size": "L"
                         }
+                    ],
+                    "styles": [
+                        "formal",
+                        "casual"
                     ]
                 },
                 {
@@ -118,6 +126,10 @@
                             "color": "Gray",
                             "size": "L"
                         }
+                    ],
+                    "styles": [
+                        "party",
+                        "casual"
                     ]
                 },
                 {
@@ -157,6 +169,9 @@
                             "color": "Gray",
                             "size": "XL"
                         }
+                    ],
+                    "styles": [
+                        "casual"
                     ]
                 },
                 {
@@ -195,6 +210,9 @@
                             "color": "Blue",
                             "size": "L"
                         }
+                    ],
+                    "styles": [
+                        "casual"
                     ]
                 },
                 {
@@ -225,6 +243,10 @@
                             "color": "Green",
                             "size": "L"
                         }
+                    ],
+                    "styles": [
+                        "formal",
+                        "gym"
                     ]
                 },
                 {
@@ -264,6 +286,10 @@
                             "color": "Red",
                             "size": "XXL"
                         }
+                    ],
+                    "styles": [
+                        "formal",
+                        "casual"
                     ]
                 },
                 {
@@ -302,6 +328,10 @@
                             "color": "Gray",
                             "size": "L"
                         }
+                    ],
+                    "styles": [
+                        "gym",
+                        "party"
                     ]
                 },
                 {
@@ -348,6 +378,9 @@
                             "color": "Yellow",
                             "size": "XL"
                         }
+                    ],
+                    "styles": [
+                        "formal"
                     ]
                 },
                 {
@@ -387,6 +420,10 @@
                             "color": "Green",
                             "size": "XL"
                         }
+                    ],
+                    "styles": [
+                        "gym",
+                        "casual"
                     ]
                 }
             ]
@@ -432,6 +469,9 @@
                             "color": "Blue",
                             "size": "XL"
                         }
+                    ],
+                    "styles": [
+                        "party"
                     ]
                 },
                 {
@@ -470,6 +510,10 @@
                             "color": "Blue",
                             "size": "L"
                         }
+                    ],
+                    "styles": [
+                        "formal",
+                        "casual"
                     ]
                 },
                 {
@@ -517,6 +561,10 @@
                             "color": "Navy",
                             "size": "XL"
                         }
+                    ],
+                    "styles": [
+                        "formal",
+                        "casual"
                     ]
                 },
                 {
@@ -547,6 +595,10 @@
                             "color": "Black",
                             "size": "L"
                         }
+                    ],
+                    "styles": [
+                        "formal",
+                        "casual"
                     ]
                 },
                 {
@@ -577,6 +629,9 @@
                             "color": "Green",
                             "size": "M"
                         }
+                    ],
+                    "styles": [
+                        "party"
                     ]
                 },
                 {
@@ -616,6 +671,10 @@
                             "color": "Blue",
                             "size": "XL"
                         }
+                    ],
+                    "styles": [
+                        "gym",
+                        "party"
                     ]
                 },
                 {
@@ -646,6 +705,10 @@
                             "color": "Blue",
                             "size": "XL"
                         }
+                    ],
+                    "styles": [
+                        "gym",
+                        "party"
                     ]
                 }
             ]
@@ -691,6 +754,9 @@
                             "color": "Black",
                             "size": "L"
                         }
+                    ],
+                    "styles": [
+                        "gym"
                     ]
                 },
                 {
@@ -730,6 +796,10 @@
                             "color": "Red",
                             "size": "XL"
                         }
+                    ],
+                    "styles": [
+                        "formal",
+                        "gym"
                     ]
                 },
                 {
@@ -760,6 +830,10 @@
                             "color": "Blue",
                             "size": "L"
                         }
+                    ],
+                    "styles": [
+                        "formal",
+                        "gym"
                     ]
                 },
                 {
@@ -798,6 +872,9 @@
                             "color": "Red",
                             "size": "L"
                         }
+                    ],
+                    "styles": [
+                        "gym"
                     ]
                 },
                 {
@@ -845,6 +922,10 @@
                             "color": "Blue",
                             "size": "XL"
                         }
+                    ],
+                    "styles": [
+                        "formal",
+                        "casual"
                     ]
                 },
                 {
@@ -875,6 +956,9 @@
                             "color": "Gray",
                             "size": "L"
                         }
+                    ],
+                    "styles": [
+                        "casual"
                     ]
                 },
                 {
@@ -905,6 +989,9 @@
                             "color": "Green",
                             "size": "XL"
                         }
+                    ],
+                    "styles": [
+                        "party"
                     ]
                 }
             ]
@@ -951,6 +1038,10 @@
                             "color": "Yellow",
                             "size": "XL"
                         }
+                    ],
+                    "styles": [
+                        "gym",
+                        "party"
                     ]
                 },
                 {
@@ -989,6 +1080,10 @@
                             "color": "Red",
                             "size": "L"
                         }
+                    ],
+                    "styles": [
+                        "gym",
+                        "party"
                     ]
                 },
                 {
@@ -1035,6 +1130,9 @@
                             "color": "Green",
                             "size": "XL"
                         }
+                    ],
+                    "styles": [
+                        "casual"
                     ]
                 },
                 {
@@ -1066,6 +1164,9 @@
                             "color": "White",
                             "size": "L"
                         }
+                    ],
+                    "styles": [
+                        "formal"
                     ]
                 },
                 {
@@ -1104,6 +1205,9 @@
                             "color": "Teal",
                             "size": "L"
                         }
+                    ],
+                    "styles": [
+                        "formal"
                     ]
                 },
                 {
@@ -1142,6 +1246,9 @@
                             "color": "Black",
                             "size": "XL"
                         }
+                    ],
+                    "styles": [
+                        "casual"
                     ]
                 },
                 {
@@ -1173,6 +1280,9 @@
                             "color": "White",
                             "size": "L"
                         }
+                    ],
+                    "styles": [
+                        "party"
                     ]
                 }
             ]
@@ -1226,6 +1336,10 @@
                             "color": "Blue",
                             "size": "XL"
                         }
+                    ],
+                    "styles": [
+                        "gym",
+                        "party"
                     ]
                 },
                 {
@@ -1264,6 +1378,9 @@
                             "color": "Gray",
                             "size": "XL"
                         }
+                    ],
+                    "styles": [
+                        "gym"
                     ]
                 },
                 {
@@ -1303,6 +1420,9 @@
                             "color": "Green",
                             "size": "XL"
                         }
+                    ],
+                    "styles": [
+                        "gym"
                     ]
                 },
                 {
@@ -1341,6 +1461,10 @@
                             "color": "White",
                             "size": "L"
                         }
+                    ],
+                    "styles": [
+                        "formal",
+                        "gym"
                     ]
                 },
                 {
@@ -1379,6 +1503,10 @@
                             "color": "Gray",
                             "size": "L"
                         }
+                    ],
+                    "styles": [
+                        "gym",
+                        "casual"
                     ]
                 },
                 {
@@ -1418,6 +1546,10 @@
                             "color": "Gray",
                             "size": "XL"
                         }
+                    ],
+                    "styles": [
+                        "formal",
+                        "party"
                     ]
                 }
             ]

@@ -9,6 +9,9 @@ use App\Http\Controllers\Api\GuestReviewController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\ColorController;
+use App\Http\Controllers\Api\SizeController;
+use App\Http\Controllers\Api\StyleController;
 use App\Http\Middleware\CheckAdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -62,6 +65,11 @@ Route::post('verify-otp', [AuthController::class, 'verifyOtp'])->middleware('thr
 // Route::apiResource('categories', CategoryController::class)->only(['index', 'show']);
 Route::get('categories', [CategoryController::class, 'index']);
 Route::get('categories/{id}', [CategoryController::class, 'show']);
+
+// Master Data APIs
+Route::get('colors', [ColorController::class, 'index']);
+Route::get('sizes', [SizeController::class, 'index']);
+Route::get('styles', [StyleController::class, 'index']);
 
 // Product routes
 // Route::apiResource('products', ProductController::class)->only(['index', 'show']);

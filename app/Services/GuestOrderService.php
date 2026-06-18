@@ -148,7 +148,7 @@ class GuestOrderService implements GuestOrderServiceInterface
             throw new BadRequestHttpException('Order is already verified or cancelled.');
         }
 
-        $order->status = OrderStatus::PENDING;
+        $order->status = OrderStatus::PROCESSING;
         $order->save();
 
         Cache::forget($cacheKey);

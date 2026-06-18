@@ -15,7 +15,7 @@ class ProductRepository implements ProductRepositoryInterface
 {
     public function paginateAll(ProductFilterDTO $filter): LengthAwarePaginator
     {
-        $query = Product::with(['category', 'images', 'variants.color', 'variants.size'])
+        $query = Product::with(['category', 'images', 'variants.color', 'variants.size', 'styles'])
             ->withAvg('approvedReviews', 'rating')
             ->withCount('approvedReviews');
 
@@ -28,7 +28,7 @@ class ProductRepository implements ProductRepositoryInterface
         if ($filter->sortBy === 'selling') {
             $query->withSum(['orderItems as sold_count' => function ($q) {
                 $q->join('orders', 'orders.id', '=', 'order_items.order_id')
-                  ->where('orders.status', \App\Enums\OrderStatus::PAID->value);
+                  ->where('orders.status', \App\Enums\OrderStatus::COMPLETED->value);
             }], 'quantity')
             ->orderBy('sold_count', $direction);
         } elseif (in_array($filter->sortBy, FilterEnum::PRODUCT_SORT)) {
@@ -42,7 +42,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function findById(int $id): Product
     {
-        return Product::with(['category', 'images', 'variants.color', 'variants.size'])
+        return Product::with(['category', 'images', 'variants.color', 'variants.size', 'styles'])
             ->withAvg('approvedReviews', 'rating')
             ->withCount('approvedReviews')
             ->findOrFail($id);
@@ -50,7 +50,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function findTrashedById(int $id): Product
     {
-        return Product::onlyTrashed()->with(['category', 'images', 'variants.color', 'variants.size'])
+        return Product::onlyTrashed()->with(['category', 'images', 'variants.color', 'variants.size', 'styles'])
             ->withAvg('approvedReviews', 'rating')
             ->withCount('approvedReviews')
             ->findOrFail($id);
@@ -88,7 +88,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function paginateTrashed(ProductFilterDTO $filter): LengthAwarePaginator
     {
-        $query = Product::onlyTrashed()->with(['category', 'images', 'variants.color', 'variants.size'])
+        $query = Product::onlyTrashed()->with(['category', 'images', 'variants.color', 'variants.size', 'styles'])
             ->withAvg('approvedReviews', 'rating')
             ->withCount('approvedReviews');
 
@@ -101,7 +101,7 @@ class ProductRepository implements ProductRepositoryInterface
         if ($filter->sortBy === 'selling') {
             $query->withSum(['orderItems as sold_count' => function ($q) {
                 $q->join('orders', 'orders.id', '=', 'order_items.order_id')
-                  ->where('orders.status', \App\Enums\OrderStatus::PAID->value);
+                  ->where('orders.status', \App\Enums\OrderStatus::COMPLETED->value);
             }], 'quantity')
             ->orderBy('sold_count', $direction);
         } elseif (in_array($filter->sortBy, FilterEnum::PRODUCT_SORT)) {
@@ -117,7 +117,7 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $product->restore();
 
-        return $product->loadMissing(['category', 'images', 'variants.color', 'variants.size'])
+        return $product->loadMissing(['category', 'images', 'variants.color', 'variants.size', 'styles'])
             ->loadAvg('approvedReviews', 'rating')
             ->loadCount('approvedReviews');
     }
@@ -141,15 +141,16 @@ class ProductRepository implements ProductRepositoryInterface
             });
         }
 
-        if (! empty($filter->categoryId)) {
+        if (! empty($filter->categoryIds)) {
+            $query->whereIn('category_id', $filter->categoryIds);
+        } elseif (! empty($filter->categoryId)) {
             $query->where('category_id', $filter->categoryId);
         }
 
         if (! empty($filter->colors)) {
-            $rawColors = explode(',', $filter->colors);
             $colors = array_filter(array_map(function ($color) {
-                return strtolower(trim($color));
-            }, $rawColors));
+                return strtolower(trim((string) $color));
+            }, $filter->colors));
 
             if (! empty($colors)) {
                 $query->whereHas('variants.color', function ($q) use ($colors) {
@@ -160,14 +161,26 @@ class ProductRepository implements ProductRepositoryInterface
 
         if (! empty($filter->sizes)) {
             $sizes = array_filter(array_map(function ($size) {
-                return strtoupper(trim($size));
-            }, explode(',', $filter->sizes)));
+                return strtoupper(trim((string) $size));
+            }, $filter->sizes));
 
             if (! empty($sizes)) {
-                $query->whereHas('variants.size', function ($q) use ($sizes) {
-                    $q->whereIn('name', $sizes);
+                $query->whereHas('variants.size', function ($q) use ($filter) {
+                    $q->whereIn('name', $filter->sizes);
                 });
             }
+        }
+
+        if (!empty($filter->styleIds)) {
+            $query->whereHas('styles', function ($q) use ($filter) {
+                $q->whereIn('styles.id', $filter->styleIds);
+            });
+        }
+
+        if (!empty($filter->styleSlugs)) {
+            $query->whereHas('styles', function ($q) use ($filter) {
+                $q->whereIn('styles.slug', $filter->styleSlugs);
+            });
         }
 
         if ($filter->minPrice !== null) {

@@ -67,6 +67,12 @@ use OpenApi\Attributes as OA;
             type: 'array',
             items: new OA\Items(ref: '#/components/schemas/ProductImageResource')
         ),
+        new OA\Property(
+            property: 'styles',
+            type: 'array',
+            nullable: true,
+            items: new OA\Items(ref: '#/components/schemas/StyleResource')
+        ),
         new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2023-01-01 12:00:00'),
         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2023-01-01 12:00:00'),
     ]
@@ -122,6 +128,7 @@ class ProductResource extends JsonResource
                     'slug' => $this->category->slug,
                 ];
             }),
+            'styles' => StyleResource::collection($this->whenLoaded('styles')),
             'images' => ProductImageResource::collection($this->whenLoaded('images')),
         ];
     }

@@ -21,12 +21,12 @@ class CategoryController extends Controller
     }
 
     #[OA\Get(
-        path: '/api/admin/categories',
+        path: '/api/categories',
         summary: 'List categories',
-        security: [['bearerAuth' => []]],
-        tags: ['Category Module - Admin'],
+        tags: ['Category Module - Public'],
         parameters: [
             new OA\Parameter(name: 'search', in: 'query', required: false, schema: new OA\Schema(type: 'string')),
+            new OA\Parameter(name: 'is_root', in: 'query', required: false, schema: new OA\Schema(type: 'boolean')),
             new OA\Parameter(name: 'page', in: 'query', required: false, schema: new OA\Schema(type: 'integer')),
             new OA\Parameter(name: 'per_page', in: 'query', required: false, schema: new OA\Schema(type: 'integer')),
             new OA\Parameter(name: 'sort_by', in: 'query', required: false, schema: new OA\Schema(type: 'string')),
@@ -91,10 +91,9 @@ class CategoryController extends Controller
     }
 
     #[OA\Get(
-        path: '/api/admin/categories/{id}',
+        path: '/api/categories/{id}',
         summary: 'Get a single category',
-        security: [['bearerAuth' => []]],
-        tags: ['Category Module - Admin'],
+        tags: ['Category Module - Public'],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
         ],
@@ -189,6 +188,7 @@ class CategoryController extends Controller
         tags: ['Category Module - Admin'],
         parameters: [
             new OA\Parameter(name: 'search', in: 'query', required: false, schema: new OA\Schema(type: 'string')),
+            new OA\Parameter(name: 'is_root', in: 'query', required: false, schema: new OA\Schema(type: 'boolean')),
             new OA\Parameter(name: 'page', in: 'query', required: false, schema: new OA\Schema(type: 'integer')),
             new OA\Parameter(name: 'per_page', in: 'query', required: false, schema: new OA\Schema(type: 'integer')),
             new OA\Parameter(name: 'sort_by', in: 'query', required: false, schema: new OA\Schema(type: 'string')),

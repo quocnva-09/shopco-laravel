@@ -46,7 +46,7 @@ class ReviewService implements ReviewServiceInterface
             ->where('product_id', $dto->productId)
             ->whereHas('order', function ($q) use ($dto) {
                 $q->where('user_id', $dto->userId)
-                  ->where('status', OrderStatus::PAID);
+                  ->where('status', OrderStatus::COMPLETED);
             })
             ->where('id', $dto->orderItemId)
             ->exists();
@@ -71,7 +71,7 @@ class ReviewService implements ReviewServiceInterface
         }
 
         // Guard 2: Order must be in PAID status
-        if ($order->status !== OrderStatus::PAID) {
+        if ($order->status !== OrderStatus::COMPLETED) {
             throw new AccessDeniedHttpException(
                 __('exception.guest_review_order_not_paid')
             );

@@ -15,11 +15,22 @@ class Category extends Model
         'name',
         'description',
         'slug',
+        'parent_id',
     ];
 
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
     }
 
     protected static function booted()

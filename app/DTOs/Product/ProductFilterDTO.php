@@ -10,15 +10,20 @@ readonly class ProductFilterDTO
     public function __construct(
         public ?string $search = null,
         public ?int $categoryId = null,
-        public ?string $colors = null,
-        public ?string $sizes = null,
-        public ?int $minPrice = null,
+        public ?string $categorySlug = null,
+        public ?array $categoryIds = null,
+        public ?array $colors = null,
+        public ?array $sizes = null,
+        public ?array $styleIds = null,
+        public ?array $styleSlugs = null,
+        public ?float $minPrice = null,
         public ?int $maxPrice = null,
         public int $page = 1,
         public int $perPage = 15,
         public string $sortBy = 'created_at',
         public string $sortDir = 'desc',
-    ) {}
+    ) {
+    }
 
     /**
      * Initialise the DTO from a Form Request
@@ -29,10 +34,14 @@ readonly class ProductFilterDTO
 
         return new self(
             search: $validated['search'] ?? null,
-            categoryId: $validated['category_id'] ?? null,
+            categoryId: isset($validated['category_id']) ? (int) $validated['category_id'] : null,
+            categorySlug: $validated['category_slug'] ?? null,
+            categoryIds: null,
             colors: $validated['colors'] ?? null,
             sizes: $validated['sizes'] ?? null,
-            minPrice: isset($validated['min_price']) ? (int) $validated['min_price'] : null,
+            styleIds: $validated['style_ids'] ?? null,
+            styleSlugs: $validated['style_slugs'] ?? null,
+            minPrice: isset($validated['min_price']) ? (float) $validated['min_price'] : null,
             maxPrice: isset($validated['max_price']) ? (int) $validated['max_price'] : null,
             page: $validated['page'] ?? 1,
             perPage: $validated['per_page'] ?? 15,
@@ -49,8 +58,12 @@ readonly class ProductFilterDTO
         return [
             'search' => $this->search,
             'category_id' => $this->categoryId,
+            'category_slug' => $this->categorySlug,
+            'category_ids' => $this->categoryIds,
             'colors' => $this->colors,
             'sizes' => $this->sizes,
+            'style_ids' => $this->styleIds,
+            'style_slugs' => $this->styleSlugs,
             'min_price' => $this->minPrice,
             'max_price' => $this->maxPrice,
             'page' => $this->page,
@@ -65,8 +78,12 @@ readonly class ProductFilterDTO
         return md5(json_encode([
             'search' => $this->search,
             'category_id' => $this->categoryId,
+            'category_slug' => $this->categorySlug,
+            'category_ids' => $this->categoryIds,
             'colors' => $this->colors,
             'sizes' => $this->sizes,
+            'style_ids' => $this->styleIds,
+            'style_slugs' => $this->styleSlugs,
             'min_price' => $this->minPrice,
             'max_price' => $this->maxPrice,
             'page' => $this->page,
@@ -74,5 +91,25 @@ readonly class ProductFilterDTO
             'sort_by' => $this->sortBy,
             'sort_dir' => $this->sortDir,
         ]));
+    }
+
+    public function withCategoryIds(array $categoryIds): self
+    {
+        return new self(
+            search: $this->search,
+            categoryId: $this->categoryId,
+            categorySlug: $this->categorySlug,
+            categoryIds: $categoryIds,
+            colors: $this->colors,
+            sizes: $this->sizes,
+            styleIds: $this->styleIds,
+            styleSlugs: $this->styleSlugs,
+            minPrice: $this->minPrice,
+            maxPrice: $this->maxPrice,
+            page: $this->page,
+            perPage: $this->perPage,
+            sortBy: $this->sortBy,
+            sortDir: $this->sortDir,
+        );
     }
 }

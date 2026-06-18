@@ -18,6 +18,21 @@ class CategoryFilterRequest extends FormRequest
     }
 
     /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('is_root')) {
+            $isRoot = $this->input('is_root');
+            if (is_string($isRoot)) {
+                $this->merge([
+                    'is_root' => filter_var($isRoot, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+                ]);
+            }
+        }
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
@@ -26,6 +41,7 @@ class CategoryFilterRequest extends FormRequest
     {
         return [
             'search' => ['nullable', 'string', 'max:255'],
+            'is_root' => ['nullable', 'boolean'],
             'page' => ['nullable', 'integer', 'min:1'],
             'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
             'sort_by' => ['nullable', 'string', Rule::in(FilterEnum::CATEGORY_SORT)],

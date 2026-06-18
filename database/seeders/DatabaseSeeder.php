@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ColorSeeder::class,
             SizeSeeder::class,
+            StyleSeeder::class,
             ShopDataSeeder::class,
             OrderSeeder::class,
             ReviewSeeder::class,

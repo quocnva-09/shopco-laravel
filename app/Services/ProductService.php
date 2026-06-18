@@ -11,6 +11,7 @@ use App\DTOs\Product\ProductFilterDTO;
 use App\Enums\CacheConstants;
 use App\Helpers\CacheHelper;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use Exception;
@@ -25,6 +26,23 @@ class ProductService implements ProductServiceInterface
 
     public function getAll(ProductFilterDTO $filter): LengthAwarePaginator
     {
+        if ($filter->categoryId !== null || $filter->categorySlug !== null) {
+            $category = null;
+            if ($filter->categoryId !== null) {
+                $category = Category::with('children')->find($filter->categoryId);
+            } elseif ($filter->categorySlug !== null) {
+                $category = Category::with('children')->where('slug', $filter->categorySlug)->first();
+            }
+
+            if ($category) {
+                $categoryIds = [$category->id];
+                if ($category->children->isNotEmpty()) {
+                    $categoryIds = array_merge($categoryIds, $category->children->pluck('id')->toArray());
+                }
+                $filter = $filter->withCategoryIds($categoryIds);
+            }
+        }
+
         $cacheKey = 'products_list' . $filter->toCacheKey();
 
         // Use manual serialize/unserialize to bypass igbinary serialization issues in Redis

@@ -45,8 +45,8 @@ class OrderSeeder extends Seeder
         foreach ($users as $user) {
             for ($i = 1; $i <= self::STANDARD_ORDERS_PER_USER; $i++) {
                 $status = ($i <= self::STANDARD_ORDERS_PER_USER - 1)
-                    ? OrderStatus::PAID
-                    : OrderStatus::PENDING;
+                    ? OrderStatus::COMPLETED
+                    : OrderStatus::PROCESSING;
 
                 // Orders age naturally: order 1 is the oldest, order 5 is the most recent
                 $daysAgo = rand(
@@ -76,7 +76,7 @@ class OrderSeeder extends Seeder
                 $randomUser = $users->random();
                 $this->createOrder(
                     $randomUser->id,
-                    OrderStatus::PAID,
+                    OrderStatus::COMPLETED,
                     [$product],
                     Carbon::now()->subDays(rand(1, 90))
                 );

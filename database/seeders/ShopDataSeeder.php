@@ -42,9 +42,10 @@ class ShopDataSeeder extends Seeder
         $json = File::get($jsonPath);
         $data = json_decode($json, true);
 
-        // Pre-load color/size maps to avoid N+1 queries during lookup
+        // Pre-load color/size/style maps to avoid N+1 queries during lookup
         $colorMap = Color::all()->keyBy(fn($c) => strtolower($c->name));
         $sizeMap  = Size::all()->keyBy(fn($s) => strtoupper($s->name));
+        $styleMap = \App\Models\Style::all()->keyBy(fn($s) => strtolower($s->name));
 
         $this->command->info('Loading new shop data...');
 
@@ -97,6 +98,20 @@ class ShopDataSeeder extends Seeder
                                 'updated_at' => $productCreatedAt,
                             ]
                         );
+                    }
+                }
+
+                // Sync Styles
+                if (! empty($productData['styles'])) {
+                    $styleIds = [];
+                    foreach ($productData['styles'] as $styleName) {
+                        $style = $styleMap->get(strtolower($styleName));
+                        if ($style) {
+                            $styleIds[] = $style->id;
+                        }
+                    }
+                    if (! empty($styleIds)) {
+                        $product->styles()->sync($styleIds);
                     }
                 }
 

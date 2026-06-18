@@ -9,6 +9,7 @@ readonly class CategoryFilterDTO
 {
     public function __construct(
         public ?string $search = null,
+        public ?bool $isRoot = null,
         public int $page = 1,
         public int $perPage = 15,
         public string $sortBy = 'created_at',
@@ -24,6 +25,7 @@ readonly class CategoryFilterDTO
 
         return new self(
             search: $validated['search'] ?? null,
+            isRoot: isset($validated['is_root']) ? filter_var($validated['is_root'], FILTER_VALIDATE_BOOLEAN) : null,
             page: $validated['page'] ?? 1,
             perPage: $validated['per_page'] ?? 15,
             sortBy: $validated['sort_by'] ?? FilterEnum::CATEGORY_SORT[0],
@@ -35,6 +37,7 @@ readonly class CategoryFilterDTO
     {
         return [
             'search' => $this->search,
+            'is_root' => $this->isRoot,
             'page' => $this->page,
             'per_page' => $this->perPage,
             'sort_by' => $this->sortBy,
@@ -46,6 +49,7 @@ readonly class CategoryFilterDTO
     {
         return md5(json_encode([
             'search' => $this->search,
+            'is_root' => $this->isRoot,
             'page' => $this->page,
             'per_page' => $this->perPage,
             'sort_by' => $this->sortBy,

@@ -21,6 +21,14 @@ class CategoryRepository implements CategoryRepositoryInterface
                 ->orWhere('description', 'like', '%' . $filter->search . '%');
         }
 
+        if ($filter->isRoot !== null) {
+            if ($filter->isRoot) {
+                $query->whereNull('parent_id');
+            } else {
+                $query->whereNotNull('parent_id');
+            }
+        }
+
         if (in_array($filter->sortBy, FilterEnum::CATEGORY_SORT)) {
             $direction = in_array(strtolower($filter->sortDir), FilterEnum::DIRECTION)
                 ? strtolower($filter->sortDir)
@@ -67,6 +75,14 @@ class CategoryRepository implements CategoryRepositoryInterface
         if ($filter->search) {
             $query->where('name', 'like', '%' . $filter->search . '%')
                 ->orWhere('description', 'like', '%' . $filter->search . '%');
+        }
+
+        if ($filter->isRoot !== null) {
+            if ($filter->isRoot) {
+                $query->whereNull('parent_id');
+            } else {
+                $query->whereNotNull('parent_id');
+            }
         }
 
         if (in_array($filter->sortBy, FilterEnum::CATEGORY_SORT)) {
