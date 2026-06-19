@@ -9,7 +9,7 @@ use App\Http\Requests\Review\ReviewApproveRequest;
 class ReviewApproveDTO
 {
     public function __construct(
-        public readonly bool $isApproved
+        public readonly string $status
     ) {
     }
 
@@ -18,14 +18,14 @@ class ReviewApproveDTO
         $validated = $request->validated();
 
         return new self(
-            isApproved: (bool) $validated['is_approved']
+            status: $validated['status']
         );
     }
 
     public function toArray(): array
     {
         return [
-            'is_approved' => $this->isApproved,
+            'status' => $this->status,
         ];
     }
 }

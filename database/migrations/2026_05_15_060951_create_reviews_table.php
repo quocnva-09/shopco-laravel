@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->foreignId('order_item_id')->nullable()->constrained()->onDelete('set null');
             $table->integer('rating');
             $table->text('comment')->nullable();
-            $table->boolean('is_approved')->default(false);
+            $table->string('status')->default('approved');
             $table->timestamps();
         });
     }

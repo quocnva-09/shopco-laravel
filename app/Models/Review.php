@@ -14,12 +14,12 @@ class Review extends Model
         'guest_email',
         'rating',
         'comment',
-        'is_approved',
+        'status',
     ];
 
     protected $casts = [
         'rating' => 'float',
-        'is_approved' => 'boolean',
+        'status' => \App\Enums\ReviewStatus::class,
     ];
 
     public function product()

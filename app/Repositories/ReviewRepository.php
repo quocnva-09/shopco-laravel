@@ -23,8 +23,8 @@ class ReviewRepository implements ReviewRepositoryInterface
             $query->where('comment', 'like', '%' . $filterDTO->keyword . '%');
         }
 
-        if ($filterDTO->isApproved !== null) {
-            $query->where('is_approved', $filterDTO->isApproved);
+        if ($filterDTO->status !== null) {
+            $query->where('status', $filterDTO->status);
         }
 
         if ($filterDTO->rating !== null) {

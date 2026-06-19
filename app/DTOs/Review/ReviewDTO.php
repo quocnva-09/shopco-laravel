@@ -14,7 +14,7 @@ class ReviewDTO
         public readonly int $orderItemId,
         public readonly float $rating,
         public readonly string $comment,
-        public readonly bool $isApproved = false
+        public readonly string $status = \App\Enums\ReviewStatus::APPROVED->value
     ) {
     }
 
@@ -28,7 +28,7 @@ class ReviewDTO
             orderItemId: (int) $validated['order_item_id'],
             rating: (float) $validated['rating'],
             comment: $validated['comment'],
-            isApproved: false
+            status: \App\Enums\ReviewStatus::APPROVED->value
         );
     }
 
@@ -40,7 +40,7 @@ class ReviewDTO
             'order_item_id' => $this->orderItemId,
             'rating' => $this->rating,
             'comment' => $this->comment,
-            'is_approved' => $this->isApproved,
+            'status' => $this->status,
         ];
     }
 }

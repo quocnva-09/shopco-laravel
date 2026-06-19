@@ -9,9 +9,9 @@ use OpenApi\Attributes as OA;
 
 #[OA\Schema(
     schema: "ReviewApproveRequest",
-    required: ["is_approved"],
+    required: ["status"],
     properties: [
-        new OA\Property(property: "is_approved", type: "boolean", example: true)
+        new OA\Property(property: "status", type: "string", example: "approved")
     ]
 )]
 class ReviewApproveRequest extends FormRequest
@@ -24,7 +24,7 @@ class ReviewApproveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'is_approved' => ['required', 'boolean'],
+            'status' => ['required', 'string', \Illuminate\Validation\Rule::enum(\App\Enums\ReviewStatus::class)],
         ];
     }
 }

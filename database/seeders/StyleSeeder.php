@@ -15,7 +15,7 @@ class StyleSeeder extends Seeder
      */
     public function run(): void
     {
-        $styles = ['formal', 'gym', 'party', 'casual'];
+        $styles = ['casual', 'formal', 'party', 'gym'];
 
         foreach ($styles as $style) {
             Style::updateOrCreate(

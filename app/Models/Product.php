@@ -53,7 +53,7 @@ class Product extends Model
 
     public function approvedReviews()
     {
-        return $this->hasMany(Review::class)->where('is_approved', true);
+        return $this->hasMany(Review::class)->where('status', \App\Enums\ReviewStatus::APPROVED);
     }
 
     public function getFinalPriceAttribute()

@@ -118,7 +118,7 @@ class ReviewService implements ReviewServiceInterface
             'guest_email'   => $dto->guestEmail,
             'rating'        => $dto->rating,
             'comment'       => $dto->comment,
-            'is_approved'   => false,
+            'status'        => \App\Enums\ReviewStatus::APPROVED->value,
         ]);
 
         Mail::to($dto->guestEmail)->later(now()->addSeconds(30), new ReviewCreated($review));
@@ -128,7 +128,7 @@ class ReviewService implements ReviewServiceInterface
 
     public function approve(Review $review, ReviewApproveDTO $dto): bool
     {
-        $updated = $this->repository->update($review, ['is_approved' => $dto->isApproved]);
+        $updated = $this->repository->update($review, ['status' => $dto->status]);
 
         if ($updated) {
             $review->refresh();

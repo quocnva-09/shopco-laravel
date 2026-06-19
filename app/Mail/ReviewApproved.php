@@ -31,7 +31,7 @@ class ReviewApproved extends Mailable implements ShouldQueue
      */
     public function envelope(): Envelope
     {
-        $subject = $this->review->is_approved
+        $subject = $this->review->status === \App\Enums\ReviewStatus::APPROVED
             ? 'Your review has been approved'
             : 'Your review has been rejected';
 

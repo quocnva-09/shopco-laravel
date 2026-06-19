@@ -40,7 +40,7 @@ class ReviewController extends Controller
             new OA\Parameter(name: "sort_by", in: "query", required: false, schema: new OA\Schema(type: "string", enum: ["id", "created_at", "rating"])),
             new OA\Parameter(name: "sort_dir", in: "query", required: false, schema: new OA\Schema(type: "string", enum: ["asc", "desc"])),
             new OA\Parameter(name: "limit", in: "query", required: false, schema: new OA\Schema(type: "integer")),
-            new OA\Parameter(name: "is_approved", in: "query", required: false, schema: new OA\Schema(type: "boolean")),
+            new OA\Parameter(name: "status", in: "query", required: false, schema: new OA\Schema(type: "string", enum: ["approved", "pending"])),
         ],
         responses: [
             new OA\Response(

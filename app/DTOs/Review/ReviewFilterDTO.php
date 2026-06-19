@@ -14,7 +14,7 @@ class ReviewFilterDTO
         public readonly ?string $sortBy = null,
         public readonly ?string $sortDir = null,
         public readonly int $limit = 15,
-        public readonly ?bool $isApproved = null,
+        public readonly ?string $status = null,
         public readonly ?float $rating = null
     ) {
     }
@@ -29,7 +29,7 @@ class ReviewFilterDTO
             sortBy: $validated['sort_by'] ?? null,
             sortDir: $validated['sort_dir'] ?? null,
             limit: isset($validated['limit']) ? (int) $validated['limit'] : 15,
-            isApproved: isset($validated['is_approved']) ? (bool) $validated['is_approved'] : null,
+            status: $validated['status'] ?? null,
             rating: isset($validated['rating']) ? (float) $validated['rating'] : null
         );
     }
@@ -42,7 +42,7 @@ class ReviewFilterDTO
             'sort_by' => $this->sortBy,
             'sort_dir' => $this->sortDir,
             'limit' => $this->limit,
-            'is_approved' => $this->isApproved,
+            'status' => $this->status,
             'rating' => $this->rating,
         ];
     }

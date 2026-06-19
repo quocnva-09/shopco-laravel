@@ -15,7 +15,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: "sort_by", type: "string", nullable: true),
         new OA\Property(property: "sort_dir", type: "string", enum: ["asc", "desc"], nullable: true),
         new OA\Property(property: "limit", type: "integer", nullable: true, example: 15),
-        new OA\Property(property: "is_approved", type: "boolean", nullable: true),
+        new OA\Property(property: "status", type: "string", nullable: true, example: "approved"),
         new OA\Property(property: "rating", type: "number", format: "float", nullable: true, minimum: 1, maximum: 5, example: 4.5),
     ]
 )]
@@ -26,14 +26,6 @@ class ReviewFilterRequest extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation(): void
-    {
-        if ($this->has('is_approved')) {
-            $this->merge([
-                'is_approved' => filter_var($this->input('is_approved'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
-            ]);
-        }
-    }
 
     public function rules(): array
     {
@@ -43,7 +35,7 @@ class ReviewFilterRequest extends FormRequest
             'sort_by' => ['nullable', 'string', 'in:id,created_at,rating'],
             'sort_dir' => ['nullable', 'string', 'in:asc,desc'],
             'limit' => ['nullable', 'integer', 'min:1', 'max:100'],
-            'is_approved' => ['nullable', 'boolean'],
+            'status' => ['nullable', 'string', \Illuminate\Validation\Rule::enum(\App\Enums\ReviewStatus::class)],
             'rating' => ['nullable', 'numeric', 'min:1', 'max:5'],
         ];
     }

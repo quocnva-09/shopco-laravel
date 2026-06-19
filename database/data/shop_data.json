@@ -3,18 +3,16 @@
         {
             "name": "T-shirt",
             "slug": "t-shirt",
-            "description": "Bộ sưu tập áo thun năng động, thoải mái cho mọi hoạt động hàng ngày. Được thiết kế từ những chất liệu cotton cao cấp, thấm hút mồ hôi tốt, mỗi chiếc áo đều mang đến cảm giác mềm mại trên da và phù hợp với mọi phong cách từ dạo phố, đi học đến những buổi gặp gỡ bạn bè.",
+            "description": "Discover our premium collection of everyday t-shirts, crafted from high-quality cotton for maximum comfort. Perfect for any casual outing or relaxed weekend style.",
             "products": [
                 {
                     "name": "Gradient Graphic T-Shirt",
                     "slug": "gradient-graphic-t-shirt",
                     "price": 35,
                     "price_discount": 29,
-                    "description": "Áo thun với họa tiết gradient nổi bật, mang đậm phong cách đường phố. Hiệu ứng chuyển màu mượt mà từ đậm sang nhạt tạo nên vẻ ngoài bắt mắt, kết hợp cùng chất vải cotton pha polyester co giãn tốt, giúp bạn thoải mái vận động suốt cả ngày dài.",
+                    "description": "Stand out with this vibrant gradient graphic t-shirt. Made from soft cotton, it offers a bold streetwear aesthetic and all-day comfort.",
                     "images": [
-                        "products/2ll164leGtCSBdus6qz5cWTvNnvg7YzwKd890f1n.png",
-                        "products/5MPaiTpiJRhRZ1OqVFVJbTngkT9lgTkuJe2lZ7iy.png",
-                        "products/7FHnMT7YuxuPdJVDi2rmjTigpaozENfSZiP2ESaU.png"
+                        "products/KllBSVoeMaUtvvyrAZpGUZc29joGsEQ6gC7MMgHr.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -61,10 +59,9 @@
                     "slug": "courage-t-shirt",
                     "price": 30,
                     "price_discount": null,
-                    "description": "Áo thun in chữ Courage đơn giản nhưng truyền cảm hứng mạnh mẽ. Thiết kế tối giản với typography hiện đại, chất liệu cotton 100% mềm mịn, thoáng khí, phù hợp để phối cùng quần jeans hoặc jogger cho những ngày dạo phố đầy năng lượng.",
+                    "description": "Express your bold personality with the Courage T-Shirt. Its inspirational graphic design and premium fabric make it a standout piece.",
                     "images": [
-                        "products/7FHnMT7YuxuPdJVDi2rmjTigpaozENfSZiP2ESaU.png",
-                        "products/7G7uEvAYGQO0DVc1uWIlbnGP0UpLOPqlFHYX8Jrj.png"
+                        "products/qatwdzN2dcFYf55vWBgbRBUXMcMpXjGTc5nPlStU.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -95,10 +92,9 @@
                     "slug": "denim-t-shirt",
                     "price": 40,
                     "price_discount": 35,
-                    "description": "Áo thun giả họa tiết denim độc đáo, chất vải mềm mịn thấm hút mồ hôi. Kỹ thuật in chuyển nhiệt cao cấp tạo nên bề mặt vải giống denim thật nhưng vẫn giữ được sự nhẹ nhàng và thoáng mát đặc trưng của áo thun, lý tưởng cho những ngày hè nóng bức.",
+                    "description": "A unique fusion of denim texture and t-shirt comfort. This piece brings a rugged, casual edge to your everyday wardrobe.",
                     "images": [
-                        "products/83eu4W42HDlfmDuWX6PTnPDEXdUNPmRVVsPP6bwT.png",
-                        "products/8J71h4sv1U1Fl6cnn5o9MrS4fEaqqAmv26zbjz30.png"
+                        "products/83eu4W42HDlfmDuWX6PTnPDEXdUNPmRVVsPP6bwT.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -137,11 +133,9 @@
                     "slug": "tape-details-t-shirt",
                     "price": 45,
                     "price_discount": 39,
-                    "description": "Áo thun với dải viền trang trí chạy dọc vai cá tính. Chi tiết tape nổi bật tạo điểm nhấn thời trang, kết hợp cùng form áo regular fit vừa vặn và chất liệu cotton blend cao cấp, mang đến sự thoải mái và phong cách cho mọi hoạt động hàng ngày.",
+                    "description": "Featuring modern tape detailing along the sleeves, this t-shirt adds a sporty touch to your casual look. Soft, breathable, and stylish.",
                     "images": [
-                        "products/aqTIwJeH23abpQeOnUxIbQa3NvnYrzra5ubrHlkK.png",
-                        "products/iTmFrnldIJG2B8IsDOksyef8xFLN8LaCbO8foYKr.png",
-                        "products/jzuoDWsNtvr6wV6zxlb2wXEOdlaafU9sXjS4QCyM.png"
+                        "products/5MPaiTpiJRhRZ1OqVFVJbTngkT9lgTkuJe2lZ7iy.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -179,10 +173,9 @@
                     "slug": "vintage-logo-t-shirt",
                     "price": 32,
                     "price_discount": null,
-                    "description": "Phong cách retro cổ điển với logo in mờ, gợi nhớ về thời trang thập niên 80-90 đầy hoài niệm. Chất vải cotton đã qua xử lý enzyme tạo cảm giác đã giặt nhiều lần tự nhiên, form áo rộng vừa phải dễ phối đồ với bất kỳ phụ kiện nào.",
+                    "description": "Channel retro vibes with this classic vintage logo t-shirt. Crafted for a relaxed fit, it pairs perfectly with your favorite jeans.",
                     "images": [
-                        "products/jzuoDWsNtvr6wV6zxlb2wXEOdlaafU9sXjS4QCyM.png",
-                        "products/KllBSVoeMaUtvvyrAZpGUZc29joGsEQ6gC7MMgHr.png"
+                        "products/jzuoDWsNtvr6wV6zxlb2wXEOdlaafU9sXjS4QCyM.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -220,10 +213,9 @@
                     "slug": "black-striped-t-shirt",
                     "price": 38,
                     "price_discount": null,
-                    "description": "Áo thun sọc đen trắng thanh lịch, dễ dàng phối đồ với mọi trang phục trong tủ quần áo. Họa tiết sọc ngang kinh điển không bao giờ lỗi mốt, chất liệu cotton jersey mịn màng co giãn nhẹ, phù hợp mặc hàng ngày đi làm, đi chơi hay thậm chí đi biển.",
+                    "description": "A timeless black striped t-shirt that never goes out of style. Versatile and easy to layer for any casual occasion.",
                     "images": [
-                        "products/Ln065TosNBPdGgtkyWfJn0arZtVSAHIPLxDrj3tp.png",
-                        "products/OPe1RbQa5EYg0sIUwSVIDOzQwc8clxtBlFcXUfTM.png"
+                        "products/tOIylJuCoj8AoruFpQWSPkbVwHPg9KtwKoB5N6Gw.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -254,11 +246,9 @@
                     "slug": "oversized-cotton-t-shirt",
                     "price": 42,
                     "price_discount": 35,
-                    "description": "Form rộng thoải mái theo xu hướng oversized đang thịnh hành, chất liệu 100% cotton cao cấp dày dặn nhưng vẫn thoáng khí. Đường may chắc chắn, cổ áo được gia cố không bị giãn sau nhiều lần giặt, là lựa chọn hoàn hảo cho phong cách streetwear tối giản.",
+                    "description": "Embrace ultimate comfort with this oversized cotton t-shirt. Its relaxed silhouette provides a modern, effortless streetwear style.",
                     "images": [
-                        "products/qatwdzN2dcFYf55vWBgbRBUXMcMpXjGTc5nPlStU.png",
-                        "products/tOIylJuCoj8AoruFpQWSPkbVwHPg9KtwKoB5N6Gw.png",
-                        "products/ZfYRrU04BHGWQg6qBF0wRr0nlUiyGvmxqLcv4T2i.png"
+                        "products/Ln065TosNBPdGgtkyWfJn0arZtVSAHIPLxDrj3tp.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -297,10 +287,9 @@
                     "slug": "sleeve-striped-t-shirt",
                     "price": 36,
                     "price_discount": 30,
-                    "description": "Điểm nhấn sọc ngang ở tay áo tạo sự khác biệt so với những chiếc áo thun thông thường. Phần thân áo trơn kết hợp với chi tiết sọc tinh tế ở tay, chất liệu cotton pha spandex co giãn 4 chiều giúp bạn luôn cảm thấy dễ chịu trong mọi hoạt động.",
+                    "description": "Add a sporty flair with contrast stripes on the sleeves. Made from breathable fabric for an active, on-the-go lifestyle.",
                     "images": [
-                        "products/ZfYRrU04BHGWQg6qBF0wRr0nlUiyGvmxqLcv4T2i.png",
-                        "products/2ll164leGtCSBdus6qz5cWTvNnvg7YzwKd890f1n.png"
+                        "products/KllBSVoeMaUtvvyrAZpGUZc29joGsEQ6gC7MMgHr.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -339,10 +328,9 @@
                     "slug": "essential-v-neck-t-shirt",
                     "price": 25,
                     "price_discount": null,
-                    "description": "Áo thun cổ tim cơ bản, món đồ không thể thiếu trong tủ đồ của mọi chàng trai. Đường cắt cổ chữ V vừa phải giúp tôn lên vùng cổ và ngực, chất liệu cotton combed mịn màng, nhẹ nhàng trên da, dễ dàng mặc đơn lẻ hoặc layering bên trong áo khoác.",
+                    "description": "The perfect everyday staple, featuring a flattering V-neck design. Soft, lightweight, and incredibly versatile for any outfit.",
                     "images": [
-                        "products/5MPaiTpiJRhRZ1OqVFVJbTngkT9lgTkuJe2lZ7iy.png",
-                        "products/7FHnMT7YuxuPdJVDi2rmjTigpaozENfSZiP2ESaU.png"
+                        "products/qatwdzN2dcFYf55vWBgbRBUXMcMpXjGTc5nPlStU.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -388,11 +376,9 @@
                     "slug": "urban-camo-t-shirt",
                     "price": 45,
                     "price_discount": 40,
-                    "description": "Họa tiết rằn ri phong cách thành thị cực ngầu, biến tấu từ camo quân đội truyền thống sang tông màu urban hiện đại. Chất liệu cotton heavyweight dày dặn, form áo boxy thoải mái, phù hợp cho những ai yêu thích phong cách streetwear mạnh mẽ và nổi bật.",
+                    "description": "Blend in to stand out with this urban camo patterned t-shirt. A rugged, street-ready design built for comfort and durability.",
                     "images": [
-                        "products/7G7uEvAYGQO0DVc1uWIlbnGP0UpLOPqlFHYX8Jrj.png",
-                        "products/83eu4W42HDlfmDuWX6PTnPDEXdUNPmRVVsPP6bwT.png",
-                        "products/8J71h4sv1U1Fl6cnn5o9MrS4fEaqqAmv26zbjz30.png"
+                        "products/83eu4W42HDlfmDuWX6PTnPDEXdUNPmRVVsPP6bwT.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -431,17 +417,16 @@
         {
             "name": "Polo",
             "slug": "polo",
-            "description": "Áo Polo thanh lịch, phù hợp từ công sở đến những buổi dạo phố. Sự kết hợp hoàn hảo giữa vẻ lịch lãm của sơ mi và sự thoải mái của áo thun, mỗi chiếc polo đều được may từ chất liệu cao cấp với đường kim mũi chỉ tỉ mỉ, giúp bạn luôn tự tin trong mọi hoàn cảnh.",
+            "description": "Elevate your smart-casual wardrobe with our sophisticated polo shirts. Featuring breathable fabrics and a tailored fit, they seamlessly blend sporty and classic styles.",
             "products": [
                 {
                     "name": "Polo With Piping Detail",
                     "slug": "polo-with-piping-detail",
                     "price": 55,
                     "price_discount": null,
-                    "description": "Áo polo với viền nổi tinh tế chạy dọc theo đường may, tạo điểm nhấn nam tính và hiện đại. Chất liệu pique cotton mịn màng, cổ áo giữ form tốt không bị xệ, phù hợp mặc đi làm, hẹn hò hay những buổi gặp gỡ đối tác quan trọng.",
+                    "description": "Refined piping details give this polo a sharp, modern edge. Crafted from breathable pique fabric for all-day comfort.",
                     "images": [
-                        "products/8J71h4sv1U1Fl6cnn5o9MrS4fEaqqAmv26zbjz30.png",
-                        "products/aqTIwJeH23abpQeOnUxIbQa3NvnYrzra5ubrHlkK.png"
+                        "products/iTmFrnldIJG2B8IsDOksyef8xFLN8LaCbO8foYKr.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -479,10 +464,9 @@
                     "slug": "cool-fabric-polo-shirt",
                     "price": 60,
                     "price_discount": 50,
-                    "description": "Sử dụng công nghệ vải mát lạnh cool-fabric tiên tiến, co giãn cực tốt và giữ form hoàn hảo suốt cả ngày dài. Khả năng thấm hút và thoát ẩm nhanh chóng giúp bạn luôn khô thoáng ngay cả trong thời tiết nóng ẩm, kết hợp thiết kế slim-fit tôn dáng hiện đại.",
+                    "description": "Engineered with moisture-wicking technology to keep you cool and dry. The ideal polo for active days or warm weather.",
                     "images": [
-                        "products/iTmFrnldIJG2B8IsDOksyef8xFLN8LaCbO8foYKr.png",
-                        "products/jzuoDWsNtvr6wV6zxlb2wXEOdlaafU9sXjS4QCyM.png"
+                        "products/7G7uEvAYGQO0DVc1uWIlbnGP0UpLOPqlFHYX8Jrj.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -521,11 +505,9 @@
                     "slug": "classic-pique-polo",
                     "price": 45,
                     "price_discount": 39,
-                    "description": "Áo polo vải cá sấu cổ điển, form dáng chuẩn mực không bao giờ lỗi mốt. Chất liệu pique dệt kim bền đẹp, giữ nguyên form sau nhiều lần giặt, cổ áo bo chắc chắn tạo nên vẻ ngoài gọn gàng, lịch sự — item must-have cho mọi quý ông.",
+                    "description": "A timeless wardrobe essential, this classic pique polo offers a tailored fit. Perfectly balances smart and casual style.",
                     "images": [
-                        "products/KllBSVoeMaUtvvyrAZpGUZc29joGsEQ6gC7MMgHr.png",
-                        "products/Ln065TosNBPdGgtkyWfJn0arZtVSAHIPLxDrj3tp.png",
-                        "products/OPe1RbQa5EYg0sIUwSVIDOzQwc8clxtBlFcXUfTM.png"
+                        "products/iTmFrnldIJG2B8IsDOksyef8xFLN8LaCbO8foYKr.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -572,10 +554,9 @@
                     "slug": "polo-with-contrast-trims",
                     "price": 50,
                     "price_discount": null,
-                    "description": "Thiết kế nổi bật với viền cổ và tay áo khác màu, tạo nên sự tương phản trẻ trung và hiện đại. Chất liệu cotton pique cao cấp mềm mại, thoáng khí, kết hợp đường may tỉ mỉ giúp chiếc áo vừa nổi bật vừa sang trọng trong mọi dịp từ casual đến smart casual.",
+                    "description": "Stand out subtly with stylish contrast trims on the collar and cuffs. A modern twist on the traditional polo design.",
                     "images": [
-                        "products/OPe1RbQa5EYg0sIUwSVIDOzQwc8clxtBlFcXUfTM.png",
-                        "products/qatwdzN2dcFYf55vWBgbRBUXMcMpXjGTc5nPlStU.png"
+                        "products/7G7uEvAYGQO0DVc1uWIlbnGP0UpLOPqlFHYX8Jrj.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -606,10 +587,9 @@
                     "slug": "slim-fit-knitted-polo",
                     "price": 65,
                     "price_discount": 55,
-                    "description": "Chất liệu len mỏng dệt kim cao cấp, ôm dáng tôn lên đường nét cơ thể một cách tinh tế. Form slim-fit vừa vặn kết hợp texture dệt kim mịn tạo nên vẻ ngoài sang trọng và khác biệt, lý tưởng cho những buổi tối đi dinner hoặc sự kiện bán trang trọng.",
+                    "description": "Upgrade your look with this sophisticated slim-fit knitted polo. Its premium texture offers a sleek, elevated aesthetic.",
                     "images": [
-                        "products/tOIylJuCoj8AoruFpQWSPkbVwHPg9KtwKoB5N6Gw.png",
-                        "products/ZfYRrU04BHGWQg6qBF0wRr0nlUiyGvmxqLcv4T2i.png"
+                        "products/iTmFrnldIJG2B8IsDOksyef8xFLN8LaCbO8foYKr.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -639,11 +619,9 @@
                     "slug": "striped-collar-polo",
                     "price": 48,
                     "price_discount": 40,
-                    "description": "Cổ áo kẻ sọc tạo điểm nhấn trẻ trung và hiện đại, mang đến sự khác biệt tinh tế so với polo truyền thống. Thân áo trơn thanh lịch kết hợp viền sọc đặc trưng ở cổ và tay áo, chất vải cotton pique co giãn nhẹ đảm bảo sự thoải mái tối đa.",
+                    "description": "Featuring a sporty striped collar, this polo brings a dynamic touch to your casual wear. Comfortable and effortlessly stylish.",
                     "images": [
-                        "products/2ll164leGtCSBdus6qz5cWTvNnvg7YzwKd890f1n.png",
-                        "products/5MPaiTpiJRhRZ1OqVFVJbTngkT9lgTkuJe2lZ7iy.png",
-                        "products/7FHnMT7YuxuPdJVDi2rmjTigpaozENfSZiP2ESaU.png"
+                        "products/7G7uEvAYGQO0DVc1uWIlbnGP0UpLOPqlFHYX8Jrj.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -682,10 +660,9 @@
                     "slug": "performance-golf-polo",
                     "price": 70,
                     "price_discount": 60,
-                    "description": "Áo polo thể thao thấm hút tuyệt đối, thiết kế chuyên dụng cho golfer và những người yêu thích hoạt động ngoài trời. Công nghệ vải moisture-wicking giúp thoát mồ hôi nhanh chóng, chống tia UV hiệu quả, form áo athletic fit năng động giúp không hạn chế cử động khi swing.",
+                    "description": "Designed for movement, this performance polo ensures maximum flexibility and breathability. Perfect for the golf course or the weekend.",
                     "images": [
-                        "products/7FHnMT7YuxuPdJVDi2rmjTigpaozENfSZiP2ESaU.png",
-                        "products/7G7uEvAYGQO0DVc1uWIlbnGP0UpLOPqlFHYX8Jrj.png"
+                        "products/iTmFrnldIJG2B8IsDOksyef8xFLN8LaCbO8foYKr.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -716,17 +693,16 @@
         {
             "name": "Shirt",
             "slug": "shirt",
-            "description": "Sơ mi phong cách, nâng tầm diện mạo trưởng thành và chuyên nghiệp. Từ những chiếc sơ mi công sở lịch lãm đến sơ mi casual phóng khoáng, bộ sưu tập được thiết kế với chất liệu cao cấp và đường may tinh xảo, giúp bạn tự tin tỏa sáng trong mọi tình huống.",
+            "description": "Step up your style with our versatile range of shirts, from crisp dress shirts to relaxed flannels. Designed for perfect fit and lasting comfort for any occasion.",
             "products": [
                 {
                     "name": "Checkered Shirt",
                     "slug": "checkered-shirt",
                     "price": 45,
                     "price_discount": 35,
-                    "description": "Sơ mi kẻ caro trẻ trung, dễ dàng phối cùng áo thun trắng bên trong hoặc mặc đơn lẻ đều đẹp. Họa tiết caro cỡ vừa không quá rối mắt, chất vải cotton flannel mềm mại thoáng khí, phù hợp cho cả buổi đi chơi cuối tuần lẫn những ngày làm việc casual Friday.",
+                    "description": "A classic checkered pattern that brings a smart-casual vibe to your wardrobe. Made from soft cotton for comfortable all-day wear.",
                     "images": [
-                        "products/83eu4W42HDlfmDuWX6PTnPDEXdUNPmRVVsPP6bwT.png",
-                        "products/8J71h4sv1U1Fl6cnn5o9MrS4fEaqqAmv26zbjz30.png"
+                        "products/7FHnMT7YuxuPdJVDi2rmjTigpaozENfSZiP2ESaU.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -764,11 +740,9 @@
                     "slug": "slim-fit-dress-shirt",
                     "price": 55,
                     "price_discount": null,
-                    "description": "Sơ mi công sở ôm dáng, chống nhăn hiệu quả nhờ công nghệ xử lý vải wrinkle-free tiên tiến. Form slim-fit tôn dáng với đường may chính xác từng chi tiết, chất liệu cotton pha polyester mỏng nhẹ nhưng không xuyên thấu, giúp bạn luôn chỉn chu từ sáng đến tối.",
+                    "description": "Achieve a sharp, professional look with this tailored slim-fit dress shirt. Crisp, clean, and perfect for the office or formal events.",
                     "images": [
-                        "products/aqTIwJeH23abpQeOnUxIbQa3NvnYrzra5ubrHlkK.png",
-                        "products/iTmFrnldIJG2B8IsDOksyef8xFLN8LaCbO8foYKr.png",
-                        "products/jzuoDWsNtvr6wV6zxlb2wXEOdlaafU9sXjS4QCyM.png"
+                        "products/aqTIwJeH23abpQeOnUxIbQa3NvnYrzra5ubrHlkK.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -807,10 +781,9 @@
                     "slug": "striped-shirt",
                     "price": 48,
                     "price_discount": 40,
-                    "description": "Sơ mi kẻ sọc dọc giúp tôn dáng người mặc, tạo hiệu ứng thị giác kéo dài và thon gọn. Đường sọc tinh tế chạy dọc thân áo kết hợp chất liệu poplin cotton mượt mà, mang đến vẻ ngoài lịch lãm và chuyên nghiệp cho mọi cuộc họp hay buổi gặp gỡ đối tác.",
+                    "description": "Elevate your everyday style with this elegant striped shirt. A versatile piece that pairs seamlessly with both trousers and jeans.",
                     "images": [
-                        "products/jzuoDWsNtvr6wV6zxlb2wXEOdlaafU9sXjS4QCyM.png",
-                        "products/KllBSVoeMaUtvvyrAZpGUZc29joGsEQ6gC7MMgHr.png"
+                        "products/7FHnMT7YuxuPdJVDi2rmjTigpaozENfSZiP2ESaU.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -841,10 +814,9 @@
                     "slug": "short-sleeve-cuban-collar-shirt",
                     "price": 40,
                     "price_discount": 32,
-                    "description": "Sơ mi cổ Cuba tay ngắn, mang hơi thở mùa hè nhiệt đới và phong cách nghỉ dưỡng sang trọng. Cổ áo revere đặc trưng tạo nên vẻ phóng khoáng tự do, chất liệu viscose mỏng nhẹ bay bổng, hoàn hảo cho những chuyến du lịch biển hay buổi tiệc ngoài trời.",
+                    "description": "Embrace a relaxed, retro aesthetic with this short sleeve Cuban collar shirt. Lightweight and perfect for warm, sunny days.",
                     "images": [
-                        "products/Ln065TosNBPdGgtkyWfJn0arZtVSAHIPLxDrj3tp.png",
-                        "products/OPe1RbQa5EYg0sIUwSVIDOzQwc8clxtBlFcXUfTM.png"
+                        "products/aqTIwJeH23abpQeOnUxIbQa3NvnYrzra5ubrHlkK.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -882,11 +854,9 @@
                     "slug": "oxford-button-down-shirt",
                     "price": 50,
                     "price_discount": null,
-                    "description": "Sơ mi Oxford cổ điển với nút cài cổ áo (button-down) chắc chắn, biểu tượng của phong cách preppy Ivy League. Chất vải Oxford dệt basket weave đặc trưng, dày dặn nhưng vẫn thoáng khí, có thể mặc cùng vest đi làm hoặc xắn tay áo đi chơi cuối tuần đều phù hợp.",
+                    "description": "The ultimate wardrobe staple, this Oxford button-down offers timeless appeal. Durable, comfortable, and effortlessly smart.",
                     "images": [
-                        "products/qatwdzN2dcFYf55vWBgbRBUXMcMpXjGTc5nPlStU.png",
-                        "products/tOIylJuCoj8AoruFpQWSPkbVwHPg9KtwKoB5N6Gw.png",
-                        "products/ZfYRrU04BHGWQg6qBF0wRr0nlUiyGvmxqLcv4T2i.png"
+                        "products/7FHnMT7YuxuPdJVDi2rmjTigpaozENfSZiP2ESaU.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -933,10 +903,9 @@
                     "slug": "casual-linen-shirt",
                     "price": 60,
                     "price_discount": 49,
-                    "description": "Chất liệu đũi (linen) thoáng mát tuyệt đối, mộc mạc và phong trần đúng chất thời trang tự nhiên. Sợi lanh cao cấp giúp điều hòa nhiệt độ cơ thể hiệu quả, càng giặt càng mềm mại, những nếp nhăn tự nhiên trên vải chính là nét duyên độc đáo không thể nhầm lẫn.",
+                    "description": "Stay cool in the heat with this highly breathable casual linen shirt. Its relaxed texture provides a stylish, laid-back summer look.",
                     "images": [
-                        "products/ZfYRrU04BHGWQg6qBF0wRr0nlUiyGvmxqLcv4T2i.png",
-                        "products/2ll164leGtCSBdus6qz5cWTvNnvg7YzwKd890f1n.png"
+                        "products/aqTIwJeH23abpQeOnUxIbQa3NvnYrzra5ubrHlkK.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -966,9 +935,8 @@
                     "slug": "flannel-overshirt",
                     "price": 65,
                     "price_discount": 50,
-                    "description": "Sơ mi khoác ngoài vải flannel dày dặn, ấm áp cho những ngày se lạnh. Thiết kế oversized có thể mặc như một chiếc jacket nhẹ, chất vải flannel cotton chải lông mềm mịn giữ nhiệt tốt, phù hợp layering cùng áo thun bên trong tạo nên set đồ layered cực chất.",
+                    "description": "Layer up comfortably with this cozy flannel overshirt. Perfect for transitional weather, combining warmth with rugged style.",
                     "images": [
-                        "products/5MPaiTpiJRhRZ1OqVFVJbTngkT9lgTkuJe2lZ7iy.png",
                         "products/7FHnMT7YuxuPdJVDi2rmjTigpaozENfSZiP2ESaU.png"
                     ],
                     "is_active": true,
@@ -999,18 +967,16 @@
         {
             "name": "Jeans",
             "slug": "jeans",
-            "description": "Quần Jeans bền bỉ, phong cách bụi bặm vĩnh cửu — item không thể thiếu trong tủ đồ. Được sản xuất từ chất liệu denim chọn lọc với nhiều kiểu dáng đa dạng từ skinny đến baggy, mỗi chiếc jeans đều trải qua quy trình wash và xử lý kỹ lưỡng để đạt màu sắc và độ mềm hoàn hảo.",
+            "description": "Explore our durable and stylish jeans, offering a variety of fits from classic straight to relaxed baggy. Built for everyday wear with a timeless denim aesthetic.",
             "products": [
                 {
                     "name": "Relaxed Fit Baggy Jeans",
                     "slug": "relaxed-fit-baggy-jeans",
                     "price": 75,
                     "price_discount": 65,
-                    "description": "Quần jeans ống rộng baggy, xu hướng thời trang đường phố đang làm mưa làm gió trong giới trẻ. Form rộng thoải mái từ hông xuống ống chân, chất denim dày dặn nhưng mềm mại nhờ quy trình enzyme wash, phối cùng áo thun oversized hay hoodie là đã có ngay set đồ streetwear chuẩn trend.",
+                    "description": "Experience ultimate comfort with these relaxed fit baggy jeans. A throwback to 90s streetwear with a modern, effortless edge.",
                     "images": [
-                        "products/7G7uEvAYGQO0DVc1uWIlbnGP0UpLOPqlFHYX8Jrj.png",
-                        "products/83eu4W42HDlfmDuWX6PTnPDEXdUNPmRVVsPP6bwT.png",
-                        "products/8J71h4sv1U1Fl6cnn5o9MrS4fEaqqAmv26zbjz30.png"
+                        "products/2ll164leGtCSBdus6qz5cWTvNnvg7YzwKd890f1n.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -1049,10 +1015,9 @@
                     "slug": "skinny-jeans",
                     "price": 60,
                     "price_discount": null,
-                    "description": "Quần jeans ôm sát cơ thể, độ co giãn cao nhờ pha thêm 2% spandex không gây gò bó trong mọi chuyển động. Thiết kế skinny fit tôn lên đường nét đôi chân, chất denim mềm mại với độ bền màu cao, phù hợp phối cùng boots hoặc sneakers tạo nên phong cách năng động và hiện đại.",
+                    "description": "Sleek and form-fitting, these skinny jeans offer a sharp, modern silhouette. Crafted with stretch denim for comfortable movement.",
                     "images": [
-                        "products/8J71h4sv1U1Fl6cnn5o9MrS4fEaqqAmv26zbjz30.png",
-                        "products/aqTIwJeH23abpQeOnUxIbQa3NvnYrzra5ubrHlkK.png"
+                        "products/ZfYRrU04BHGWQg6qBF0wRr0nlUiyGvmxqLcv4T2i.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -1091,10 +1056,9 @@
                     "slug": "classic-straight-leg-jeans",
                     "price": 65,
                     "price_discount": null,
-                    "description": "Quần ống đứng cổ điển, form dáng cơ bản dễ mặc nhất và không bao giờ lỗi mốt qua mọi thời đại. Đường ống thẳng từ hông xuống gấu tạo nên silhouette gọn gàng, chất denim trung bình 12oz bền bỉ, phù hợp cho cả phong cách casual hàng ngày lẫn smart casual đi làm.",
+                    "description": "A timeless straight leg cut that never goes out of style. Durable and versatile, they are the perfect foundation for any outfit.",
                     "images": [
-                        "products/iTmFrnldIJG2B8IsDOksyef8xFLN8LaCbO8foYKr.png",
-                        "products/jzuoDWsNtvr6wV6zxlb2wXEOdlaafU9sXjS4QCyM.png"
+                        "products/2ll164leGtCSBdus6qz5cWTvNnvg7YzwKd890f1n.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -1140,11 +1104,9 @@
                     "slug": "faded-jeans",
                     "price": 70,
                     "price_discount": 59,
-                    "description": "Quần jeans hiệu ứng mài mòn (faded) cá tính, bụi bặm với những vệt sáng tối tự nhiên tạo chiều sâu cho tổng thể. Kỹ thuật wash chuyên nghiệp tạo nên hiệu ứng vintage chân thực, chất denim dày dặn co giãn nhẹ giúp thoải mái cả ngày, phù hợp cho những ai yêu thích vẻ ngoài phá cách.",
+                    "description": "Achieve a worn-in, vintage look instantly with these perfectly faded jeans. Softened denim that feels like an old favorite.",
                     "images": [
-                        "products/KllBSVoeMaUtvvyrAZpGUZc29joGsEQ6gC7MMgHr.png",
-                        "products/Ln065TosNBPdGgtkyWfJn0arZtVSAHIPLxDrj3tp.png",
-                        "products/OPe1RbQa5EYg0sIUwSVIDOzQwc8clxtBlFcXUfTM.png"
+                        "products/ZfYRrU04BHGWQg6qBF0wRr0nlUiyGvmxqLcv4T2i.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -1174,10 +1136,9 @@
                     "slug": "ripped-knee-denim",
                     "price": 80,
                     "price_discount": 69,
-                    "description": "Điểm nhấn rách gối cực chất, phù hợp phong cách rock/grunge đậm chất nổi loạn. Mỗi vết rách đều được xử lý thủ công tỉ mỉ để tạo hiệu ứng distressed tự nhiên, chất denim heavyweight bền bỉ với các chi tiết whisker và honeycombs tinh xảo, mang đến vẻ ngoài bụi bặm nhưng vẫn thời thượng.",
+                    "description": "Add a touch of edge to your look with these distressed ripped knee jeans. A stylish choice for casual, weekend outfits.",
                     "images": [
-                        "products/OPe1RbQa5EYg0sIUwSVIDOzQwc8clxtBlFcXUfTM.png",
-                        "products/qatwdzN2dcFYf55vWBgbRBUXMcMpXjGTc5nPlStU.png"
+                        "products/2ll164leGtCSBdus6qz5cWTvNnvg7YzwKd890f1n.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -1215,9 +1176,8 @@
                     "slug": "tapered-fit-jeans",
                     "price": 68,
                     "price_discount": 60,
-                    "description": "Rộng ở đùi và ôm dần xuống ống chân, tạo cảm giác thoải mái nhưng vẫn gọn gàng và thanh lịch. Form tapered fit là sự cân bằng hoàn hảo giữa relaxed và slim, chất denim co giãn 2 chiều cho phép vận động tự do, phù hợp với mọi dáng người và dễ phối cùng giày sneakers hay loafers.",
+                    "description": "Offering room in the thighs and a clean taper to the ankle. The perfect balance between relaxed comfort and a tailored look.",
                     "images": [
-                        "products/tOIylJuCoj8AoruFpQWSPkbVwHPg9KtwKoB5N6Gw.png",
                         "products/ZfYRrU04BHGWQg6qBF0wRr0nlUiyGvmxqLcv4T2i.png"
                     ],
                     "is_active": true,
@@ -1256,11 +1216,9 @@
                     "slug": "vintage-wash-bootcut-jeans",
                     "price": 85,
                     "price_discount": null,
-                    "description": "Quần ống loe nhẹ (bootcut) mang âm hưởng thời trang thập niên 90 đang quay trở lại mạnh mẽ. Phần ống xòe vừa phải từ đầu gối xuống tạo nên dáng đứng thanh thoát, chất denim vintage wash với hiệu ứng bạc màu tự nhiên, hoàn hảo khi phối cùng boots cao cổ hoặc giày có gót.",
+                    "description": "Bring back classic flair with these vintage wash bootcut jeans. Designed to fit perfectly over your favorite boots or sneakers.",
                     "images": [
-                        "products/2ll164leGtCSBdus6qz5cWTvNnvg7YzwKd890f1n.png",
-                        "products/5MPaiTpiJRhRZ1OqVFVJbTngkT9lgTkuJe2lZ7iy.png",
-                        "products/7FHnMT7YuxuPdJVDi2rmjTigpaozENfSZiP2ESaU.png"
+                        "products/2ll164leGtCSBdus6qz5cWTvNnvg7YzwKd890f1n.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -1290,17 +1248,16 @@
         {
             "name": "Shorts",
             "slug": "shorts",
-            "description": "Quần shorts thoáng mát, giải phóng sự năng động cho những ngày hè rực rỡ. Được thiết kế với đa dạng chất liệu từ cotton, kaki đến denim và vải dù, mỗi chiếc shorts đều mang đến sự thoải mái tối đa để bạn tự do tận hưởng mọi hoạt động từ đi biển, tập gym đến dạo phố.",
+            "description": "Stay cool and comfortable with our selection of shorts, ideal for warm weather or active days. Featuring modern cuts and premium materials for a stylish look.",
             "products": [
                 {
                     "name": "Chino Tailored Shorts",
                     "slug": "chino-tailored-shorts",
                     "price": 45,
                     "price_discount": 35,
-                    "description": "Quần short kaki may đo thanh lịch, phù hợp mặc dạo phố hay hẹn hò cuối tuần. Chất vải chino cotton twill mềm mại với đường may tailored chỉn chu, form dáng vừa vặn trên đầu gối, kết hợp cùng sơ mi linen hoặc polo là đã có ngay outfit lịch sự mà vẫn thoải mái cho mùa hè.",
+                    "description": "Smart and sophisticated, these tailored chino shorts are perfect for warm weather. Dress them up or down with ease.",
                     "images": [
-                        "products/7FHnMT7YuxuPdJVDi2rmjTigpaozENfSZiP2ESaU.png",
-                        "products/7G7uEvAYGQO0DVc1uWIlbnGP0UpLOPqlFHYX8Jrj.png"
+                        "products/OPe1RbQa5EYg0sIUwSVIDOzQwc8clxtBlFcXUfTM.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -1347,10 +1304,9 @@
                     "slug": "classic-shorts",
                     "price": 35,
                     "price_discount": null,
-                    "description": "Quần short cotton cơ bản, mềm mại và siêu thoải mái — món đồ essential cho mùa hè. Chất liệu cotton 100% thấm hút mồ hôi cực tốt, lưng thun co giãn linh hoạt với dây rút tiện lợi, phù hợp mặc nhà, đi dạo hay những buổi picnic cuối tuần cùng bạn bè và gia đình.",
+                    "description": "Your go-to pair for everyday comfort. These classic shorts feature a versatile design that pairs with any casual top.",
                     "images": [
-                        "products/83eu4W42HDlfmDuWX6PTnPDEXdUNPmRVVsPP6bwT.png",
-                        "products/8J71h4sv1U1Fl6cnn5o9MrS4fEaqqAmv26zbjz30.png"
+                        "products/OPe1RbQa5EYg0sIUwSVIDOzQwc8clxtBlFcXUfTM.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -1388,11 +1344,9 @@
                     "slug": "cargo-utility-shorts",
                     "price": 50,
                     "price_discount": 42,
-                    "description": "Quần short túi hộp tiện dụng với nhiều ngăn chứa đồ thông minh, chất liệu vải dù ripstop chống nước nhẹ và cực kỳ bền bỉ. Thiết kế utility đậm chất outdoor với khóa kéo và nút bấm chắc chắn, phù hợp cho các hoạt động dã ngoại, leo núi hay đơn giản là tạo phong cách military casual hàng ngày.",
+                    "description": "Functional and rugged, these cargo shorts feature multiple pockets for utility. Built for outdoor adventures or casual weekends.",
                     "images": [
-                        "products/aqTIwJeH23abpQeOnUxIbQa3NvnYrzra5ubrHlkK.png",
-                        "products/iTmFrnldIJG2B8IsDOksyef8xFLN8LaCbO8foYKr.png",
-                        "products/jzuoDWsNtvr6wV6zxlb2wXEOdlaafU9sXjS4QCyM.png"
+                        "products/OPe1RbQa5EYg0sIUwSVIDOzQwc8clxtBlFcXUfTM.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -1430,10 +1384,9 @@
                     "slug": "denim-cut-off-shorts",
                     "price": 48,
                     "price_discount": 39,
-                    "description": "Quần short jeans cắt gấu tua rua cực kỳ phong cách, mang đến vẻ ngoài bụi bặm và tự do. Gấu quần được cắt raw edge tạo hiệu ứng tua rua tự nhiên đặc trưng, chất denim dày dặn co giãn nhẹ cho cảm giác thoải mái, lý tưởng để phối cùng áo thun graphic cho những ngày hè sôi động.",
+                    "description": "Embrace a laid-back summer vibe with these denim cut-off shorts. A classic, distressed look for effortless casual style.",
                     "images": [
-                        "products/jzuoDWsNtvr6wV6zxlb2wXEOdlaafU9sXjS4QCyM.png",
-                        "products/KllBSVoeMaUtvvyrAZpGUZc29joGsEQ6gC7MMgHr.png"
+                        "products/OPe1RbQa5EYg0sIUwSVIDOzQwc8clxtBlFcXUfTM.png"
                     ],
                     "is_active": true,
                     "variants": [
@@ -1472,9 +1425,8 @@
                     "slug": "swim-trunks",
                     "price": 30,
                     "price_discount": null,
-                    "description": "Quần bơi nhanh khô với họa tiết mùa hè rực rỡ, sẵn sàng cho mọi chuyến đi biển và bể bơi. Chất liệu polyester tái chế thân thiện môi trường với công nghệ quick-dry giúp khô nhanh chỉ trong vài phút, lưng thun co giãn thoải mái kết hợp lớp lót lưới bên trong đảm bảo sự dễ chịu tối đa.",
+                    "description": "Dive into summer with these quick-drying, vibrant swim trunks. Designed for comfort both in and out of the water.",
                     "images": [
-                        "products/Ln065TosNBPdGgtkyWfJn0arZtVSAHIPLxDrj3tp.png",
                         "products/OPe1RbQa5EYg0sIUwSVIDOzQwc8clxtBlFcXUfTM.png"
                     ],
                     "is_active": true,
@@ -1514,11 +1466,9 @@
                     "slug": "athletic-sweat-shorts",
                     "price": 40,
                     "price_discount": 30,
-                    "description": "Quần short nỉ thun thể thao, hoàn hảo cho việc tập gym hoặc mặc nhà thư giãn cuối tuần. Chất liệu french terry cotton mềm mịn, thấm hút mồ hôi tốt với lưng thun rộng và dây rút điều chỉnh, túi hai bên sâu tiện lợi, mang đến sự thoải mái tuyệt đối cho mọi hoạt động thể chất và nghỉ ngơi.",
+                    "description": "Maximize your comfort whether lounging or working out. These athletic sweat shorts offer a soft feel and an adjustable fit.",
                     "images": [
-                        "products/qatwdzN2dcFYf55vWBgbRBUXMcMpXjGTc5nPlStU.png",
-                        "products/tOIylJuCoj8AoruFpQWSPkbVwHPg9KtwKoB5N6Gw.png",
-                        "products/ZfYRrU04BHGWQg6qBF0wRr0nlUiyGvmxqLcv4T2i.png"
+                        "products/OPe1RbQa5EYg0sIUwSVIDOzQwc8clxtBlFcXUfTM.png"
                     ],
                     "is_active": true,
                     "variants": [

@@ -76,7 +76,7 @@ class ReviewSeeder extends Seeder
                     'order_item_id' => $item->id,
                     'rating'        => $rating,
                     'comment'       => (rand(1, 10) > 0) ? $comment : null,
-                    'is_approved'   => (rand(1, 10) > 0),
+                    'status'        => (rand(1, 10) > 0) ? \App\Enums\ReviewStatus::APPROVED->value : \App\Enums\ReviewStatus::PENDING->value,
                     'created_at'    => $reviewedAt,
                     'updated_at'    => $reviewedAt,
                 ]);
@@ -125,7 +125,7 @@ class ReviewSeeder extends Seeder
             'guest_email'   => $guestEmail,
             'rating'        => $rating,
             'comment'       => $comment,
-            'is_approved'   => true,
+            'status'        => \App\Enums\ReviewStatus::APPROVED->value,
             'created_at'    => $reviewedAt,
             'updated_at'    => $reviewedAt,
         ]);

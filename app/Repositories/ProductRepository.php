@@ -31,6 +31,8 @@ class ProductRepository implements ProductRepositoryInterface
                   ->where('orders.status', \App\Enums\OrderStatus::COMPLETED->value);
             }], 'quantity')
             ->orderBy('sold_count', $direction);
+        } elseif ($filter->sortBy === 'price') {
+            $query->orderByRaw('ROUND(price * (1 - COALESCE(price_discount, 0) / 100), 2) ' . $direction);
         } elseif (in_array($filter->sortBy, FilterEnum::PRODUCT_SORT)) {
             $query->orderBy($filter->sortBy, $direction);
         } else {
@@ -104,6 +106,8 @@ class ProductRepository implements ProductRepositoryInterface
                   ->where('orders.status', \App\Enums\OrderStatus::COMPLETED->value);
             }], 'quantity')
             ->orderBy('sold_count', $direction);
+        } elseif ($filter->sortBy === 'price') {
+            $query->orderByRaw('ROUND(price * (1 - COALESCE(price_discount, 0) / 100), 2) ' . $direction);
         } elseif (in_array($filter->sortBy, FilterEnum::PRODUCT_SORT)) {
             $query->orderBy($filter->sortBy, $direction);
         } else {
@@ -185,12 +189,12 @@ class ProductRepository implements ProductRepositoryInterface
 
         if ($filter->minPrice !== null) {
             // price_discount is a discount percentage (0-99); final price = price * (1 - discount/100)
-            $query->whereRaw('price * (1 - COALESCE(price_discount, 0) / 100) >= ?', [$filter->minPrice]);
+            $query->whereRaw('ROUND(price * (1 - COALESCE(price_discount, 0) / 100), 2) >= ?', [$filter->minPrice]);
         }
 
         if ($filter->maxPrice !== null) {
             // price_discount is a discount percentage (0-99); final price = price * (1 - discount/100)
-            $query->whereRaw('price * (1 - COALESCE(price_discount, 0) / 100) <= ?', [$filter->maxPrice]);
+            $query->whereRaw('ROUND(price * (1 - COALESCE(price_discount, 0) / 100), 2) <= ?', [$filter->maxPrice]);
         }
     }
 
